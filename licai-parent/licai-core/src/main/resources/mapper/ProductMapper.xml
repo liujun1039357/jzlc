@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ProductMapper">
+
+	<sql  id="queryColumn">
+		productId,productName,productQuota,productType,productProfit,productSaledQuota,productSaledTime,
+		productManager,productState,productLowQuota,productProfitType,productBack,productLowProfitDate,
+		productRiskGrade,productEffectDate,checkFlag,addTime,updateTime,productAcountTime
+	</sql>
+	
+	<select id="getProducts" resultType="com.zl.pojo.Product"> 
+		select <include refid="queryColumn"></include>
+		from product
+	</select>
+</mapper>

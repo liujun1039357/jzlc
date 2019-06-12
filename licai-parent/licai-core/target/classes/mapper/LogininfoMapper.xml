@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 后台用的Mapper -->
+
+<mapper namespace="com.zl.mapper.LogininfoMapper">
+
+	<!-- 登录 -->
+    <select id="queryByUsernameAndPassword" resultType="com.zl.pojo.Controller">
+        select username,password,states from controller where username = #{username} 
+                and password = #{password}
+    </select>
+    
+  
+
+</mapper>

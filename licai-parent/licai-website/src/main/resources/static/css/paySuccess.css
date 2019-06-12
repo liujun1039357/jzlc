@@ -1,0 +1,84 @@
+.jzq-main {
+	padding: 70px 0 70px 330px;
+	width: 870px
+}
+
+.jzq-container {
+	width: 870px
+}
+
+.jzq-container .jzq-left {
+	float: left;
+	width: 46px;
+	height: 46px;
+	margin-left: 300px;
+	padding-top: 90px;
+}
+
+.jzq-container .jzq-rgt {
+	width: 810px;
+	float: left;
+	margin-left: 400px;
+	padding-bottom: 80px
+}
+
+.jzq-container .jzq-rgt .j-title {
+	font-size: 24px;
+	color: #323232;
+	margin-top: 8px;
+	width: 650px
+}
+
+.jzq-container .jzq-rgt .j-order {
+	font-size: 12px;
+	color: grey;
+	margin-top: 10px
+}
+
+.jzq-container .jzq-rgt .j-order .j-shu {
+	margin: 0 10px;
+	font-size: 12px;
+	color: grey
+}
+
+.jzq-container .jzq-rgt .col-32 {
+	color: #323232
+}
+
+.jzq-container .jzq-rgt .j-jie-shao {
+	font-size: 12px;
+	color: #323232;
+	margin-top: 10px
+}
+
+.jzq-container .jzq-rgt .j-jie-shao .col-red {
+	color: #f52f3e
+}
+
+.jzq-container .jzq-rgt .j-jie-shao .j-go-look {
+	font-size: 12px;
+	color: #5b9fe2
+}
+
+.jzq-container .jzq-rgt .j-jie-shao .j-go-look:hover {
+	color: #f52f3e
+}
+
+.btn-area {
+	position: relative;
+	height: 42px;
+	margin-top: 30px
+}
+
+.btn-area .j-check-btn {
+	display: block;
+	border-radius: 3px;
+	width: 148px;
+	height: 39px;
+	line-height: 38px;
+	border: 1px solid #a5a5a5;
+	font-size: 16px;
+	color: #5e5e5e;
+	text-align: center;
+	background: #f9f9f9
+}

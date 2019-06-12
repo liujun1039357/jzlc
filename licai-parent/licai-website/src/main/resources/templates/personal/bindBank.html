@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>绑定银行卡</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+$(function() {
+	
+});
+</script>
+</head>
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+	<div class="w1200 personal">
+		<div th:replace="common/leftmenu :: left (activeUri = 'accountSettings')"></div>			
+<script type="text/javascript">
+
+
+</script>
+	<div class="personal-main">
+	<div class="personal-zhsz" style="padding-top: 30px">
+		<form class="form-horizontal" id="realAuthForm" method="post" action="/bindBankSubmit" novalidate="novalidate">
+				<fieldset>
+					<div class="form-group" style="padding-top:20px;margin-left:10px;">
+						<p class="text-center text-danger">为保护您账户安全，请认真填写！</p>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label ">用户名</label>
+						<div class="col-sm-8">
+							<p class="form-control-static" th:text="${session.consumer.consumerName }"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="name">姓名</label>
+						<div class="col-sm-8">
+							<p id="name" th:text="${name}"></p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4  control-label" for="cardId">银行卡号</label>
+							<div class="col-sm-8">
+								<input id="cardId" class="form-control1" name="cardId"  type="text" value="">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4  control-label" for="bankName">银行</label>
+						<div class="col-sm-8">
+							<p id="bankName" th:text="${bankName}"></p>
+						</div>
+					</div>
+					<div class="form-group" th:if="${isBindBank}==null">
+						<label class="col-sm-4  control-label" for="password">支付密码</label>
+							<div class="col-sm-8">
+								<input id="password" class="form-control1" name="password"  type="password" />
+							</div>
+					</div>
+					<div class="form-group">
+						<button type="submit" id="asubmit" class="btn btn-info col-sm-offset-4"><i class="icon-ok"></i> 提交绑定</button>
+					</div>
+				</fieldset>
+			</form>
+
+
+	<div class="clear"></div>
+	</div>
+	</div>
+	</div>
+</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

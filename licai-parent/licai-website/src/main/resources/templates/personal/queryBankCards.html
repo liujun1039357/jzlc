@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>银行卡查询</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/uploadify/jquery.uploadify.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+
+</head>
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+	<div class="w1200 personal">
+		<div th:replace="common/leftmenu :: left (activeUri = 'accountSettings')"></div>			
+<script type="text/javascript">
+
+</script>
+	<div class="personal-main">
+	<div class="personal-zhsz" style="padding-top: 30px">
+		<div style="margin-top:30px;font-size:20px;padding:30px;"><p style="color:orange;">银行卡信息:</p></div>
+		<table class="table table-striped" style="font-size:18px;margin-left:20px;">
+			<thead>
+				<tr>
+					<th>卡号</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="card: ${cardIds}">
+				<td th:text="${card}"></td>
+				<td><a th:href="@{/cancelCard}" class="power">注销</a>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+				<td><a th:href="@{/bindBank}">添加银行卡</a></td>
+				</tr>
+			</tfoot>
+		</table>
+
+	<div class="clear"></div>
+	</div>
+	</div>
+	</div>
+</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ConsumerRecordMapper">
+	<!-- 插入登录信息 -->
+	<insert id="insertLoginRecord" parameterType="com.zl.pojo.ConsumerRecord">
+		insert into CONSUMER_RECORD values('JZLC'||TO_CHAR(SYSDATE,'YYYYMMDD')||lpad(SEQ_CLOGIN.NEXTVAL,7,'0'),
+			#{consumerId},#{ip},#{loginTime},#{loginFlag})
+	</insert>
+</mapper>

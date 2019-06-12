@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ConsumerInfoMapper">
+	<!-- 检验手机号是否存在 -->
+	<select id="checkTel" resultType="int">
+		select count(0) from consumerinfo where tel = #{tel}
+	</select>
+	<!-- 新注册用户添加用户信息 -->
+	<insert id="insertConsumerInfo" parameterType="ConsumerInfo">
+		insert into consumerInfo(consumerid,tel,bitstate,sumMoney,balance,usedMoney,createtime)
+		values(#{consumerId},#{tel},#{bitState},#{sumMoney},#{balance},#{usedMoney},sysdate)
+	</insert>
+	<!-- 绑定邮箱,修改邮箱信息 -->
+	<update id="updataEmailInfo">
+		update consumerInfo set bitstate = #{bitState},email = #{email},updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 查询邮箱 -->
+	<select id="queryEmail" resultType="String">
+		select email from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 查询银行卡 -->
+	<select id="queryIdCard" resultType="String">
+		select idCard from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 查询用户手机号 -->
+	<select id="queryTel" resultType="String">
+		select tel from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 查询用户实名认证信息 -->
+	<select id="queryRealAuthInfo" resultType="RealAuthShow">
+		select c.consumerName,i.name,i.idCard,i.sex,i.address from consumer c left join consumerInfo i 
+		on c.consumerId = i.consumerId where i.consumerId = #{consumerId}
+	</select>
+	<!-- 查询真实姓名 -->
+	<select id="queryRealName" resultType="String">
+		select name from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 查询认证状态 -->
+	<select id="queryBitState" resultType="long">
+		select bitState from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 修改邮箱 -->
+	<update id="updataEmail">
+		update consumerInfo set email = #{email},updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 修改邮箱 -->
+	<update id="updateTel">
+		update consumerInfo set tel = #{tel},updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 修改实名认证信息 -->
+	<update id="updateRealAuth" parameterType="ConsumerInfo">
+		update consumerInfo set bitstate = #{bitState},name = #{name},idCard = #{idCard},sex = #{sex},
+			address = #{address},image_A = #{imageA},image_B = #{imageB},
+			updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	
+</mapper>

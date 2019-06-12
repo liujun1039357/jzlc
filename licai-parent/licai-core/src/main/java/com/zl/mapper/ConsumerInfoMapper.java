@@ -1,0 +1,95 @@
+/**
+ * 
+ */
+package com.zl.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.zl.exception.JZLCException;
+import com.zl.pojo.ConsumerInfo;
+import com.zl.pojo.RealAuthShow;
+
+/**
+ * @author ivy
+ *
+ */
+@Mapper
+public interface ConsumerInfoMapper {
+
+	/**检验手机号是否存在
+	 * @param tel 手机号
+	 * @return
+	 */
+	int checkTel(String tel)throws JZLCException;
+
+	/**添加用户信息
+	 * @param consumerInfo
+	 */
+	void insertConsumerInfo(ConsumerInfo consumerInfo)throws JZLCException;
+
+	/**邮箱绑定
+	 * @param consumerId 用户id
+	 * @param email 邮箱
+	 * @param bitState 认证状态码
+	 */
+	void updataEmailInfo(@Param("consumerId")String consumerId, @Param("email")String email, @Param("bitState")long bitState)throws JZLCException;
+
+	/**查询邮箱号
+	 * @param consumerId
+	 * @return
+	 */
+	String queryEmail(String consumerId) throws JZLCException;
+
+	/**查询银行卡
+	 * @param consumerId
+	 * @return
+	 */
+	String queryIdCard(String consumerId) throws JZLCException;
+
+	/**查询用户手机号
+	 * @param consumerId
+	 * @return
+	 */
+	String queryTel(String consumerId) throws JZLCException;
+
+	/**根据用户id查询实名认证信息
+	 * @param consumerId
+	 * @return
+	 */
+	RealAuthShow queryRealAuthInfo(String consumerId) throws JZLCException;
+
+	/**查询真实姓名
+	 * @param consumerId
+	 * @return
+	 */
+	String queryRealName(String consumerId) throws JZLCException;
+
+	/**查询认证状态
+	 * @param consumerId
+	 * @return
+	 */
+	long queryBitState(String consumerId) throws JZLCException;
+
+	/**修改邮箱
+	 * @param consumerId
+	 * @param email
+	 */
+	void updataEmail(@Param("consumerId")String consumerId, @Param("email")String email) throws JZLCException;
+
+	/**修改手机号
+	 * @param consumerId
+	 * @param newTel
+	 */
+	void updateTel(@Param("consumerId")String consumerId, @Param("tel")String tel) throws JZLCException;
+
+	/**实名认证信息修改
+	 * @param consumerInfo
+	 */
+	void updateRealAuth(ConsumerInfo consumerInfo) throws JZLCException;
+
+
+
+
+
+}

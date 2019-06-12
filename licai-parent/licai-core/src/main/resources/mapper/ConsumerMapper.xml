@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ConsumerMapper">
+	<!-- 登录 -->
+	<select id="personalLogin" resultType="com.zl.pojo.Consumer">
+		select c.consumerid,c.consumername,c.accountsflag 
+		 from consumer c left join consumerinfo i on c.consumerid = i.consumerid
+		 where (c.consumername = #{consumerName} or i.tel = #{consumerName}) 
+		 and c.password = #{password}
+	</select>
+	<sql id="queryCulomn">
+		
+	</sql>
+	
+	<!-- 检验用户名是否存在 -->
+	<select id="checkConsumerName" resultType="int">
+		select count(0) from consumer where consumerName = #{consumerName}
+	</select>
+	<!-- 插入新注册用户信息 -->
+	<insert id="insertConsumer" parameterType="Consumer">
+		insert into consumer(consumerid,consumername,password,accountsflag,createtime) 
+		 values('jzlc'||lpad(SEQ_RID.NEXTVAL,7,'0'),#{consumerName},#{password},#{accountsFlag},#{createTime})
+	</insert>
+	<!-- 根据用户名查找用户id -->
+	<select id="queryConsumerId" resultType="String">
+		select consumerId from consumer where consumerName = #{consumerName}
+	</select>
+	<!-- 注销账号 -->
+	<update id="updateConsumerFlag" >
+		update consumer set accountsFlag = #{accountsFlag},updateTime = #{updateTime} where consumerId = #{consumerId}
+	</update>
+	<!-- 修改密码 -->
+	<update id="updateLoginPassword">
+		update consumer set password = #{password},updateTime = #{updateTime} where consumerId = #{consumerId}
+	</update>
+</mapper>

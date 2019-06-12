@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.TradeListMapper">
+
+	<sql  id="queryColumn">
+		id,consumerid,productid,tradetype,budget,trademoney,balance,orderstates,tradetime
+	</sql>
+	
+	<sql id="where">
+		 <if test="tradetype''">
+                and tradetype=#{tradeType}
+         </if>
+         <if test="tradetype''">
+                and tradetype=#{tradeType}
+         </if>
+	</sql>
+	
+	<select id="getTradeLists" resultType="com.zl.pojo.TradeList"> 
+		select <include refid="queryColumn"></include>
+		from tradelist
+		<where>
+		<if test="tradeType != null and tradeType != ''">
+                and tradetype=#{tradeType}
+         </if>
+         <if test="tradeTime1 != null and tradeTime2 != null">
+         		and tradetime &gt;= #{tradeTime1} and tradetime &lt;= #{tradeTime2}
+         </if>
+		</where>
+	</select>
+</mapper>

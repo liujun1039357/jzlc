@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ProvincesMapper">
+	<!-- 登录 -->
+	<select id="queryallProvincial"
+		resultType="com.zl.pojo.Provincial">
+		SELECT PROVINCIALID, PROVINCIALNAME FROM PROVINCIAL
+	</select>
+
+	<select id="querycitybyPid" resultType="com.zl.pojo.City">
+
+		SELECT c.cityid,c.cityname,c.provincialid FROM city c LEFT JOIN PROVINCIAL p
+		ON p.provincialid=c.provincialid WHERE p.provincialname =
+		#{pname}
+	</select>
+</mapper>

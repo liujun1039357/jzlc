@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>p2p网贷平台</title>
+</head>
+<body>
+	<div id="personal-left" class="personal-left" th:fragment="left">
+		<ul>
+			<li class=""  th:class="${activeUri == 'personalCenter' ? 'pleft-cur' : ''}"><span><a th:href="@{/personalCenter}"><i class="dot dot1"></i>账户总览</a></span></li>
+			<li class=""  th:class="${activeUri == 'tradeList' ? 'pleft-cur' : ''}"><span><a th:href="@{/tradeList}"><i class="dot dot02"></i>交易记录</a></span></li>
+			<li class="" th:class="${activeUri == 'receivableRecords' ? 'pleft-cur' : ''}"><span><a style="font-size: 14px; text-align: center; width: 127px;" th:href="@{/receivableRecords}"><i class="dot dot07"></i>回款计划</a></span></li>
+			<li th:class="${activeUri == 'recharge' ? 'pleft-cur' : ''}"><span><a th:href="@{/recharge}"><i class="dot dot03"></i>充值</a></span></li>
+			<li class="" th:class="${activeUri == 'cashOut' ? 'pleft-cur' : ''}"><span><a th:href="@{/cashOut}"><i class="dot dot04"></i>提现</a></span></li>
+			<li class="" th:class="${activeUri == 'myMoney' ? 'pleft-cur' : ''}"><span><a th:href="@{/myMoney}"><i class="dot dot06"></i>我的红包</a></span></li>
+			<li th:class="${activeUri == 'systemInformation' ? 'pleft-cur' : ''}"  style="position: relative;"><span><a th:href="@{/systemInformation}"><i class="dot dot08"></i>系统信息 </a></span></li>
+			<li th:class="${activeUri == 'accountSettings' ? 'pleft-cur' : ''}"><span><a  th:href="@{/accountSettings}"><i class="dot dot09"></i>账户设置</a></span></li>
+			<!--<li class=""><span><a href="#"><i class="dot dot10"></i>资金记录</a></span></li>-->
+			<!--<li class=""><span><a href="#"><i class="dot dot11"></i>投资记录</a></span></li>-->
+			<!--<li class=""><span><a href="#"><i class="dot dot12"></i>回款计划</a></span></li>-->
+		</ul>
+	</div>
+</body>
+</html>

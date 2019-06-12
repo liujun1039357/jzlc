@@ -1,0 +1,50 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>成功页面</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/paySuccess.css}"></link>
+</head>
+
+<body>
+<div class="gy_box">
+	<!-- header start -->
+	<header>
+		<div th:replace="common/headpart :: top"></div>
+	</header>
+		<div id="form_main" class="px1000 clearfix">
+			<div class="jzq-container">
+				<input type="hidden" id="isMaxMoney" name="isMaxMoney" value="false">
+				<input type="hidden" id="amount" name="amount" value="0.2">
+				<div class="jzq-left"><img th:src="@{/images/green-right.png}"/></div>
+				<div class="jzq-rgt">
+					<div class="j-title">
+						转出申请提交成功， 预计<label id="lbl_confirmDate" style="color: red"></label>前到账。
+					</div>
+					<div class="j-order col-32">
+						<span class="j-dan"> 普通转出 </span> <span class="j-shu">|</span> <span
+							class="j-dan">支付金额：0.20元</span> <span class="j-shu">|</span> <span
+							class="j-dan">操作时间：2019-05-25 15:28</span>
+					</div>
+					<div class="j-jie-shao">
+						<span class="text col-80">如因信息错误导致转出失败，资金将自动退款至小金库余额</span>
+					</div>
+					<div class="btn-area clearfix">
+						<a href="http://xjk.jr.jd.com/gold/page?tradeType=TRANSOUT#tdhis"
+							class="j-check-btn fl"
+							clstag="jr|keycount|xjkPC_redemptionresult_particulars|9830031_01">查看转出详情</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--- footer start -->
+	<!--网站底部-->
+	<div th:replace="common/footpart :: foot"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>账户设置</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="asserts/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
+	rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript">
+$(function() {
+		//邮箱绑定
+		$("#sendMailCode").click(function() {
+			var _this = $(this);
+			_this.attr("disabled", true); //禁用
+			$.ajax({
+				url : "personalEmailSend",
+				type : "post",
+				dataType : "json",
+				data : {
+					email : $("#email").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						//设置输入验证码的时间为60s
+						var sec = 60;
+						var timer = setInterval(function() {
+							sec--;
+							if (sec > 0) {
+								_this.text(sec + "秒后重新发送验证码");
+							} else {
+								clearInterval(timer);
+								_this.attr("disabled", false);
+								_this.text("重新发送验证码");
+							}
+						}, 1000);
+					} else { //失败
+						_this.attr("disabled", false);
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+			//给保存按钮添加一个点击事件,提交表单,用于绑定邮箱
+			$("#bindMailForm").ajaxForm(function(data) {
+				if (data.success) {
+					//刷新页面
+					location.reload();
+				} else {
+					$.messager.popup(data.msg);
+				}
+			});
+			$("#bindEmail").click(function() {
+				$("#bindMailForm").submit();
+			});
+		});
+		
+		//邮箱修改
+		$("#sendVerifyCode").click(function() {
+			var _this = $(this);
+			_this.attr("disabled", true); //禁用
+			$.ajax({
+				url : "updateVerifySend",
+				type : "post",
+				dataType : "json",
+				success : function(data) {
+					if (data.success) {
+						//设置输入验证码的时间为60s
+						var sec = 60;
+						var timer = setInterval(function() {
+							sec--;
+							if (sec > 0) {
+								_this.text(sec + "秒后重新发送验证码");
+							} else {
+								clearInterval(timer);
+								_this.attr("disabled", false);
+								_this.text("重新发送验证码");
+							}
+						}, 1000);
+					} else { //失败
+						_this.attr("disabled", false);
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+		});
+			//给保存按钮添加一个点击事件,提交表单,用于绑定邮箱
+		$("#updateMailForm").ajaxForm(function(data) {
+			if (data.success) {
+				//刷新页面
+				location.reload();
+			} else {
+				$.messager.popup(data.msg);
+			}
+		});
+		$("#updateEmail").click(function() {
+			$("#updateMailForm").submit();
+		});
+		
+		//手机号修改
+		//给旧手机发送验证码
+		$("#sendVerify").click(function() {
+			var _this = $(this);
+			_this.attr("disabled", true); //禁用
+			$.ajax({
+				url : "sendOldVerify",
+				type : "post",
+				dataType : "json",
+				data : {
+					tel : $("#tel").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						//设置输入验证码的时间为60s
+						var sec = 60;
+						var timer = setInterval(function() {
+							sec--;
+							if (sec > 0) {
+								_this.text(sec + "秒后重新发送验证码");
+							} else {
+								clearInterval(timer);
+								_this.attr("disabled", false);
+								_this.text("重新发送验证码");
+							}
+						}, 1000);
+					} else { //失败
+						_this.attr("disabled", false);
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+		});
+			//验证旧手机的验证码
+		$("#checkVerify").click(function() {
+			$.ajax({
+				url : "checkOldTel",
+				type : "post",
+				dataType : "json",
+				data : {
+					tel : $("#tel").val(),
+					verifyCode : $("#verify").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						$.messager.popup(data.msg);
+					} else { //失败
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+		});
+			//给新手机发验证码
+		$("#sendNewVerify").click(function() {
+			var _this = $(this);
+			_this.attr("disabled", true); //禁用
+			$.ajax({
+				url : "sendNewVerify",
+				type : "post",
+				dataType : "json",
+				data : {
+					newTel : $("#newTel").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						//设置输入验证码的时间为60s
+						var sec = 60;
+						var timer = setInterval(function() {
+							sec--;
+							if (sec > 0) {
+								_this.text(sec + "秒后重新发送验证码");
+							} else {
+								clearInterval(timer);
+								_this.attr("disabled", false);
+								_this.text("重新发送验证码");
+							}
+						}, 1000);
+					} else { //失败
+						_this.attr("disabled", false);
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+		});
+			//给保存按钮添加一个点击事件,提交表单,用于绑定新手机
+		$("#updateTelForm").ajaxForm(function(data) {
+			if (data.success) {
+			//刷新页面
+				$.messager.popup("修改成功!");
+				location.reload();
+			} else {
+				$.messager.popup(data.msg);
+			}
+		});
+		$("#updateTel").click(function() {
+			$("#updateTelForm").submit();
+		});
+		
+		//修改密码
+		$("#updatepsw").click(function() {
+			$("#updatePasswordForm").ajaxSubmit(function(data) {
+				if (data.success) {
+					$.messager.popup("修改成功");
+					location.href = "accountSettings";
+				} else {
+					$.messager.popup(data.msg);
+				}
+			})
+		});
+	})
+</script>
+</head>
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+	<div class="w1200 personal">
+		<div th:replace="common/leftmenu :: left (activeUri = 'accountSettings')"></div>			
+<!-- <style type="text/css">
+	.txt235{height:38px;border:1px solid #ccc;}
+</style> -->
+<script type="text/javascript">
+
+
+</script>
+		<!-- 页面显示信息 -->
+		<div class="personal-main">
+			<div class="personal-zhsz" style="padding-top: 30px">
+				<h3><i>账户设置</i></h3>
+			<div class="personal-level"> <span class="wzd">您的账户完整度</span><i class="grzxbg level3" style="border: none; margin: 37px 0px 0px 20px; height: 17px; background-position: 0px -550px;"></i><span class="state">[中]</span> <i id="zhwzd" class="markicon fl mt35"></i><span class="arrow-personal">请尽快完成账户安全设置，以确保您的账户安全</span><span class="grzxbg icon-personal"></span> </div>
+			<ul>
+				<li><i class="grzxbg p-right"></i><span class="zhsz-span1">手机号</span><span class="zhsz-span2" th:text="${tel}"></span><span class="zhsz-span3"><a href="javascript:void(0)"  data-toggle="modal" data-target="#updateTelModal">更改</a></span></li>
+				<li th:if="${idCard}==null"><i class="grzxbg p-danger"></i><span class="zhsz-span1">身份认证</span><span class="zhsz-span2">未认证</span><span class="zhsz-span3"><a th:href="@{/realAuth}">认证</a></span></li>
+				<li th:if="${idCard}!=null"><i class="grzxbg p-right"></i><span class="zhsz-span1">身份认证</span><span class="zhsz-span2" th:text="${idCard}"></span><span class="zhsz-span3"><a th:href="@{/realAuthShow}">查看</a></span></li>
+				<li th:if="${cardId}==null"><i class="grzxbg p-danger"></i><span class="zhsz-span1">银行卡</span><span class="zhsz-span2">未绑定</span><span class="zhsz-span3"><a th:href="@{/bindBank}">绑定</a></span></li>
+				<li th:if="${cardId}!=null"><i class="grzxbg p-right"></i><span class="zhsz-span1">银行卡</span><span class="zhsz-span2" >已绑定<span th:text="${cardId}"></span>张卡</span><span class="zhsz-span3"><a th:href="@{/queryBankCards}">查看</a></span></li>
+				<li th:if="${email}==null"><i class="grzxbg p-danger"></i> <span class="zhsz-span1">电子邮箱</span> <span class="zhsz-span2">未绑定</span> <span class="zhsz-span3"> <a href="javascript:void(0)" data-toggle="modal" data-target="#bindEmailModal">立即绑定</a> </span> </li>
+				<li th:if="${email}!=null"><i class="grzxbg p-right"></i> <span class="zhsz-span1">电子邮箱</span> <span class="zhsz-span2" th:text="${email}"></span> <span class="zhsz-span3"> <a href="javascript:void(0)" data-toggle="modal" data-target="#updateEmailModal">更改</a> </span> </li>
+				 <li><i class="grzxbg p-right"></i><span class="zhsz-span1">登录密码</span><span class="zhsz-span2"></span><span class="zhsz-span3"><a href="javascript:void(0)" data-toggle="modal" data-target="#updatePasswordModal">修改密码</a></span></li>
+			</ul>
+			</div>
+		</div>
+		
+	<!-- 邮箱绑定模态框 -->
+	<div class="modal fade" id="bindEmailModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">绑定邮箱</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="bindMailForm" method="post"
+						action="/personalEmailBind">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">邮箱:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="email"
+									name="email" />
+								<button id="sendMailCode" class="btn btn-primary"
+									type="button" autocomplate="off">发送验证码</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="emailCode" class="col-sm-2 control-label">验证码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="emailCode"
+									name="emailCode" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="bindEmail">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改邮箱 -->
+	<div class="modal fade" id="updateEmailModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">修改邮箱</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="updateMailForm" method="post"
+						action="/personalEmailUpdate">
+						<div class="form-group">
+							<label for="mail" class="col-sm-2 control-label">新邮箱:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="mail"
+									name="email" />
+								<button id="sendVerifyCode" class="btn btn-primary"
+									type="button" autocomplate="off">发送短信验证码</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="verifyCode" class="col-sm-2 control-label">手机验证码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="verifyCode"
+									name="verifyCode" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="updateEmail">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 修改手机号 -->
+	<div class="modal fade" id="updateTelModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">修改手机号码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="updateTelForm" method="post"
+						action="/updateTel">
+						<div class="form-group">
+							<label for="tel" class="col-sm-2 control-label">原手机号:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="tel" name="tel" />
+								<button id="sendVerify" class="btn btn-primary"
+									type="button" autocomplate="off">发送验证码</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="verify" class="col-sm-2 control-label">手机验证码:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="verify" name="verifyCode" />
+								<button id="checkVerify" class="btn btn-primary"
+									type="button" autocomplate="off">验证</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="newTel" class="col-sm-2 control-label">新手机号</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="newTel" name="newTel" />
+								<button id="sendNewVerify" class="btn btn-primary"
+									type="button" autocomplate="off">发送验证码</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="newVerify" class="col-sm-2 control-label">新验证码</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="newVerify" name="newVerify" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="updateTel">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 修改密码 -->
+	<div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="updatePasswordForm" method="post"
+						action="/loginPasswordUpdate">
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">原始密码:</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password" name="password" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="newPassword" class="col-sm-2 control-label">新密码:</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="newPassword" name="newPassword" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="repsw" class="col-sm-2 control-label">确认密码:</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="repsw" name="repsw" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="updatepsw">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="clear"></div>
+	</div>
+</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

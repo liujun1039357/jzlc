@@ -1,0 +1,109 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>个人账号登录</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		//jquery的validate框架, 一个表单验证框架
+		//表单验证方法: validate({验证的规则})
+		// rules: 验证规则: 非空, 长度, 正则表达式 , 远程验证, 两次密码是否一致....
+		$("#loginBusinessForm").validate({
+			rules : {
+				email : {
+					required : true,
+					rangelength : [ 4, 16 ]
+				},
+				loginPwd : {
+					required : true,
+					rangelength : [ 4, 16 ]
+				}
+			},
+			messages : {
+				email : {
+					required : "用户名不能为空",
+					rangelength : "用户名必须是{4}-{16}位"
+				},
+				loginPwd : {
+					required : "密码不能为空",
+					rangelength : "密码必须是{4}-{16}位"
+				}
+			},
+			submitHandler : function(form) {
+				//ajax请求, 把表单以ajax提交到后台
+				$("#loginBusinessForm").ajaxSubmit({
+					dataType : "json",
+					success : function(rs) {
+						console.log(rs);
+						if (rs.success) {
+							//跳转到个人中心
+							//alert("登录成功");
+							$.messager.confirm("友情提示", "登录成功", function() {
+								location.href = "/index";
+							});
+						} else {
+							$.messager.alert("友情提示", rs.msg);
+						}
+					},
+					resetForm : true
+				});
+			}, 
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		});
+	});
+</script>
+</head>
+
+<body>
+<div class="gy_box">
+	<!-- header start -->
+	<header>
+		<div th:replace="common/headpart :: top"></div>
+	</header>
+	
+	<div id="form_main" class="px1000 clearfix">
+		<div class="left_form fl" style="margin-left:30%;padding-bottom:50px;padding-top:50px;">
+		<div class="alert alert-danger" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></div>
+			<form id="loginBusinessForm" action="loginBusiness" method="post">
+				<div class="form-group">
+					<label style="font-size:16px;">企业邮箱:</label>
+					<input type="text" class="form-control" id="email" name="email" placeholder="请输入企业邮箱"/>
+				</div>
+				<div class="form-group">
+					<label style="font-size:16px;">密码:</label>
+					<input type="password" class="form-control" id="loginPwd" name="loginPwd" placeholder="请输入密码"/>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-info btn-lg" style="width: 100px;">
+						登录</button>
+					&emsp;&emsp; <a href="/register.html">新用户，马上注册</a>
+				</div>
+			</form>
+		</div>
+	</div>		
+
+	<!--- footer start -->
+	<!--网站底部-->
+	<div th:replace="common/footpart :: foot"></div>
+</div>
+</body>
+</html>

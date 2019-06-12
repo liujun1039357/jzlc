@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>p2p网贷平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script th:src="@{/script/user.js}" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<script src="script/jquery.datetimepicker.js" type="text/javascript"></script>
+<script src="script/datepicker.js" type="text/javascript"></script>
+<link type='text/css' rel="stylesheet" th:href="@{/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
+<script th:src="@{/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+</head>
+
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+  <div class="w1200 personal">
+   	<div th:replace="common/leftmenu :: left (activeUri = 'tradeList')"></div>
+    <div class="personal-main">
+      <div class="personal-money" style="padding-top: 30px">
+        <h3><i>交易记录</i></h3>
+        <form id="form" name="form" method="post" action="">
+          <div class="money-choose">
+			<span style=" padding-left: 10px; padding-right: 10px;">操作类型</span>
+          	<select name=”select_type“ style="width:150px ; height: 30px;">
+          		<option value="1">转出</option>
+        		<option value="2">转入</option>
+		        <option value="3">充值</option>
+		        <option value="4">提现</option>
+          	</select>
+	         
+	         <script>
+				 $(function() {
+				  //设置时间格式
+				  $("#start,#end").datetimepicker({
+				   format : 'yyyy-mm-dd',
+				   language : 'zh-CN',
+				   minView : 2,
+				   endDate : new Date()
+				  }); 
+				 /*  //给分页添加点击事件,使每次点击页码都提交高级查询表单
+				  $(".pages").click(function() {
+				   $("#getpage").val($(this).attr("thispage"));//设置隐藏域中的value,this为点击的页码;
+				   $("#selectInfo").submit(); //selectInfo是表单id,提交表单;
+				  });
+				 */
+				 })
+			</script>
+	         
+            <span style=" padding-left: 20px; padding-right: 10px;">查询时间</span>
+            <input type="text" id="start" style="width:100px ; height: 24px;"/> — <input type="text" id="end" style="width:100px ; height: 24px;"/>
+        
+            <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-sx"><span class="ui-button-text ui-c">筛选</span></button>
+            <!-- <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-dc"><span class="ui-button-text ui-c">导出</span></button> -->
+          </div>
+          <span id="form:dataTable">
+          <div class="personal-moneylist">
+            <div class="pmain-contitle"> <span class="pmain-title1 fb">交易时间</span> <span class="pmain-title2 fb">交易类型</span> <span class="pmain-title3 fb">交易金额</span> <span class="pmain-title4 fb">余额</span> <span class="pmain-title5 fb">备注</span> </div>
+            <ul>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
+              <!-- <div style=" width:760px;height:200px;padding-top:100px; text-align:center;color:#d4d4d4; font-size:16px;"> <img src="images/nondata.png" width="60" height="60"><br>
+                <br>
+                暂无资金记录</div>-->
+            </ul>
+          </div>
+          </span>
+        </form>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.BusinessMapper">
+	<!-- 登录 -->
+	<select id="insertSimpleBusinssInfo"
+		resultType="com.zl.pojo.Business">
+		INSERT INTO BUSINESS
+		(BUSINESSID, EMAIL, LOGINPWD, PAYPWD,
+		CREATETIME, UPDATETIME, ISDEL)
+		VALUES
+		('JZLCB' || TO_CHAR(SYSDATE,
+		'YYYYMMDD') ||
+		LPAD(SEQ_BUSINESSID.NEXTVAL, 7, '0'),
+		#{email},
+		#{loginPwd},
+		#{payPwd},
+		SYSDATE,
+		SYSDATE,
+		0
+		)
+	</select>
+	<select id="insertBusinssInfo"
+		resultType="com.zl.pojo.BusinessInfo">
+		insert into businessInfo (BUSINESSID, BUSINESSTYPE,
+		BUSINESSNAME, BUSINESSCODE, REGISTERMONEY, REGISTERSTATES, ADDRESS,
+		TEL, LICENSE, QUALIFICATION, CORPORATIONSNAME, CARDTYPE, CARDID,
+		LIVEADDRESS, CORPORATIONSTEL, JOB, IMAGE1, IMAGE2, CHECKFLAG, ADDDATE,
+		UPDATEDATE, BANKCARDID)
+		values (#{businessId}, #{businessType},
+		#{businessName}, #{businessCode}, #{registerMoney}, #{registerStates},
+		#{address}, #{tel},
+		#{license}, #{qualification}, #{corporationsName},
+		0, #{cardId}, null, #{corporationsTel}, #{job}, #{image1}, #{image2},
+		1, SYSDATE,
+		SYSDATE, #{bankCardId})
+	</select>
+	<select id="querySimpleBusinessInfoByEmail"
+		resultType="com.zl.pojo.Business" >
+		SELECT BUSINESSID, EMAIL, LOGINPWD, PAYPWD, CREATETIME,
+		UPDATETIME, ISDEL
+		FROM BUSINESS
+		WHERE EMAIL = #{email}
+		AND LOGINPWD =
+		#{loginPwd}
+	</select>
+	<select id="queryBusinessInfoById" parameterType="com.zl.pojo.Business" resultType="com.zl.pojo.BusinessInfo">
+		SELECT BUSINESSID businessId,
+		BUSINESSTYPE businessType,
+		BUSINESSNAME businessName,
+		BUSINESSCODE businessCode,
+		REGISTERMONEY registerMoney,
+		REGISTERSTATES registerStates,
+		ADDRESS address,
+		TEL tel, 
+		LICENSE license,
+		QUALIFICATION qualification,
+		CORPORATIONSNAME corporationsName,
+		CARDTYPE cardType,
+		CARDID cardId,
+	
+		CORPORATIONSTEL corporationsTel,
+		JOB job,
+		IMAGE1 image1,
+		IMAGE2 image2,
+		CHECKFLAG checkFlag,
+		ADDDATE addDate,
+		UPDATEDATE updateDate,
+		BANKCARDID bankCardId
+		FROM BUSINESSINFO 
+		WHERE BUSINESSID = #{businessId,jdbcType=VARCHAR}
+	</select>
+</mapper>
