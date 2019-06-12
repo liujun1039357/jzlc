@@ -35,7 +35,7 @@
                 	<li th:if="${session.loginBusiness}==null"> <a th:href="@{/login}" class="app" th:if="${session.consumer}==null">个人登录</a> </li>
                 	<li> <a th:href="@{/personalCenter}" class="app" th:if="${session.consumer}!=null" style="color:orange;" th:text="${session.consumer.consumerName}"></a></li>
                 	<li th:if="${session.consumer}==null"> <a th:href="@{/elogin}" class="app" th:if="${session.loginBusiness}==null">企业登录</a> </li>
-					<li> <a th:href="@{/productAuditProgress}" class="app" th:if="${session.loginBusiness}!=null" style="color:orange;width: 200px;" th:text="${session.loginBusiness.email}"></a></li>
+					<li> <a th:href="@{/businessIndex}" class="app" th:if="${session.loginBusiness}!=null" style="color:orange;width: 200px;" th:text="${session.loginBusiness.email}"></a></li>
 					<li><a th:href="@{/index}" class="app">返回首页</a></li>
 					<li>
 						<div class="">

@@ -19,6 +19,12 @@ public class BusinessServiceImpl implements IBusinessService {
 	@Autowired
 	private BusinessMapper businessMapper;
 
+	
+	public BusinessInfo queryBusinessInfoByID(Business bs) {
+		return businessMapper.queryBusinessInfoById(bs);
+	}
+	
+
 	@Override
 	public AjaxJson registerBusiness(Business bs, BusinessInfo bsi) {
 		AjaxJson aj = new AjaxJson();
@@ -61,18 +67,24 @@ public class BusinessServiceImpl implements IBusinessService {
 						aj.setMsg("该账户已提交注册申请，正在审核中，请等待相关人员主动联系");
 						aj.setSuccess(false);
 					} else if (businessMapper.queryBusinessInfoById(business).getCheckFlag() == 2) {
-						aj.setMsg("该账户未通过资料审核，详情请联系人工客服");
-						aj.setSuccess(false);
-					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 4) {
-						aj.setMsg("该账户已被冻结，详情请联系人工客服");
-						aj.setSuccess(false);
-					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 5) {
-						aj.setMsg("该账户已被注销，详情请联系人工客服");
-						aj.setSuccess(false);
-					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 6) {
-						aj.setMsg("该账户已被删除，详情请联系人工客服");
+						aj.setMsg("该账户已提交注册申请，正在审核中，请等待相关人员主动联系");
 						aj.setSuccess(false);
 					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 3) {
+						aj.setMsg("该账户已提交注册申请，正在审核中，请等待相关人员主动联系");
+						aj.setSuccess(false);
+					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 4) {
+						aj.setMsg("该账户审核未通过，详情请联系人工客服");
+						aj.setSuccess(false);
+					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 6) {
+						aj.setMsg("该账户已被冻结，详情请联系人工客服");
+						aj.setSuccess(false);
+					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 7) {
+						aj.setMsg("该账户已被注销，详情请联系人工客服");
+						aj.setSuccess(false);
+					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 8) {
+						aj.setMsg("该账户已被删除，详情请联系人工客服");
+						aj.setSuccess(false);
+					}else if(businessMapper.queryBusinessInfoById(business).getCheckFlag() == 5) {
 						aj.setMsg("登录成功");
 						System.out.println(business.toString());
 						UserContext.setLoginBusiness(business);

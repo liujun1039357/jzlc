@@ -30,6 +30,35 @@ public class BusinssController {
 	private IBusinessService businessService;
 	
 	
+	@RequestMapping("addManger")
+	public String addManger(HttpSession hs) {
+	
+		return "enterprise/addManger";
+	}
+	
+	
+	
+	
+	@RequestMapping("productList")
+	public String productList(HttpSession hs) {
+	
+		return "enterprise/productList";
+	}
+	
+	
+	@RequestMapping("productManger")
+	public String productManger(HttpSession hs) {
+		return "enterprise/productManger";
+	}
+	
+	
+	
+	
+	@RequestMapping("productRecord")
+	public String productRecord(HttpSession hs) {
+		return "enterprise/productRecord";
+	}
+	
 	@RequestMapping("loginBusiness")
 	@ResponseBody
 	public AjaxJson loginBusiness(Business business,HttpSession hs) {
@@ -39,6 +68,16 @@ public class BusinssController {
 	
 	
 	
+	@RequestMapping("businessIndex")
+	public String businessIndex(HttpSession hs,HttpServletRequest hsr) {
+		Business business = (Business) hs.getAttribute("loginBusiness");
+		System.err.println(business.toString());
+		hsr.setAttribute("businessInfo", businessService.queryBusinessInfoByID(business));
+		hsr.setAttribute("business",business );
+		String bankcard =  businessService.queryBusinessInfoByID(business).getBankCardId();
+		hsr.setAttribute("bankcard",bankcard.substring(bankcard.length()-4) );
+		return "enterprise/businessCenter";
+	}
 	
 	
 	

@@ -11,4 +11,8 @@ public interface IBusinessService {
 	AjaxJson registerBusiness(Business bs,BusinessInfo bsi);
 	
 	AjaxJson loginBusiness(Business bs);
+	
+	 BusinessInfo queryBusinessInfoByID(Business bs) ;
+	
+	
 }
