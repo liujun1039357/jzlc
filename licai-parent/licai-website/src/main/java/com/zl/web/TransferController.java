@@ -1,5 +1,6 @@
 package com.zl.web;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.RealAuthShow;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
+import com.zl.service.IProductService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
 /**
@@ -26,6 +28,8 @@ public class TransferController {
 	private IConsumerInfoService consumerInfoService;
 	@Autowired
 	private IBankCardInfoService bankCardInfoService;
+	@Autowired
+	private IProductService productService;
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -85,12 +89,6 @@ public class TransferController {
 	@CheckLogin
 	public String personalCenter(String id) {
 		return "personal/personalCenter";
-	}
-	
-	/**理财产品列表页面*/
-	@RequestMapping("productInfo")
-	public String productInfo(String id) {
-		return "personal/productInfo";
 	}
 	
 	/**安全保障页面*/
@@ -216,5 +214,36 @@ public class TransferController {
 		return "personal/invest";
 	}
 	
-
+	/**购买产品页面*/
+	@RequestMapping("buyProduct")
+	@CheckLogin
+	public String buyProduct(HttpServletRequest requset) {
+		long bitState = consumerInfoService.queryBitState();
+		String name = consumerInfoService.queryRealName();
+		BigDecimal balance = consumerInfoService.queryBalance();
+		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_REAL_AUTH)) {
+			requset.setAttribute("unRealAuth", "请先实名认证!");
+			return "personal/realAuth";
+		}
+		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_BANKCARD)) {
+			requset.setAttribute("unBindBank", "请先绑定银行卡");
+			return "personal/bindBank";
+		}
+		
+		requset.setAttribute("name", name);
+		requset.setAttribute("balance", balance);
+		return "personal/buyProduct";
+	}
+	
+	/**转出产品页面*/
+	@RequestMapping("turnOut")
+	public String turnOut(HttpServletRequest requset,String productId) {
+		String name = consumerInfoService.queryRealName();
+		BigDecimal balance = consumerInfoService.queryBalance();
+		int productType = productService.queryProductType(productId);
+		requset.setAttribute("name", name);
+		requset.setAttribute("balance", balance);
+		requset.setAttribute("productType", productType);
+		return "personal/turnOut";
+	}
 }

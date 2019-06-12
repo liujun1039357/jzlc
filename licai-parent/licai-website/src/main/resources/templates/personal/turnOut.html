@@ -1,0 +1,116 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>产品转出</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/uploadify/jquery.uploadify.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+$(function() {
+	$("#turnOutSubmit").click(function() {
+		$("#turnOutProductForm").ajaxSubmit(function(data) {
+			if (data.success) {
+				$.messager.popup("转出成功");
+				location.href = "personalCenter";
+			} else {
+				$.messager.popup(data.msg);
+			}
+		})
+	});
+	
+	$("#turnOut").click(function() {
+		$("#turnOutProductForm").ajaxSubmit(function(data) {
+			if (data.success) {
+				$.messager.popup("转出成功");
+				location.href = "personalCenter";
+			} else {
+				$.messager.popup(data.msg);
+			}
+		})
+	});
+});
+</script>
+</head>
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+	<div class="w1200 personal">
+		<div th:replace="common/leftmenu :: left (activeUri = 'accountSettings')"></div>			
+<script type="text/javascript">
+
+
+</script>
+		<label id="typeValue" style="display:none;"> </label>
+    <div class="personal-main">
+      <div class="personal-deposit" style="padding-top: 30px">
+        <h3><i>转出</i></h3>
+        <form id="turnOutProductForm" method="post" action="/turnOutProductSubmit" >
+          <div class="deposit-form" style="margin-top:0px;border-top:0px none;">
+            <h6>填写转出金额</h6>
+            <ul>
+              <li> <span class="deposit-formleft">用户名</span> <span class="deposit-formright"> <i>
+                <label id="form:blance" th:text="${session.consumer.consumerName }"></label>
+                </i></span> </li>
+              <li> <span class="deposit-formleft">真实姓名</span> <span class="deposit-formright"> <i>
+                <label id="form:blance" th:text="${name}"></label>
+                </i> </span> </li>
+              <li><span class="deposit-formleft">可转出金额</span> <em id="dzje" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
+                <label id="form:cashFine"  th:text="${balance}"></label>
+                </i> 元</span></li>
+              <li>
+                <input type="button" id="turnOutSubmit" name="form:j_idt78" value="转出" class="btn-depositok" th:if="${productType} == 0"/>
+                <input type="button" value="转出" class="btn-depositok" th:if="${productType} == 1" data-toggle="modal" data-target="#ifTurnOutModal"/>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+	<!-- 死期提示是否确定转出 -->
+	<div class="modal fade" id="ifTurnOutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">是否确定转出</h4>
+				</div>
+				<div class="modal-body">
+					<span style="font-size:20px;color:red;">现在转出将只有本金没有利息,是否确定转出?</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="turnOut">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="clear"></div>
+	</div>
+	</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

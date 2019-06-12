@@ -3,6 +3,8 @@
  */
 package com.zl.service;
 
+import java.math.BigDecimal;
+
 import com.zl.exception.JZLCException;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.RealAuthShow;
@@ -67,6 +69,29 @@ public interface IConsumerInfoService {
 	 * @return
 	 */
 	boolean realAuth(ConsumerInfo consumerInfo) throws JZLCException;
+
+	/**判定银行卡号所属行
+	 * @param cardId
+	 * @return
+	 */
+	String judgeBank(String cardId) throws JZLCException;
+
+	/**绑定银行卡
+	 * @param cardId
+	 * @param password
+	 */
+	void bindBankSubmit(String cardId, String password) throws JZLCException;
+
+	/**查询余额
+	 * @return
+	 */
+	BigDecimal queryBalance() throws JZLCException;
+
+	/**购买产品
+	 * @param buyMoney
+	 * @return
+	 */
+	boolean buyProduct(BigDecimal buyMoney) throws JZLCException;
 
 	
 	

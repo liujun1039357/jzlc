@@ -3,6 +3,11 @@
 <mapper namespace="com.zl.mapper.BankCardInfoMapper">
 	<!-- 根据当前用户所绑银行卡数量 -->
 	<select id="queryCardId" resultType="int">
-		select cardId from BankCardInfo where consumerId = #{consumerId}
+		select cardId from BankCardInfo where consumerId = #{consumerId} and cardStates = #{cardStates}
 	</select>
+	<!-- 添加银行卡 -->
+	<insert id="addBankCard" parameterType="BankCardInfo">
+		insert into BankCardInfo values(#{consumerId},#{cardId},sysdate,#{cardStates})
+	</insert>
+	
 </mapper>

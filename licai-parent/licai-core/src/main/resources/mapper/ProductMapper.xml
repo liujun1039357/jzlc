@@ -12,4 +12,15 @@
 		select <include refid="queryColumn"></include>
 		from product
 	</select>
+	<!-- 查询产品信息 -->
+	<select id="queryProductInfo" resultType="ProductShowInfo">
+		select p.productName,b.businessName,p.productRiskGrade,p.productBack,p.productQuota,p.productProfit,
+		p.productSaledQuota,p.productLowQuota,p.productProfitType,p.productLowProfitDate 
+		from product p left join businessInfo b on p.businessId = b.businessId where p.productId = #{productId}
+	</select>
+	<!-- 查询产品种类 -->
+	<select id="queryProductType" resultType="int"> 
+		select productType from product where productId = #{productId}
+	</select>
+	
 </mapper>

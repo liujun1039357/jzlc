@@ -3,6 +3,8 @@
  */
 package com.zl.mapper;
 
+import java.math.BigDecimal;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -88,8 +90,17 @@ public interface ConsumerInfoMapper {
 	 */
 	void updateRealAuth(ConsumerInfo consumerInfo) throws JZLCException;
 
+	/**绑定银行卡
+	 * @param cardId
+	 * @param password
+	 */
+	void updateBankBind(@Param("bitState")long bitState, @Param("password")String password,@Param("consumerId")String consumerId) throws JZLCException;
 
-
+	/**查询可用余额
+	 * @param consumerId
+	 * @return
+	 */
+	BigDecimal queryBalance(String consumerId) throws JZLCException;
 
 
 }

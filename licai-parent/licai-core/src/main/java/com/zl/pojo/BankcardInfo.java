@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 public class BankcardInfo implements Serializable{
 	/**0: 默认 已绑定*/
-	public static Integer Bound = 0;
+	public static Integer BOUND = 0;
 	/**0: 1 已解绑*/
 	public static Integer UNBIND = 1;
 	/**0: 2 无效*/
@@ -29,5 +29,5 @@ public class BankcardInfo implements Serializable{
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date updateTime;
 	/**0: 已绑定 1 已解绑 2 无效*/
-	private Integer cardStates = Bound;
+	private Integer cardStates = BOUND;
 }
