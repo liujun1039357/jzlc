@@ -62,5 +62,16 @@
 	<select id="queryBalance" resultType="BigDecimal">
 		select balance from consumerInfo where consumerId = #{consumerId}
 	</select>
-	
+	<!-- 充值 -->
+	<select id="recharge" resultType="com.zl.pojo.ConsumerInfo">
+		update consumerInfo
+		set balance = #{balance} + #{money}
+		where consumerId=#{consumerId}
+	</select>
+	<!-- 提现 -->
+	<select id="cashOut" resultType="com.zl.pojo.ConsumerInfo">
+		update consumerInfo
+		set balance = #{balance} - (1.01*#{money})
+		where consumerId=#{consumerId}
+	</select>
 </mapper>

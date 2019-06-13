@@ -72,4 +72,30 @@ public class DateUtil {
 	public static  long dayBetween(Date d1 , Date d2){
 		return Math.abs((d1.getTime() - d2.getTime()))/(1000*3600*24);
 	}
+	
+	/**
+	 * 获取一年前的日期
+	 * @param date
+	 * @return
+	 */
+	public static Date OneYearAgoDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, -1);
+        Date y = c.getTime();
+		return y;
+	}
+	
+	/**
+	 * 获取一个月前的日期
+	 * @param date
+	 * @return
+	 */
+	public static Date OneMonthAgoDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date y = c.getTime();
+		return y;
+	}
 }

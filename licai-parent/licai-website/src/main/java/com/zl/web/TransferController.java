@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.zl.pojo.Product;
@@ -17,6 +18,7 @@ import com.zl.service.IConsumerInfoService;
 import com.zl.service.IProductService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
+import com.zl.util.UserContext;
 /**
  * 所有页面的跳转
  * @author ivy
@@ -30,6 +32,8 @@ public class TransferController {
 	private IBankCardInfoService bankCardInfoService;
 	@Autowired
 	private IProductService productService;
+	@Autowired
+	private IConsumerInfoService iConsumerInfoService;
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -117,13 +121,51 @@ public class TransferController {
 	
 	/***/
 	@RequestMapping("recharge")
-	public String recharge() {
+	public String recharge(BigDecimal money,String cardId, Model model) {
+		
+	/*	if(null != money && null != cardId) {
+			String consumerId =  UserContext.getLogininfo().getConsumerId();
+			Boolean cardyes = iBankCardInfoService.isBoundCard(consumerId,cardId);
+			if(cardyes) {
+				// TODO 支付密码验证
+				//银行卡余额判断
+				if(money.compareTo(new BigDecimal(2000))==1) {
+					model.addAttribute("message","银行卡余额不足，请重试。");
+					System.out.println("银行卡余额不足，请重试。");
+				}else {
+					//获取账户余额进行充值
+					BigDecimal balance = iConsumerInfoService.queryBalance();
+					Boolean flag = iConsumerInfoService.recharge(consumerId, balance, money);
+					if(flag) {
+						model.addAttribute("message","支付已成功！");
+						System.out.println("支付已成功！");
+					}else {
+						model.addAttribute("message","支付失败，请重试。");
+						System.out.println("支付失败，请重试。");
+					}
+				}
+			}
+		}*/
 		return "personal/recharge";
 	}
-
+	
 	/***/
 	@RequestMapping("cashOut")
-	public String cashOut() {
+	public String cashOut(BigDecimal money,String cardId, Model model) {
+		/*String consumerId =  UserContext.getLogininfo().getConsumerId();
+		//获取账户余额进行回显
+		BigDecimal balance = iConsumerInfoService.getBalace(consumerId);
+		model.addAttribute("balance",balance);
+		if(null != money && null != cardId) {
+			Boolean flag = iConsumerInfoService.cashOut(consumerId, balance, money);
+			if(flag) {
+				model.addAttribute("message","提现已成功！");
+				System.out.println("提现已成功！");
+			}else {
+				model.addAttribute("message","提现失败，请重试。");
+				System.out.println("提现失败，请重试。");
+			}
+		}*/
 		return "personal/cashOut";
 	}
 
@@ -131,12 +173,6 @@ public class TransferController {
 	@RequestMapping("myMoney")
 	public String myMoney() {
 		return "personal/myMoney";
-	}
-
-	/***/
-	@RequestMapping("systemInformation")
-	public String systemInformation() {
-		return "personal/systemInformation";
 	}
 
 	/**账户设置页面*/
@@ -206,12 +242,6 @@ public class TransferController {
 		List<String> cardIds = bankCardInfoService.queryCardId();
 		requset.setAttribute("cardIds", cardIds);
 		return "personal/queryBankCards";
-	}
-	
-	/**产品详情页面*/
-	@RequestMapping("invest")
-	public String invest() {
-		return "personal/invest";
 	}
 	
 	/**购买产品页面*/

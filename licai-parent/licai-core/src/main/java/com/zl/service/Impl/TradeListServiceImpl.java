@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zl.exception.JZLCException;
 import com.zl.mapper.TradeListMapper;
+import com.zl.pojo.SelectTradeListCondition;
 import com.zl.pojo.TradeList;
 import com.zl.service.ITradeListService;
 
@@ -15,9 +17,13 @@ public class TradeListServiceImpl implements ITradeListService {
 	private TradeListMapper tradeListMapper;
 
 	@Override
-	public List<TradeList> getTradeLists() {
-		List<TradeList> tradeLists= tradeListMapper.getTradeLists();
-		return tradeLists;
+	public List<TradeList> getTradeLists(SelectTradeListCondition condition) throws JZLCException {
+		return tradeListMapper.getTradeLists(condition);
+	}
+
+	@Override
+	public List<Integer> getTradeTypes() throws JZLCException {
+		return tradeListMapper.getTradeTypes();
 	}
 	
 	

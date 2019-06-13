@@ -156,5 +156,17 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		return true;
 	}
 
+	@Override
+	public Boolean recharge(String consumerId,BigDecimal balance,BigDecimal money) {
+		ConsumerInfo consumerInfo = consumerInfoMapper.recharge(consumerId,balance,money);
+		return consumerInfo != null;
+	}
+
+	@Override
+	public Boolean cashOut(String consumerId, BigDecimal balance, BigDecimal money) {
+		ConsumerInfo consumerInfo = consumerInfoMapper.cashOut(consumerId, balance, money);
+		return consumerInfo!=null;
+	}
+
 
 }

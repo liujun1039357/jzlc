@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.BasisProductMapper">
+	 <!-- 查询产品 -->
+	 <select id="queryBasisProducts" resultType="com.zl.pojo.BasisProduct" >
+	 	SELECT p.productId,p.productname,p.productquota,p.productprofit,p.productLowQuota,p.productAcountTime,b.businessId,b.businessName FROM product p
+			JOIN BusinessInfo b ON b.businessId = p.businessId
+	 </select>
+
+</mapper>

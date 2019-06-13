@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -19,7 +20,7 @@
 <script>
 	$(function() {
 		//设置时间格式
-		$("#start,#end").datetimepicker({
+		$("#cycleTime").datetimepicker({
 			format : 'yyyy-mm-dd',
 			language : 'zh-CN',
 			minView : 2,
@@ -46,29 +47,6 @@
 	<div id="gy_guide_index_xzk">
 		<div class="px1000">
 				<div class="money-choose">
-					<span style="padding-left: 10px; padding-right: 10px; ">起购金额</span>
-					<select name="select_type" style="width: 150px; height: 30px; margin-top: 10px; margin-bottom: 10px;">
-						<option value="1">转出</option>
-						<option value="2">转入</option>
-						<option value="3">充值</option>
-						<option value="4">提现</option>
-					</select>
-					
-					<span style="padding-left: 10px; padding-right: 10px; ">可否赎回</span>
-					<select name="select_type" style="width: 150px; height: 30px; margin-top: 10px; margin-bottom: 10px;">
-						<option value="1">转出</option>
-						<option value="2">转入</option>
-						<option value="3">充值</option>
-						<option value="4">提现</option>
-					</select>
-					
-					<span style="padding-left: 10px; padding-right: 10px;">产品类型</span>
-					<select name="select_type" style="width: 150px; height: 30px;">
-						<option value="1">转出</option>
-						<option value="2">转入</option>
-						<option value="3">充值</option>
-						<option value="4">提现</option>
-					</select>
 					
 					<span style="padding-left: 10px; padding-right: 10px;">风险等级</span>
 					<select name="select_type" style="width: 150px; height: 30px;">
@@ -77,14 +55,18 @@
 						<option value="3">充值</option>
 						<option value="4">提现</option>
 					</select>
-					<br/>
+					
+					<span style="padding-left: 10px; padding-right: 10px; ">可否赎回</span>
+					<select name="select_type" style="width: 150px; height: 30px; margin-top: 10px; margin-bottom: 10px;">
+						<option value="0">可赎回</option>
+						<option value="1">不可赎回</option>
+						
+					</select>
 					
 					<span style="padding-left: 10px; padding-right: 10px;">收益方式</span>
 					<select name="select_type" style="width: 150px; height: 30px;">
-						<option value="1">转出</option>
-						<option value="2">转入</option>
-						<option value="3">充值</option>
-						<option value="4">提现</option>
+						<option value="0">日结</option>
+						<option value="1">期结</option>
 					</select>
 
 					<span style="padding-left: 10px; padding-right: 10px;">产品名称</span>
@@ -94,7 +76,7 @@
 						<span class="ui-button-text ui-c">筛选</span>
 					</button>
 					<!-- <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-dc"><span class="ui-button-text ui-c">导出</span></button> -->
-
+					<br/>
 				</div>
 
 
@@ -110,7 +92,36 @@
 				<!--全部理财产品-->
 				<div>
 				<div class="gy_guide_index_xzk_bid_rit" id="gy_guide_index_xzk_bid_rit" style="display:block;">
-					<div class="clearfix gy_guide_index_xzkbid_one">
+					<div class="clearfix gy_guide_index_xzkbid_one" th:each="proBasList : ${proBasLists}">
+							<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
+								<p>	
+								<span style="font-size:14px;color:#808080;" th:text="${proBasList.productName}"></span>
+									<img src="images/gy_guide_index_xzk_bid_ritre.png"></img>
+								</p>
+								<p>公司名称:<span style="font-size:16px;color:#FC8026;" th:text="${proBasList.businessName}"></span></p>
+							</span>
+							<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
+								<p><span style="font-size:19px;color:#FC8026;" th:text="${proBasList.productQuota}"></span>万元</p>
+								<p>产品额度</p>
+							</span>
+							<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
+								<p><span style="font-size:19px;color:#FC8026;" th:text="${proBasList.productProfit}"></span><span style="font-size:18px;color:#FC8026;">%</span></p>
+								<p> 利率</p>
+							</span>
+							<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
+								<p><span style="font-size:19px;color:#FC8026;" th:text="${#dates.format(proBasList.productAcountTime, 'yyyy-MM-dd')}" id="cycleTime"></span></p>
+								<p>产品周期</p>
+							</span>
+							
+							<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
+								<p><span style="font-size:19px;color:#FC8026;" th:text="${proBasList.productLowQuota}"></span>元</p>
+								<p><span style="color:#000;">初始购买金额</span>  </p>
+							</span>
+							<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
+								<p><a style="font-size:18px;color:#fff;" href="">立即购买</a></p>
+							</span>
+					</div>
+					<!-- <div class="clearfix gy_guide_index_xzkbid_two">
 						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
 							<p>	
 								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
@@ -138,146 +149,7 @@
 							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
 						</span>
 					</div>
-					<div class="clearfix gy_guide_index_xzkbid_two">
-						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
-							<p>	
-								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
-								<img th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}"/>
-							</p>
-							<p>担保公司：浙江中新力合担保服务有限公司</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">18.20</span><span style="font-size:18px;color:#FC8026;">%</span></p>
-							<p>预期年化收益率</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">4-360</span><span style="font-size:18px;color:#FC8026;">天</span></p>
-							<p>投资期限</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
-							<p>还款方式：到期还本付息</p>
-							<div class="gy_treasur_bg1">
-								<div class="gy_treasur_bg2" style="width:70%;">
-								</div>
-							</div>
-							<p><span style="color:#000;">214,000.00 /</span>  70 万</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
-							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
-						</span>
-					</div>
-					<div class="clearfix gy_guide_index_xzkbid_three">
-						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
-							<p>	
-								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
-								<img th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}"/>
-							</p>
-							<p>担保公司：浙江中新力合担保服务有限公司</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">18.20</span><span style="font-size:18px;color:#FC8026;">%</span></p>
-							<p>预期年化收益率</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">4-360</span><span style="font-size:18px;color:#FC8026;">天</span></p>
-							<p>投资期限</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
-							<p>还款方式：到期还本付息</p>
-							<div class="gy_treasur_bg1">
-								<div class="gy_treasur_bg2" style="width:70%;">
-								</div>
-							</div>
-							<p><span style="color:#000;">214,000.00 /</span>  70 万</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
-							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
-						</span>
-					</div>
-					<div class="clearfix gy_guide_index_xzkbid_four">
-						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
-							<p>	
-								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
-								<img th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}"/>
-							</p>
-							<p>担保公司：浙江中新力合担保服务有限公司</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">18.20</span><span style="font-size:18px;color:#FC8026;">%</span></p>
-							<p>预期年化收益率</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">4-360</span><span style="font-size:18px;color:#FC8026;">天</span></p>
-							<p>投资期限</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
-							<p>还款方式：到期还本付息</p>
-							<div class="gy_treasur_bg1">
-								<div class="gy_treasur_bg2" style="width:70%;">
-								</div>
-							</div>
-							<p><span style="color:#000;">214,000.00 /</span>  70 万</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
-							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
-						</span>
-					</div>
-					<div class="clearfix gy_guide_index_xzkbid_five">
-						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
-							<p>	
-								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
-								<img th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}"/>
-							</p>
-							<p>担保公司：浙江中新力合担保服务有限公司</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">18.20</span><span style="font-size:18px;color:#FC8026;">%</span></p>
-							<p>预期年化收益率</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">4-360</span><span style="font-size:18px;color:#FC8026;">天</span></p>
-							<p>投资期限</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
-							<p>还款方式：到期还本付息</p>
-							<div class="gy_treasur_bg1">
-								<div class="gy_treasur_bg2" style="width:70%;">
-								</div>
-							</div>
-							<p><span style="color:#000;">214,000.00 /</span>  70 万</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
-							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
-						</span>
-					</div>
-					<div class="clearfix gy_guide_index_xzkbid_six">
-						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
-							<p>	
-								<span style="font-size:14px;color:#808080;">融资租赁债权转让项目第349期A</span>
-								<img th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}"/>
-							</p>
-							<p>担保公司：浙江中新力合担保服务有限公司</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">18.20</span><span style="font-size:18px;color:#FC8026;">%</span></p>
-							<p>预期年化收益率</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
-							<p><span style="font-size:25px;color:#FC8026;">4-360</span><span style="font-size:18px;color:#FC8026;">天</span></p>
-							<p>投资期限</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5" style="text-align:center;">
-							<p>还款方式：到期还本付息</p>
-							<div class="gy_treasur_bg1">
-								<div class="gy_treasur_bg2" style="width:70%;">
-								</div>
-							</div>
-							<p><span style="color:#000;">214,000.00 /</span>  70 万</p>
-						</span>
-						<span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
-							<p><a style="font-size:18px;color:#fff;" href="">立即投标</a></p>
-						</span>
-					</div>
+					 -->
 				</div>
 				
 				<div class="gy_guide_index_xzk_bid_rit" id="gy_guide_index_xzk_bid_xszz" style="display:none;">新手专享</div>

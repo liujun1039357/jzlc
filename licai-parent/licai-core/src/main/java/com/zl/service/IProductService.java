@@ -8,7 +8,7 @@ import com.zl.pojo.ProductShowInfo;
 
 public interface IProductService {
 	
-	List<Product> getProducts();
+	List<Product> getProducts() throws JZLCException;
 
 	/**
 	 * @param productId
