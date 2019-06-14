@@ -17,6 +17,7 @@ import com.zl.pojo.BankcardInfo;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.MailInfo;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.TradeRecord;
 import com.zl.service.IAuthentication;
 import com.zl.service.IConsumerInfoService;
 import com.zl.util.BitStateUtil;
@@ -157,15 +158,30 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 	}
 
 	@Override
-	public Boolean recharge(String consumerId,BigDecimal balance,BigDecimal money) {
-		ConsumerInfo consumerInfo = consumerInfoMapper.recharge(consumerId,balance,money);
-		return consumerInfo != null;
+	public Boolean recharge(BigDecimal money) throws JZLCException {
+
+		String consumerId =  UserContext.getLogininfo().getConsumerId();
+		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		int count = consumerInfoMapper.recharge(balance,money,consumerId);
+		if(count <= 0) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public Boolean cashOut(String consumerId, BigDecimal balance, BigDecimal money) {
-		ConsumerInfo consumerInfo = consumerInfoMapper.cashOut(consumerId, balance, money);
-		return consumerInfo!=null;
+	public Boolean cashOut(BigDecimal money) throws JZLCException {
+
+		String consumerId =  UserContext.getLogininfo().getConsumerId();
+		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		if(money.compareTo(balance)==1) {
+			return false;
+		}
+		int count = consumerInfoMapper.cashOut(balance, money,consumerId);
+		if(count <= 0) {
+			return false;
+		}
+		return true;
 	}
 
 

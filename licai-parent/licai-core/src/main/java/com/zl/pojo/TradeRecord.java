@@ -40,4 +40,6 @@ public class TradeRecord implements Serializable{
 	/**生效日期*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date effectDate;
+	/**是否为活期  1为活期 0为死期*/
+	private Integer productProfitType;
 }

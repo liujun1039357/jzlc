@@ -4,20 +4,29 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>提现</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
-<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/all.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
-<script type="text/javascript" th:src="@{/script/common.js}"></script>
-<script th:src="@{/script/user.js}" type="text/javascript"></script>
+
+<link href="asserts/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
+	rel="stylesheet"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
 <script src="script/jquery.datetimepicker.js" type="text/javascript"></script>
 <script src="script/datepicker.js" type="text/javascript"></script>
+
 </head>
 
 <body>
@@ -98,7 +107,9 @@
 				{
 					$(actualMessage).hide();
 				}
-				var balance=Number("0.0");
+				//获取账户余额
+				var balance=document.getElementById("form:blance").innerText.trim();
+				
 				//提现金额小于余额 
 				var legalFlag=(actualMoney-balance).toFixed(2)<=0;
 				if(!legalFlag)
@@ -112,6 +123,17 @@
 					$(actualMessage).hide();
 				}
 				return true;
+				
+				$("#cashOut").ajaxSubmit(function(data) {
+					dataType : "json",
+					if (data.success) {
+						$.messager.popup("提现成功!");
+							location.href = "cashOut";
+					} else {
+						$.messager.popup(data.msg);
+					}
+				}
+					
 			}
 			
 			function amount(th){
@@ -129,30 +151,59 @@
 			    	th.value = th.value.substr(0,th.value.length-1);
 			    }
 			}
+			
+			
+			$(function (){
+				setInterval(getmoney,200);
+				var message = document.getElementById("Controllermessage").value;
+				if(null != message){
+					alert(message);
+				}
+			})
+			
+			
+			function getmoney(){
+				var actualMoney=Number($("#form\\:actualMoney").val());
+				var fee=actualMoney*0.01;
+				var otherfee=actualMoney*0.99;
+				var formfee=document.getElementById("form:fee");
+				var formotherfee=document.getElementById('form:cashFine');
+				formfee.innerHTML = fee;
+				formotherfee.innerHTML = otherfee;
+			}
 			//]]>
 		</script>
     <div class="personal-main">
       <div class="personal-deposit" style="padding-top: 30px">
         <h3><i>提现</i></h3>
-        <form id="form" name="form" method="post" action="/user/withdraw" enctype="application/x-www-form-urlencoded" target="_blank">
-          <input type="hidden" name="form" value="form">
+        <form id="form" name="form" method="post"  th:action="${cashOut}" enctype="application/x-www-form-urlencoded" target="_blank">
+          <input type="hidden"  th:value="${message}" id="Controllermessage"  />
           <div class="deposit-form" style="margin-top:0px;border-top:0px none;">
             <h6>填写提现金额</h6>
             <ul>
               <li> <span class="deposit-formleft">可用金额</span> <span class="deposit-formright"> <i>
-                <label id="form:blance"> 0.00</label>
+                <label id="form:blance" th:text="${balance}"> 0.00</label>
                 </i>元 </span> </li>
               <li> <span class="deposit-formleft">提现金额</span> <span class="deposit-formright">
-                <input id="form:actualMoney" type="text" name="form:actualMoney" class="deposite-txt" maxlength="10">
+                <input id="form:actualMoney" type="text" name="money" class="deposite-txt" maxlength="10">
                 元 </span> <span id="actualMoneyErrorDiv"><span id="actualMoney_message" style="display:none" class="error"></span></span> </li>
-              <li> <span class="deposit-formleft">提现费用</span> <em id="txfy" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
+              <li style="margin-top: 10px;margin-bottom: 20px;"> 
+              		<span class="deposit-formleft" >提现卡号</span> <span class="deposit-formright"></span>
+              		<select  style="width:150px ; height: 30px;" name="cardId" id="cardId" style="width: 172px;height: 37px;position:  relative;left: 27px;">
+              	 <th:block th:each="bankCard : ${bankCardList}">
+			         <option th:value="${bankCard}"  th:text="${bankCard}" ></option>
+			     </th:block>
+              </select>
+              </li>
+              
+              <span class="deposit-formleft">提现费用</span> <em id="txfy" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
                 <label id="form:fee"> 0.00</label>
                 </i>元 </span> <span class="txarrow-show">提现金额的0.1%，最低不低于2元，最高100元封顶</span><span class="txicon-show"></span> </li>
               <li><span class="deposit-formleft">实际到账金额</span> <em id="dzje" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
                 <label id="form:cashFine"> 0.00</label>
                 </i> 元</span> <span class="dzarrow-show">提现金额 - 提现费用</span><span class="dzicon-show"></span> </li>
               <li>
-                <input type="submit" name="form:j_idt78" value="提现" class="btn-depositok" onclick="return checkActualMoney()">
+                <input type="submit" name="form:j_idt78" value="提现" class="btn-depositok" onclick="checkActualMoney()">
               </li>
             </ul>
           </div>

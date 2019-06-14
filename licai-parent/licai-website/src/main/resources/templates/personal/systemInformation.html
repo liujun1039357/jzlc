@@ -63,13 +63,13 @@
       <div class="personal-xtxx" style="padding-top: 30px">
         <h3 style="width:800px;"><i>系统公告</i></h3>
         <form id="notice" name="notice" method="post"  th:action="${systemInformation}">
-          <input type="hidden"  name="pageindex" th:value="${1}" id="getpage" >
+          <input type="hidden"  name="pageindex" th:value="${1}" id="getpage" />
           <span id="form:dataTable">
           <div class="pxtxx-title"  style="width: 800px;">
 	          <div style="text-align:center"><span class="pxtxx-type ml46">标题</span></div>
 	          <div style="text-align:center"><span class="pxtxx-con" style="width:500px;">内容</span></div>
 		  </div>
-          <div id="pxtxx-list" class="pxtxx-list">
+          <div id="pxtxx-list" class="pxtxx-list" >
             <ul th:each="notice: ${pageInfo.list}">
               <li  style="width:800px;">
 	              <div style="text-align:center"><span class="pxtxx-type ml46" th:text="${notice.title}">公司公告</span></div>

@@ -20,7 +20,7 @@ public class Profit implements Serializable{
 	/**用户id*/
 	private String consumerId;
 	/**产品ID*/
-	private String productId;
+	private String productName;
 	/**结算日期*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date clearDate;

@@ -4,6 +4,7 @@
 package com.zl.mapper;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zl.exception.JZLCException;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.TradeRecord;
 
 /**
  * @author ivy
@@ -108,7 +110,7 @@ public interface ConsumerInfoMapper {
 	 *@param balance
 	 *@param money
 	 */
-	ConsumerInfo recharge(String consumerId,BigDecimal balance,BigDecimal money) throws JZLCException;
+	int recharge(@Param("balance")BigDecimal balance,@Param("money")BigDecimal money,@Param("consumerId")String consumerId) throws JZLCException;
 	
 	/**
 	 *提现
@@ -116,5 +118,5 @@ public interface ConsumerInfoMapper {
 	 *@param balance
 	 *@param money
 	 */
-	ConsumerInfo cashOut(String consumerId,BigDecimal balance,BigDecimal money) throws JZLCException;
+	int cashOut(@Param("balance")BigDecimal balance,@Param("money")BigDecimal money,@Param("consumerId")String consumerId) throws JZLCException;
 }
