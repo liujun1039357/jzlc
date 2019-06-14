@@ -26,7 +26,7 @@
 <script type="text/javascript"
 	th:src="@{/js/bootstrap-3.3.2-dist/js/bootstrap.js}"></script>
 
- <style>
+<style>
 #xxx {
 	position: relative;
 	left: 1150px;
@@ -269,23 +269,37 @@
 										<td style="padding-top: 12px;">更新时间</td>
 										<td style="padding-left: 0px;"><input
 											class="form-control" id="exampleInputName2"
-											style="width: 198px;" type="text" th:value="${#dates.format(session.pageInfo4.updateDate,'yyyy-MM-dd')}"></td>
-										<td></td>	
+											style="width: 198px;" type="text"
+											th:value="${#dates.format(session.pageInfo4.updateDate,'yyyy-MM-dd')}"></td>
 										<td></td>
-										<td></td><td></td><td></td><td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
 									</tr>
-											<div id="xxx">
-												<a th:href="qiye"><button class="btn btn-default"
-														data-dismiss="modal" type="button">关闭</button></a> <a
-													th:href="@{/pass(passid=${session.pageInfo4.businessId},state=${session.pageInfo4.checkFlag})}">
-													<button type="button" class="btn btn-success">审核通过</button>
-												</a> <a
-													th:href="@{/Refuse(Refuseid=${session.pageInfo4.businessId},state=${session.pageInfo4.checkFlag})}">
-													<button type="button" class="btn btn-warning">审核拒绝</button>
-												</a>
-											</div>
-										
+									<div id="xxx">
+										<a th:href="qiye"><button class="btn btn-default"   
+												data-dismiss="modal" type="button">关闭</button></a> <a  id="pass"
+											th:href="@{/pass(passid=${session.pageInfo4.businessId},state=${session.pageInfo4.checkFlag})}">
+											<button type="button" class="btn btn-success">审核通过</button>
+										</a> <a
+											th:href="@{/Refuse(Refuseid=${session.pageInfo4.businessId},state=${session.pageInfo4.checkFlag})}">
+											<button type="button" class="btn btn-warning">审核拒绝</button>
+										</a>
+									</div>
 									
+								<!-- 	<script>
+									$(function(){
+										$("#pass").click(function() {
+											window.confirm("确定通过审核吗？");
+										)};
+									)}
+									
+									
+									</script>
+ -->
+
 
 
 									<tr>
@@ -299,12 +313,14 @@
 											class="img-responsive"
 											src="/upload/025ec1a6-0cdd-417b-97a6-c62a2fd27642.jpg"></td>
 										<td colspan="2" rowspan="2"><img alt="Responsive image"
-											class="img-responsive" src="/upload/12d33059-0b94-4483-81bf-6e10e456632c.jpg"></td>
+											class="img-responsive"
+											src="/upload/12d33059-0b94-4483-81bf-6e10e456632c.jpg"></td>
 										<td colspan="2" rowspan="2"><img alt="Responsive image"
 											class="img-responsive"
 											src="/upload/03b1e129-e6d3-4c51-9020-7b6d7129c0d7.jpg"></td>
 										<td colspan="2" rowspan="2"><img alt="Responsive image"
-											class="img-responsive" src="/upload/18f06fab-7d54-4c4f-ba13-94c04fd9969b.jpg"></td>
+											class="img-responsive"
+											src="/upload/18f06fab-7d54-4c4f-ba13-94c04fd9969b.jpg"></td>
 									</tr>
 
 								</tbody>

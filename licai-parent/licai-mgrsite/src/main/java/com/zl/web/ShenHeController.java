@@ -98,7 +98,7 @@ public class ShenHeController {
 	@CheckLogin
 	public String pass(String passid, Integer state, HttpSession session) {
 		IshenheService.Pass(passid, state);
-		return "index/qiye";
+		return "forward:qiye";
 	}
 
 	//拒绝
@@ -106,7 +106,7 @@ public class ShenHeController {
 	@CheckLogin
 	public String Refuse(String Refuseid, Integer state, HttpSession session) {
 		IshenheService.Refuse(Refuseid, state);
-		return "index/qiye";
+		return "forward:qiye";
 	}
 	
 	
@@ -120,7 +120,21 @@ public class ShenHeController {
 	}
 
 	
-	
+	//通过产品审核
+		@RequestMapping("Changpingpass")
+		@CheckLogin
+		public String Changpinpass(String passid, Integer state, HttpSession session) {
+			IshenheService.ChangpingPass(passid, state);
+			return "forward:menu-add3";
+		}
+
+		//拒绝产品审核
+		@RequestMapping("ChangpinRefuse")
+		@CheckLogin
+		public String ChangpinRefuse(String refuseid, Integer state, HttpSession session) {
+			IshenheService.ChangpingRefuse(refuseid, state);
+			return "forward:menu-add3";
+		}
 	
 	
 

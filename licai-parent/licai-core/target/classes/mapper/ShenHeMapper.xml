@@ -89,12 +89,12 @@
 
 	<!-- 通过企业审核-->
 	<update id="alterPass">
-		UPDATE BusinessInfo SET checkFlag = #{state}+1 WHERE businessId = #{passid}
+		UPDATE BusinessInfo SET CHECKFLAG = #{state}+1 WHERE businessId = #{passid}
 	</update>
 
 	<!-- 拒绝企业审核 -->
 	<update id="alterRefuse">
-		UPDATE BusinessInfo SET checkFlag ='4' WHERE businessId = #{passid}
+		UPDATE BusinessInfo SET CHECKFLAG ='4' WHERE businessId = #{passid}
 	</update>
 	
 	
@@ -106,5 +106,14 @@
 		select * from Product where productId = #{id}
 	</select>
 	
+	<!-- 通过产品审核-->
+	<update id="alterChangpingPass">
+		UPDATE Product SET checkFlag = #{state}+1 WHERE PRODUCTID = #{passid}
+	</update>
+
+	<!-- 拒绝产品审核 -->
+	<update id="alterChangpingRefuse">
+		UPDATE Product SET checkFlag ='4' WHERE PRODUCTID = #{passid}
+	</update>
 	
 </mapper>

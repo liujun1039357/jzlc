@@ -155,11 +155,11 @@
 
 
 										<td style="padding-top: 12px; width: 113px;">产品类型</td>
-										<td><input class="form-control" id="exampleInputName2"
-											th:if="${session.pageInfo5.productType==0}" type="text"
+										<td th:if="${session.pageInfo5.productType==0}"><input
+											class="form-control" id="exampleInputName2" type="text"
 											th:value='活期'></td>
-										<td><input class="form-control" id="exampleInputName2"
-											th:if="${session.pageInfo5.productType==1}" type="text"
+										<td th:if="${session.pageInfo5.productType==1}"><input
+											class="form-control" id="exampleInputName2" type="text"
 											th:value='死期'></td>
 
 									</tr>
@@ -231,22 +231,22 @@
 										<td><input class="form-control" id="exampleInputName2"
 											type="text" style="width: 259px;"
 											th:value="${session.pageInfo5.productLowQuota}"></td>
-										
+
 										<td style="padding-top: 12px;">收益方式</td>
-										<td th:if="${session.pageInfo5.productProfitType==0}">
-										<input class="form-control" id="exampleInputName2"
-											type="text" th:value='日结'></td>
-										<td th:if="${session.pageInfo5.productProfitType==1}">
-										<input class="form-control" id="exampleInputName2"
-											type="text" th:value='期结'></td>	
-											
+										<td th:if="${session.pageInfo5.productProfitType==0}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value='日结'></td>
+										<td th:if="${session.pageInfo5.productProfitType==1}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value='期结'></td>
+
 										<td style="padding-top: 12px;">可否赎回</td>
-										<td th:if="${session.pageInfo5.productBack==0}">
-										<input class="form-control" id="exampleInputName2"
-											type="text" th:value='可以'></td>
-											<td th:if="${session.pageInfo5.productBack==1}">
-										<input class="form-control" id="exampleInputName2"
-											type="text" th:value='不可以'></td>
+										<td th:if="${session.pageInfo5.productBack==0}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value='可以'></td>
+										<td th:if="${session.pageInfo5.productBack==1}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value='不可以'></td>
 									</tr>
 									<tr>
 										<td style="padding-top: 12px;">最短收益生效日</td>
@@ -256,45 +256,42 @@
 											th:value="${#dates.format(session.pageInfo5.productLowProfitDate,'yyyy-MM-dd')}"></td>
 										<td
 											style="padding-top: 12px; padding-left: 15px; padding-right: 0px;">风险等级</td>
-										<td  th:if="${session.pageInfo5.productRiskGrade==1}"
-										><input class="form-control" id="exampleInputName2"
-											type="text" style="width: 259px;"
-											th:value="保本保收"></td>
-											
-											<td th:if="${session.pageInfo5.productRiskGrade==2}">
-											<input class="form-control" id="exampleInputName2"
-											type="text" style="width: 259px;"
-											th:value="保本不保收"></td>
-											
-											<td th:if="${session.pageInfo5.productRiskGrade==3}"
-											><input class="form-control" id="exampleInputName2"
-											type="text" style="width: 259px;"
-											th:value="不保本不保收"></td>
-											
-											
-											
+										<td th:if="${session.pageInfo5.productRiskGrade==1}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											style="width: 259px;" th:value="保本保收"></td>
+
+										<td th:if="${session.pageInfo5.productRiskGrade==2}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											style="width: 259px;" th:value="保本不保收"></td>
+
+										<td th:if="${session.pageInfo5.productRiskGrade==3}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											style="width: 259px;" th:value="不保本不保收"></td>
+
+
+
 										<td style="padding-top: 12px;">上线时间生效时间</td>
 										<td><input class="form-control" id="exampleInputName2"
 											type="text"
 											th:value="${#dates.format(session.pageInfo5.productEffectDate,'yyyy-MM-dd')}"></td>
-										
+
 										<td style="padding-top: 12px;">审核状态</td>
-										<td th:if="${session.pageInfo5.checkFlag==0}">
-										<input class="form-control" id="exampleInputName2"
-											type="text" th:value="未审核"></td>
-											
-											<td th:if="${session.pageInfo5.checkFlag==1}">
-											<input class="form-control" id="exampleInputName2"
-											type="text" th:value="一审通过"></td>
-											
-											<td th:if="${session.pageInfo5.checkFlag==2}">
-											<input class="form-control" id="exampleInputName2"
-											type="text" th:value="二审通过"></td>
-											
-											<td th:if="${session.pageInfo5.checkFlag==3}">
-											<input class="form-control" id="exampleInputName2"
-											type="text" th:value="审核通过"></td>
-											
+										<td th:if="${session.pageInfo5.checkFlag==0}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value="未审核"></td>
+
+										<td th:if="${session.pageInfo5.checkFlag==1}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value="一审通过"></td>
+
+										<td th:if="${session.pageInfo5.checkFlag==2}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value="二审通过"></td>
+
+										<td th:if="${session.pageInfo5.checkFlag==3}"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value="审核通过"></td>
+
 									</tr>
 									<tr>
 										<td style="padding-top: 12px;">提交时间</td>
@@ -327,10 +324,10 @@
 									<div id="xxx">
 										<a th:href="menu-add3"><button class="btn btn-default"
 												data-dismiss="modal" type="button">关闭</button></a> <a
-											th:href="@{/pass(passid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
+											th:href="@{/Changpingpass(passid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
 											<button type="button" class="btn btn-success">审核通过</button>
 										</a> <a
-											th:href="@{/Refuse(Refuseid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
+											th:href="@{/ChangpinRefuse(refuseid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
 											<button type="button" class="btn btn-warning">审核拒绝</button>
 										</a>
 									</div>

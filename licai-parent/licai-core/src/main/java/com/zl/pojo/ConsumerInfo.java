@@ -33,10 +33,16 @@ public class ConsumerInfo implements Serializable{
 	private String imageA;
 	/**身份证反面照片*/
 	private String imageB;
+	
+	
+	
 	/**认证状态:身份证验证 邮箱验证 手机验证 银行卡绑定 密保问题是否设置*/
 	private long bitState = UNTESTED;
 	/**投资风格： 0未测试  12345*/
 	private Integer style = UNTESTED;
+	
+	
+	
 	/**MD5加密的六位支付密码*/
 	private Integer password;
 	/**账户总资产*/

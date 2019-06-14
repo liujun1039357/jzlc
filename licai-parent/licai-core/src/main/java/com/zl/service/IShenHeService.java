@@ -46,5 +46,11 @@ public interface IShenHeService {
 
 	// <!-- 根据id查询产品 -->
 	Product selectChangPing(String id);
+	
+	// 通过修改企业审核状态码
+	void ChangpingPass(String passid, Integer state);
+
+		// 拒绝修改企业审核状态码
+	void ChangpingRefuse(String refuseid, Integer state);
 
 }

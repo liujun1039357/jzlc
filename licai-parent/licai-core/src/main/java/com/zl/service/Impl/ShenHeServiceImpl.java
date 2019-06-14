@@ -86,6 +86,17 @@ public class ShenHeServiceImpl implements IShenHeService {
 		return shenheMapper.selectChangping(id);
 	}
 
+	@Override
+	public void ChangpingPass(String passid, Integer state) {
+		shenheMapper.alterChangpingPass(passid, state);
+		
+	}
+
+	@Override
+	public void ChangpingRefuse(String refuseid, Integer state) {
+		shenheMapper.alterChangpingRefuse(refuseid, state);
+	}
+
 	
 	
 }
