@@ -9,5 +9,4 @@
 	<insert id="addBankCard" parameterType="BankCardInfo">
 		insert into BankCardInfo values(#{consumerId},#{cardId},sysdate,#{cardStates})
 	</insert>
-	
 </mapper>

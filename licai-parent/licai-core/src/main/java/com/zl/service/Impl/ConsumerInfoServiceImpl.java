@@ -4,6 +4,7 @@
 package com.zl.service.Impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,20 @@ import com.zl.mapper.AuthMapper;
 import com.zl.mapper.BankCardInfoMapper;
 import com.zl.mapper.CardRuleMapper;
 import com.zl.mapper.ConsumerInfoMapper;
+import com.zl.mapper.ProductMapper;
+import com.zl.mapper.TradeListMapper;
+import com.zl.mapper.TradeRecordMapper;
 import com.zl.pojo.BankcardInfo;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.MailInfo;
+import com.zl.pojo.ProductShowInfo;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.TradeList;
+import com.zl.pojo.TradeRecord;
 import com.zl.service.IAuthentication;
 import com.zl.service.IConsumerInfoService;
 import com.zl.util.BitStateUtil;
+import com.zl.util.DateUtil;
 import com.zl.util.UserContext;
 
 /**
@@ -38,6 +46,12 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 	private CardRuleMapper cardRuleMapper;
 	@Autowired
 	private BankCardInfoMapper bankCardInfoMapper;
+	@Autowired
+	private ProductMapper productMapper;
+	@Autowired
+	private TradeRecordMapper tradeRecordMapper;
+	@Autowired
+	private TradeListMapper tradeListMapper;
 	
 	@Override
 	public void personalEmailBind(String email, String emailCode) throws JZLCException {
@@ -146,13 +160,59 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 	}
 
 	@Override
-	public boolean buyProduct(BigDecimal buyMoney) throws JZLCException {
+	public boolean buyProduct(String productId,BigDecimal buyMoney) throws JZLCException {
 		String consumerId = UserContext.getLogininfo().getConsumerId();
 		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		//判断余额
+		System.out.println(balance.doubleValue()<buyMoney.doubleValue());
 		if(balance.doubleValue()<buyMoney.doubleValue()) {
 			return false;
 		}
+		//判断购买金额是否小于剩余可买额度
+		BigDecimal canSaledQuota = productMapper.queryCanSaledQuota(productId);
+		if(canSaledQuota.doubleValue()<buyMoney.doubleValue()) {
+			throw new JZLCException("购买金额不能大于剩余可买额度!");
+		}
+		//更新余额及已用金额
+		consumerInfoMapper.updateMoneyOfBuyProduct(consumerId,buyMoney);
+		//更新产品已售额度
 		
+		productMapper.updateProductSaledQuota(productId,buyMoney);
+		ProductShowInfo product = productMapper.queryProductInfo(productId);
+		//插入tradeRecord表
+		TradeRecord tradeRecord = new TradeRecord();
+		tradeRecord.setProductId(productId);
+		tradeRecord.setProductName(product.getProductName());
+		tradeRecord.setBaseMoney(buyMoney);
+		tradeRecord.setRate(product.getProductProfit());
+		tradeRecord.setConsumerId(consumerId);
+		tradeRecord.setEffectDate(DateUtil.addDays(new Date(), product.getAcountCycle()));
+		tradeRecord.setProductProfitType(product.getProductProfitType());
+		tradeRecordMapper.insertTradeRecord(tradeRecord);
+		//插入tradeList表
+		TradeList tradeList = new TradeList();
+		tradeList.setConsumerId(consumerId);
+		tradeList.setProductId(productId);
+		tradeList.setTradeType(TradeList.PURCHASE);
+		tradeList.setTradeMoney(buyMoney);
+		tradeListMapper.insertTradeList(tradeList);
+		return true;
+	}
+
+	@Override
+	public boolean turnOutProduct(String productId, BigDecimal sumMoney) throws JZLCException {
+		String consumerId = UserContext.getLogininfo().getConsumerId();
+		consumerInfoMapper.updateMoneyOfTurnOut(consumerId,sumMoney);
+		System.out.println(productId);
+		//修改tradeRecord表的状态
+		tradeRecordMapper.updateTradeRecord(productId,consumerId,TradeRecord.TURNOUT);
+		//插入tradeList表
+		TradeList tradeList = new TradeList();
+		tradeList.setConsumerId(consumerId);
+		tradeList.setProductId(productId);
+		tradeList.setTradeType(TradeList.TURNOUT);
+		tradeList.setTradeMoney(sumMoney);
+		tradeListMapper.insertTradeList(tradeList);
 		return true;
 	}
 

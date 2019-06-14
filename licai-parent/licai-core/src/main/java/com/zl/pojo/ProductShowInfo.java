@@ -27,7 +27,7 @@ public class ProductShowInfo {
 	/**可否赎回 0可1不可*/
 	private Integer productBack;
 	/**融资金额*/
-	private Integer productQuota;
+	private BigDecimal productQuota;
 	/**预期收益率*/
 	private BigDecimal productProfit;
 	/**已售额度*/
@@ -36,7 +36,9 @@ public class ProductShowInfo {
 	private BigDecimal productLowQuota;
 	/**收益方式 0日结1期结算*/
 	private Integer productProfitType;
-	/**最短收益生效日*/
+	/**收益周期*/
+	private Integer acountCycle;
+	/**收益生效日*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
-	private Date productLowProfitDate;
+	private Date revenueTime;
 }

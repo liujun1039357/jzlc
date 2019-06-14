@@ -110,4 +110,6 @@ public class Product implements Serializable{
 	private Date productAcountTime;
 	/**所属公司*/
 	private BusinessInfo businessInfo;
+	/**收益周期*/
+	private Integer acountCycle;
 }

@@ -47,22 +47,21 @@ $(function(){
 			<div class="gy_guide_particulars_information">
 				<p class="gy_guide_particulars_information_header">项目信息</p>
 				<div class="gy_guide_particulars_information_main clearfix">
-					<div class="particulars_information_l fl">
-						<div class="particulars_information_up">项目名称：<span th:text="${product.productName}"></span>
+						<div class="particulars_information_up" style="font-size: 20px;padding-left:30px;">项目名称：<span th:text="${product.productName}"></span>
 							<input type="text" maxlength=""/>
 						</div>
-						<div class="particulars_information_down">风险等级：<span th:text="${product.productRiskGrade}"></span>
+						<div class="particulars_information_down" style="font-size: 20px;padding-left:30px;">风险等级：
+							<span th:if="${product.productRiskGrade}==1">保本保收</span>
+							<span th:if="${product.productRiskGrade}==2">保本不保收</span>
+							<span th:if="${product.productRiskGrade}==3">不保本不保收</span>
 							<input type="text" maxlength=""/>
 						</div>
-					</div>
-					<div class="particulars_information_r fl">
-						<div class="particulars_information_up">所属企业：<span th:text="${product.productName}"></span>
+						<div class="particulars_information_up" style="font-size: 20px;padding-left:30px;">所属企业：<span th:text="${product.businessName}"></span>
 							<input type="text" maxlength=""/>
 						</div>
-						<div class="particulars_information_down">可否赎回：<span th:text="${product.productBack}"></span>
+						<div class="particulars_information_down" style="font-size: 20px;padding-left:30px;">可否赎回：<span th:text="${product.productBack}==0?可赎回:不可赎回"></span>
 							<input type="text" maxlength=""/>
 						</div>
-					</div>
 				</div>
 			</div>
 
@@ -70,29 +69,29 @@ $(function(){
 				<p class="gy_guide_particulars_information_header">融资信息</p>
 				<div class="gy_guituide_particulars_information_main" style="color:#aaaaaa">
 					<div class="particulars_information_hone clearfix">
-						<div style="width:550px;border-right:1px solid #E6E6E6;height: 105px;" class="fl"> 
-							<div class="gy_guide_pain_bign_font fl">
+						<div style="width:685px;border-right:1px solid #E6E6E6;height: 105px;" class="fl"> 
+							<div class="gy_guide_pain_bign_font fl" style="margin-left: 100px;">
 								<p class="gy_guide_pain_big" th:text="${product.productQuota}"></p>
 								<p class="gy_guide_pain_font">融资金额（元）</p>
 							</div>
-							<div class="gy_guide_pain_bign_font fl" style="border-right:2px solid #E6E6E6;border-left:2px solid #E6E6E6;">
+							<div class="gy_guide_pain_bign_font fl" style="border-left:2px solid #E6E6E6;margin-left: 55px;width: 322px;">
 								<p class="gy_guide_pain_big" th:text="${product.productProfit}"></p>
 								<p class="gy_guide_pain_font">预期收益率（百分比）</p>
 							</div>
 						</div>
-						<div class="fl gy_guide_particulars_information_cp">
+						<div class="fl gy_guide_particulars_information_cp" style="width: 220px;margin-top: 20px;">
 								<p class="gy_guide_pain_big" th:text="${product.productSaledQuota}"></p>
 								<p class="gy_guide_pain_font">已售额度</p>
 						</div>
 					</div>
 					<div class="particulars_information_htwo">
 						<div style="width:685px;border-right:1px solid #E6E6E6;height: 150px;" class="fl">
-							<div class="particulars_information_htwos_gtar">
-								<p>起投资金：<span th:text="${product.productLowQuota}"></span></p>
+							<div class="particulars_information_htwos_gtar" style="text-align:center">
+								<p style="font-size: 20px;margin-top: 10px;margin-left: 230px;padding-top: 25px;width: 210px;">起投资金：<span th:text="${product.productLowQuota}"></span>元</p>
 							</div>
 							<div class="particulars_information_htwo_uhank">
-								<span>收益方式：<span th:text="${product.productProfitType}"></span></span>
-								<span>最短收益生效日：<span th:text="${product.productLowProfitDate}"></span></span>
+								<span style="margin-left: 100px;">收益方式：<span th:text="${product.productProfitType}==0?'每日结算':'到期收益'"></span></span>
+								<span style="margin-left: 60px;">收益生效日：<span th:text="${#dates.format(product.RevenueTime, 'yyyy-MM-dd')}"></span></span>
 							</div>
 						</div>
 						<div class="gy_particulars_information_htwoad" id="">

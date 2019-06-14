@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -59,7 +60,7 @@ public class BusinessInfo implements Serializable{
 	/**社会信用代码*/
 	private String businessCode;
 	/**注册资本*/
-	private Integer registerMoney;
+	private BigDecimal registerMoney;
 	/**风险等级: 1 aaa 2 aa 3 a 4 bbb 5bb 6b 7ccc 8cc 9c 10d 11e*/
 	private Integer registerStates = LOW;
 	/**企业地址*/

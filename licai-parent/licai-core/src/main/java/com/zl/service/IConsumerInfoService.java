@@ -91,8 +91,15 @@ public interface IConsumerInfoService {
 	 * @param buyMoney
 	 * @return
 	 */
-	boolean buyProduct(BigDecimal buyMoney) throws JZLCException;
+	boolean buyProduct(String productId,BigDecimal buyMoney) throws JZLCException;
 
-	
-	
+	/**转出产品
+	 * @param productId
+	 * @param sumMoney
+	 * @return
+	 */
+	boolean turnOutProduct(String productId, BigDecimal sumMoney) throws JZLCException;
+
+
+		
 }

@@ -15,6 +15,7 @@ import com.zl.pojo.RealAuthShow;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
 import com.zl.service.IProductService;
+import com.zl.service.ITradeRecordService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
 /**
@@ -30,6 +31,8 @@ public class TransferController {
 	private IBankCardInfoService bankCardInfoService;
 	@Autowired
 	private IProductService productService;
+	@Autowired
+	private ITradeRecordService tradeRecordService;
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -68,6 +71,7 @@ public class TransferController {
 
 	/**跳转添加产品页面*/
 	@RequestMapping("addProduct")
+	@CheckLogin
 	public String addProduct(Product product) {
 		return "enterprise/addProduct";
 	}
@@ -80,6 +84,7 @@ public class TransferController {
 	
 	/**个人产品审核列表页面*/
 	@RequestMapping("personalProductList")
+	@CheckLogin
 	public String personalProductList(Product product) {
 		return "personal/personalProductList";
 	}
@@ -105,36 +110,42 @@ public class TransferController {
 	
 	/**操作成功页面*/
 	@RequestMapping("transferSuccessed")
+	@CheckLogin
 	public String transferSuccessed(String id) {
 		return "personal/transferSuccessed";
 	}
 	
-	/***/
+	/**交易记录页面*/
 	@RequestMapping("receivableRecords")
+	@CheckLogin
 	public String receivableRecords() {
 		return "personal/receivableRecords";
 	}
 	
-	/***/
+	/**充值页面*/
 	@RequestMapping("recharge")
+	@CheckLogin
 	public String recharge() {
 		return "personal/recharge";
 	}
 
-	/***/
+	/**提现页面*/
 	@RequestMapping("cashOut")
+	@CheckLogin
 	public String cashOut() {
 		return "personal/cashOut";
 	}
 
-	/***/
+	/**我的钱包页面*/
 	@RequestMapping("myMoney")
+	@CheckLogin
 	public String myMoney() {
 		return "personal/myMoney";
 	}
 
-	/***/
+	/**系统信息页面*/
 	@RequestMapping("systemInformation")
+	@CheckLogin
 	public String systemInformation() {
 		return "personal/systemInformation";
 	}
@@ -169,6 +180,7 @@ public class TransferController {
 
 	/**实名认证页面*/
 	@RequestMapping("realAuth")
+	@CheckLogin
 	public String realAuth() {
 		return "personal/realAuth";
 	}
@@ -210,6 +222,7 @@ public class TransferController {
 	
 	/**产品详情页面*/
 	@RequestMapping("invest")
+	@CheckLogin
 	public String invest() {
 		return "personal/invest";
 	}
@@ -217,7 +230,7 @@ public class TransferController {
 	/**购买产品页面*/
 	@RequestMapping("buyProduct")
 	@CheckLogin
-	public String buyProduct(HttpServletRequest requset) {
+	public String buyProduct(HttpServletRequest requset,String productId) {
 		long bitState = consumerInfoService.queryBitState();
 		String name = consumerInfoService.queryRealName();
 		BigDecimal balance = consumerInfoService.queryBalance();
@@ -229,7 +242,7 @@ public class TransferController {
 			requset.setAttribute("unBindBank", "请先绑定银行卡");
 			return "personal/bindBank";
 		}
-		
+		requset.setAttribute("productId", productId);
 		requset.setAttribute("name", name);
 		requset.setAttribute("balance", balance);
 		return "personal/buyProduct";
@@ -237,12 +250,14 @@ public class TransferController {
 	
 	/**转出产品页面*/
 	@RequestMapping("turnOut")
+	@CheckLogin
 	public String turnOut(HttpServletRequest requset,String productId) {
 		String name = consumerInfoService.queryRealName();
-		BigDecimal balance = consumerInfoService.queryBalance();
+		BigDecimal sumMoney = tradeRecordService.querySumMoney(productId);
 		int productType = productService.queryProductType(productId);
+		requset.setAttribute("productId", productId);
 		requset.setAttribute("name", name);
-		requset.setAttribute("balance", balance);
+		requset.setAttribute("sumMoney", sumMoney);
 		requset.setAttribute("productType", productType);
 		return "personal/turnOut";
 	}

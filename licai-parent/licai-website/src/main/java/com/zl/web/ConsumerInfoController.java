@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +15,7 @@ import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.MailInfo;
 import com.zl.service.IAuthentication;
 import com.zl.service.IConsumerInfoService;
+import com.zl.service.IProductService;
 import com.zl.util.AjaxJson;
 import com.zl.util.CheckLogin;
 import com.zl.util.UploadUtil;
@@ -32,6 +31,8 @@ public class ConsumerInfoController {
 	private IConsumerInfoService consumerInfoService;
 	@Autowired
 	private IAuthentication authentication;
+	@Autowired
+	private IProductService productService;
 
 	/**发送邮箱验证码*/
 	@RequestMapping("personalEmailSend")
@@ -48,7 +49,7 @@ public class ConsumerInfoController {
 			mailInfo.setEmailCode(checkCode);
 			mailInfo.setLastTime(new Date());
 			UserContext.setMailCodeInSession(mailInfo);
-		} catch (JZLCException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -64,7 +65,7 @@ public class ConsumerInfoController {
 		AjaxJson json = new AjaxJson();
 		try {
 			consumerInfoService.personalEmailBind(email, emailCode);
-		} catch (JZLCException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -81,7 +82,7 @@ public class ConsumerInfoController {
 		String tel = consumerInfoService.queryTel();
 		try{
 			authentication.sendVertifyCode(tel);
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -104,7 +105,7 @@ public class ConsumerInfoController {
 				json.setSuccess(false);
 				json.setMsg("验证码错误!");
 			}
-		} catch (JZLCException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -121,7 +122,7 @@ public class ConsumerInfoController {
 		String tel = consumerInfoService.queryTel();
 		try{
 			authentication.sendVertifyCode(tel);
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -142,7 +143,7 @@ public class ConsumerInfoController {
 				json.setSuccess(false);
 				json.setMsg("验证码错误!");
 			}
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -159,7 +160,7 @@ public class ConsumerInfoController {
 		AjaxJson json = new AjaxJson();
 		try{
 			authentication.sendVertifyCode(newTel);
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -180,7 +181,7 @@ public class ConsumerInfoController {
 				json.setSuccess(false);
 				json.setMsg("验证码错误!");
 			}
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -210,7 +211,7 @@ public class ConsumerInfoController {
 				json.setSuccess(false);
 				json.setMsg("身份信息错误,认证失败!");
 			}
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -231,7 +232,7 @@ public class ConsumerInfoController {
 				json.setSuccess(false);
 				json.setMsg("银行卡错误");
 			}
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -248,7 +249,7 @@ public class ConsumerInfoController {
 		AjaxJson json = new AjaxJson();
 		try{
 			consumerInfoService.bindBankSubmit(cardId,password);
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -258,18 +259,39 @@ public class ConsumerInfoController {
 	
 	/**购买产品*/
 	@RequestMapping("buyProductSubmit")
-	@CheckLogin
 	@ResponseBody
-	public AjaxJson buyProductSubmit(BigDecimal buyMoney) {
+	@CheckLogin
+	public AjaxJson buyProductSubmit(String productId,BigDecimal buyMoney) {
 		AjaxJson json = new AjaxJson();
+		//json.setMsg("购买成功");
+		System.out.println(productId);
 		boolean balance = true;
 		try{
-			/*balance = consumerInfoService.buyProduct(buyMoney);
+			balance = consumerInfoService.buyProduct(productId,buyMoney);
 			if(!balance) {
 				json.setSuccess(false);
 				json.setMsg("余额不足");
-			}*/
-		}catch(JZLCException e){
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			json.setSuccess(false);
+			if(e.getMessage().equals("购买金额不能大于剩余可买额度!")) {
+				json.setMsg("购买金额不能大于剩余可买额度!");
+			}else {
+				json.setMsg("系统忙!稍后重试...");
+			}
+		}
+		return json;
+	}
+	
+	@RequestMapping("turnOutProductSubmit")
+	@ResponseBody
+	@CheckLogin
+	public AjaxJson turnOutProductSubmit(String productId,BigDecimal sumMoney) {
+		AjaxJson json = new AjaxJson();
+		try{
+			consumerInfoService.turnOutProduct(productId,sumMoney);
+		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -277,16 +299,9 @@ public class ConsumerInfoController {
 		return json;
 	}
 	
-	@RequestMapping("turnOutProductSubmit")
+	@RequestMapping("checkProductLowQuata")
 	@ResponseBody
-	public AjaxJson turnOutProductSubmit(String productId,HttpServletRequest request) {
-		AjaxJson json = new AjaxJson();
-		try {
-		} catch (JZLCException e) {
-			e.printStackTrace();
-			json.setSuccess(false);
-			json.setMsg("系统忙!稍后重试...");
-		}
-		return json;
+	public boolean checkProductLowQuata(String productId,BigDecimal buyMoney)throws JZLCException{
+		return productService.checkProductLowQuata(productId,buyMoney);
 	}
 }

@@ -3,6 +3,7 @@ package com.zl.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,8 +20,8 @@ public class TradeList implements Serializable{
 	public static Integer CASH_OUT = 1;
 	/**交易类型：2：买入；*/
 	public static Integer PURCHASE = 2;
-	/**交易类型：3：卖出*/
-	public static Integer SELL = 3;
+	/**交易类型：3：转出*/
+	public static Integer TURNOUT = 3;
 
 	/**订单专业；默认 0：未完成；*/
 	public static Integer INCOMPLETE = 0;
@@ -40,13 +41,13 @@ public class TradeList implements Serializable{
 	/**交易类型：0充值；1:提现；2：买入；3：卖出*/
 	private Integer tradeType = RECHARGE;
 	/**余额收支（显示正负的交易金额）*/
-	private Integer budGet;
+	private BigDecimal budGet;
 	/**交易金额*/
-	private Integer tradeMoney;
+	private BigDecimal tradeMoney;
 	/**余额*/
-	private Integer balance;
+	private BigDecimal balance;
 	/**订单专业；0：未完成；1：已完成；2：已失败*/
-	private Integer orderStates = INCOMPLETE;
+	private Integer orderStates = FINISH;
 	/**交易时间*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date tradeTime;

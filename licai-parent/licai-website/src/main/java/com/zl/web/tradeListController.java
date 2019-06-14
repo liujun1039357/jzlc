@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zl.pojo.TradeList;
 import com.zl.service.ITradeListService;
+import com.zl.util.CheckLogin;
 
 
 @Controller
@@ -21,6 +22,7 @@ public class tradeListController {
 	private ITradeListService tradeListService;	
 
 	@RequestMapping("tradeList")
+	@CheckLogin
 	public String index(@RequestParam(required=true,defaultValue="1")Integer pageindex,Model model) {
 		//在查询调用方法前声明分页信息（当前页，页容量）
 	    //PageHelper.startPage(page, pageSize);这段代码表示，程序开始分页了，

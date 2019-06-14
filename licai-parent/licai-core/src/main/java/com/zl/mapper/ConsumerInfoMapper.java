@@ -4,6 +4,7 @@
 package com.zl.mapper;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zl.exception.JZLCException;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.BigDecimalParam;
 
 /**
  * @author ivy
@@ -101,6 +103,39 @@ public interface ConsumerInfoMapper {
 	 * @return
 	 */
 	BigDecimal queryBalance(String consumerId) throws JZLCException;
+
+	/**购买产品修改余额及已用金额
+	 * @param consumerId
+	 * @param buyMoney
+	 */
+	void updateMoneyOfBuyProduct(@Param("consumerId")String consumerId, @Param("buyMoney")BigDecimal buyMoney) throws JZLCException;
+
+	/** 转出产品修改余额及已用金额
+	 * @param consumerId
+	 * @param sumMoney
+	 */
+	void updateMoneyOfTurnOut(@Param("consumerId")String consumerId, @Param("sumMoney")BigDecimal sumMoney) throws JZLCException;
+
+	/**
+	 * 定时计算总金额
+	 */
+	void updateSumMoneyTest();
+
+	/**查询所有用户
+	 * @return
+	 */
+	List<String> queryConsumers();
+
+	/**
+	 * @param consumerId
+	 */
+	void updateBalance(String consumerId);
+
+	/**更新总金额
+	 * @param consumerId
+	 * @param sum
+	 */
+	void updateSumMoney(BigDecimalParam bigDecimalParam);
 
 
 }

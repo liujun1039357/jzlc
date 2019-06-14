@@ -1,5 +1,6 @@
 package com.zl.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.zl.exception.JZLCException;
@@ -21,5 +22,12 @@ public interface IProductService {
 	 * @return
 	 */
 	int queryProductType(String productId) throws JZLCException;
+
+	/**检验购买金额是否大于起投金
+	 * @param productId
+	 * @param buyMoney
+	 * @return
+	 */
+	boolean checkProductLowQuata(String productId, BigDecimal buyMoney);
 
 }

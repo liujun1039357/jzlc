@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -20,12 +21,12 @@ public class Profit implements Serializable{
 	/**用户id*/
 	private String consumerId;
 	/**产品ID*/
-	private String productId;
+	private String productName;
 	/**结算日期*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date clearDate;
 	/**购买金额*/
-	private Integer principal;
+	private BigDecimal principal;
 	/**收益*/
-	private Integer profit;
+	private BigDecimal profit;
 }
