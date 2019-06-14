@@ -30,9 +30,48 @@
 	th:src="@{/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
 <script
 	th:src="@{/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+<!-- <style>
+ .pagination{
+  width:600px;
+  position: relative;
+   left: 200px;
+ }
+
+ .pagination li{
+  width : 60px;
+  height: 20px;
+  margin:0;
+ }
+ 
+ .pagination li a{
+  width : 60px;
+  height: 20px;
+  padding:0;
+  text-decoration: none;
+ }
+</style> -->
+
 </head>
 
 <body>
+	<script>
+		$(function() {
+			//设置时间格式
+			$("#start,#end").datetimepicker({
+				format : 'yyyy-mm-dd',
+				language : 'zh-CN',
+				minView : 2,
+				endDate : new Date()
+			});
+			//给分页添加点击事件,使每次点击页码都提交高级查询表单
+			$(".pages").click(function() {
+				$("#getpage").val($(this).attr("data"));//设置隐藏域中的value,this为点击的页码;
+				$("#mangerform").submit(); //selectInfo是表单id,提交表单;
+			});
+
+		})
+	</script>
 	<header>
 	<div th:replace="common/headpart :: top"></div>
 	</header>
@@ -46,35 +85,20 @@
 					<h3>
 						<i>交易记录</i>
 					</h3>
-					<form id="form" name="form" method="post" action="">
+					<form id="mangerform" name="mangerform" method="post"
+						action="productManger">
 						<div class="money-choose">
 							<span style="padding-left: 10px; padding-right: 10px;">审核状态</span>
-							<select name=”select_type“ style="width: 150px; height: 30px;">
+							<select name="checkflag" style="width: 150px; height: 30px;">
 								<option value="-1">全部</option>
-								<option value="1">审核中</option>
-								<option value="2">已审核</option>
-							</select>
-							<script>
-								$(function() {
-									//设置时间格式
-									$("#start,#end").datetimepicker({
-										format : 'yyyy-mm-dd',
-										language : 'zh-CN',
-										minView : 2,
-										endDate : new Date()
-									});
-									/*  //给分页添加点击事件,使每次点击页码都提交高级查询表单
-									 $(".pages").click(function() {
-									  $("#getpage").val($(this).attr("thispage"));//设置隐藏域中的value,this为点击的页码;
-									  $("#selectInfo").submit(); //selectInfo是表单id,提交表单;
-									 });
-									 */
-								})
-							</script>
-
-							<span style="padding-left: 20px; padding-right: 10px;">审核时间</span>
-							<input type="text" id="start" style="width: 100px; height: 24px;" />
-							— <input type="text" id="end" style="width: 100px; height: 24px;" />
+								<option value="0" th:if="${condition.checkflag==0}"
+									selected="selected">未激活</option>
+								<option value="0" th:if="${condition.checkflag!=0}">未激活</option>
+								<option value="1" th:if="${condition.checkflag==1}"
+									selected="selected">已激活</option>
+								<option value="1" th:if="${condition.checkflag!=1}">已激活</option>
+							</select> <input type="hidden" name="pageindex" th:value="${1}"
+								id="getpage" />
 
 							<button
 								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-sx">
@@ -84,30 +108,66 @@
 						</div>
 						<span id="form:dataTable">
 							<div class="personal-moneylist">
-								<!-- <div class="pmain-contitle">
-									<span class="pmain-title1 fb">产品流水号</span> <span
-										class="pmain-title2 fb">产品名称</span> <span
-										class="pmain-title3 fb">状态</span> <span
-										class="pmain-title4 fb">产品经理人</span> <span
-										class="pmain-title5 fb">操作</span>
-								</div> -->
 								<table>
 									<thead>
 										<tr class="pmain-contitle">
 											<td style="width: 120px; padding-left: 20px;">ID</td>
 											<td style="width: 120px;">姓名</td>
+											<td style="width: 120px;">证件号</td>
+											<td style="width: 120px; padding-left: 20px;">性别</td>
 											<td style="width: 120px;">状态</td>
 											<td style="width: 120px;">职位</td>
+											<td style="width: 120px;">申请时间</td>
+											<td style="width: 120px;">通过时间</td>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td style="width: 120px; padding-left: 20px;">111</td>
-											<td style="width: 120px;">aaa</td>
-											<td style="width: 120px;">asd</td>
-											<td style="width: 120px;">asd</td>
+										<tr th:each="manger : ${pageInfo.list}">
+											<td style="width: 120px;" th:text="${manger.managerId}"></td>
+											<td style="width: 120px;" th:text="${manger.managerName}"></td>
+											<td style="width: 120px;" th:text="${manger.cardId}"></td>
+											<td style="width: 120px; padding-left: 30px;"
+												th:if="${manger.sex==1}">女</td>
+											<td style="width: 120px; padding-left: 30px;"
+												th:if="${manger.sex==0}">男</td>
+											<td style="width: 120px;" th:if="${manger.checkFlag==0}">未激活</td>
+											<td style="width: 120px;" th:if="${manger.checkFlag==1}">已激活</td>
+											<td style="width: 120px;" th:text="${manger.job}"></td>
+											<td style="width: 120px;"
+												th:text="${#dates.format(manger.addTime, 'yyyy-MM-dd')}"></td>
+											<td style="width: 120px;" th:text="${manger.applyTime}"></td>
 										</tr>
 									</tbody>
+									<tfoot>
+										<tr height='30px'>
+											<td colspan='8' align='center'>
+												<!-- 当前页为第一页时,首页和上一页按钮禁用 --> <span class="disabled"
+												th:if="${pageInfo.isFirstPage}"><a href="#">首页</a></span> <span
+												class="disabled" th:if="${pageInfo.isFirstPage}"><a
+													href="#">上一页</a></span> <span th:unless="${pageInfo.isFirstPage}"><a
+													href="javascript:void(0);" class="pages" th:data="1">首页</a></span>
+												<span th:unless="${pageInfo.isFirstPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.prePage}">上一页</a></span> <th:block
+													th:each="nav : ${pageInfo.navigatepageNums}">
+													<!--如果是当前页，class属性为curPage，且无法跳转-->
+													<span th:if="${nav==pageInfo.pageNum}" class="curPage"><a
+														href="javascript:void(0)" th:text="${nav}"></a></span>
+													<span th:if="${nav!=pageInfo.pageNum}"><a
+														href="javascript:void(0);" th:text="${nav}" class="pages"
+														th:data="${nav}"></a></span>
+												</th:block> <!-- 当前页为最后一页时,下一页和最后一页按钮禁用 --> <span class="disabled"
+												th:if="${pageInfo.isLastPage}"><a href="#">下一页</a></span> <span
+												class="disabled" th:if="${pageInfo.isLastPage}"><a
+													href="#">最后一页</a></span> <span th:unless="${pageInfo.isLastPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.nextPage}">下一页</a></span> <span
+												th:unless="${pageInfo.isLastPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.pages}">最后一页</a></span>
+											</td>
+										</tr>
+									</tfoot>
 								</table>
 							</div>
 						</span>

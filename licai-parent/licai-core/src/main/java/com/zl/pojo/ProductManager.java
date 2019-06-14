@@ -33,7 +33,7 @@ public class ProductManager implements Serializable{
 	/**姓名*/
 	private String managerName;
 	/**身份证号码*/
-	private Integer cardId;
+	private String cardId;
 	/**性别(0 男 1 女)*/
 	private Integer sex;
 	/**企业职位*/
@@ -49,4 +49,6 @@ public class ProductManager implements Serializable{
 	/**更新时间*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date updateTime;
+	/**隶属企业id*/
+	private String businessid;
 }

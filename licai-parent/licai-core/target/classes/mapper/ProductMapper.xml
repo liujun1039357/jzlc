@@ -2,16 +2,55 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zl.mapper.ProductMapper">
 
-	<sql  id="queryColumn">
+	<sql id="queryColumn">
 		productId,productName,productQuota,productType,productProfit,productSaledQuota,productSaledTime,
 		productManager,productState,productLowQuota,productProfitType,productBack,productLowProfitDate,
 		productRiskGrade,productEffectDate,checkFlag,addTime,updateTime,productAcountTime
 	</sql>
-	
-	<select id="getProducts" resultType="com.zl.pojo.Product"> 
-		select <include refid="queryColumn"></include>
+
+	<select id="getProducts" resultType="com.zl.pojo.Product">
+		select
+		<include refid="queryColumn"></include>
 		from product
 	</select>
+
+
+	<select id="queryProductByCond"
+		parameterType="com.zl.pojo.SelectCondition"
+		resultType="com.zl.pojo.Product">
+		SELECT P.PRODUCTID,
+		P.PRODUCTNAME,
+		P.PRODUCTPROFIT,
+		P.ACOUNTCYCLE,
+		P.PRODUCTTYPE,
+		PRODUCTQUOTA,
+		PRODUCTSALEDQUOTA
+		FROM PRODUCT P
+		<where>
+			<if test="productLowQuota != null and productLowQuota != -1">
+				and productLowQuota = #{productLowQuota}
+			</if>
+			<if test="productBack != null and productBack != -1">
+				and productBack = #{productBack}
+			</if>
+			<if test="productType != null and productType != -1">
+				and productType = #{productType}
+			</if>
+			<if test="productQuota != null and productQuota != -1">
+				and productQuota = #{productQuota}
+			</if>
+			<if test="productRiskGrade != null and productRiskGrade != -1">
+				and productRiskGrade = #{productRiskGrade}
+			</if>
+			<if test="productProfitType != null and productProfitType != -1">
+				and productProfitType = #{productProfitType}
+			</if>
+			<if test="productName != null and productName != -1 and productName!='' ">
+				and productName like '%'||#{productName}||'%'
+			</if>
+		</where>
+	</select>
+
 	<!-- 查询产品信息 -->
 	<select id="queryProductInfo" resultType="ProductShowInfo">
 		select p.productName,b.businessName,p.productRiskGrade,p.productBack,p.productQuota,p.productProfit,

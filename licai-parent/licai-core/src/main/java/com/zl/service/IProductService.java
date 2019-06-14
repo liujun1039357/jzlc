@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.zl.exception.JZLCException;
 import com.zl.pojo.Product;
+import com.zl.pojo.SelectCondition;
 import com.zl.pojo.ProductShowInfo;
 
 public interface IProductService {
@@ -22,4 +23,5 @@ public interface IProductService {
 	 */
 	int queryProductType(String productId) throws JZLCException;
 
+	List<Product> queryProductByCond(SelectCondition sc);
 }

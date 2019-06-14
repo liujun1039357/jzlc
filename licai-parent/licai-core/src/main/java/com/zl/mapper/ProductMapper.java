@@ -6,7 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.zl.exception.JZLCException;
 import com.zl.pojo.Product;
+
+import com.zl.pojo.SelectCondition;
+
 import com.zl.pojo.ProductShowInfo;
+
 
 @Mapper
 public interface ProductMapper {
@@ -28,4 +32,5 @@ public interface ProductMapper {
 	 */
 	int queryProductType(String productId) throws JZLCException;
 	
+	List<Product> queryProductByCond(SelectCondition sc);
 }

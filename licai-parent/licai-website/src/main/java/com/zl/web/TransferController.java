@@ -18,6 +18,7 @@ import com.zl.pojo.Product;
 import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.Profit;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.SelectCondition;
 import com.zl.pojo.TradeRecord;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
@@ -39,10 +40,6 @@ public class TransferController {
 	private IBankCardInfoService bankCardInfoService;
 	@Autowired
 	private IProductService productService;
-	@Autowired
-	private IConsumerInfoService iConsumerInfoService;
-	@Autowired
-	private IBankCardInfoService iBankCardInfoService;
 	@Autowired
 	private ITradeRecordService iTradeRecordService;
 	
@@ -158,7 +155,7 @@ public class TransferController {
 	@RequestMapping("recharge")
 	public String recharge(BigDecimal money,String cardId, Model model) {
 
-		List<String> bankCardList = iBankCardInfoService.queryCardId();
+		List<String> bankCardList = bankCardInfoService.queryCardId();
 		model.addAttribute("bankCardList",bankCardList);
 		System.out.println("bankCardList"+bankCardList);
 		if(null != money && null != cardId) {
@@ -172,7 +169,7 @@ public class TransferController {
 					System.out.println("银行卡余额不足，请重试。");
 				}else {
 					//获取账户余额进行充值
-					Boolean flag = iConsumerInfoService.recharge(money);
+					Boolean flag = consumerInfoService.recharge(money);
 					if(flag) {
 						model.addAttribute("message","支付已成功！");
 						System.out.println("支付已成功！");
@@ -191,7 +188,7 @@ public class TransferController {
 	public AjaxJson recharge1(BigDecimal money,String cardId, Model model) {
 		AjaxJson json = new AjaxJson();
 		//获取银行卡供用户选择
-		List<String> bankCardList = iBankCardInfoService.queryCardId();
+		List<String> bankCardList = bankCardInfoService.queryCardId();
 		model.addAttribute("bankCardList",bankCardList);
 		System.out.println("bankCardList"+bankCardList);
 		try {
@@ -202,7 +199,7 @@ public class TransferController {
 					json.setMsg("银行卡余额不足，请重试.");
 					return json;
 				}
-				if(!iConsumerInfoService.recharge(money)) { 
+				if(!consumerInfoService.recharge(money)) { 
 					json.setSuccess(false);
 					json.setMsg("支付失败，请重试.");
 				}
@@ -222,15 +219,15 @@ public class TransferController {
 	public AjaxJson cashOut(BigDecimal money,String cardId, Model model) {
 		AjaxJson json = new AjaxJson();
 		//获取银行卡供用户选择
-		List<String> bankCardList = iBankCardInfoService.queryCardId();
+		List<String> bankCardList = bankCardInfoService.queryCardId();
 		model.addAttribute("bankCardList",bankCardList);
 		//获取账户余额进行回显
-		BigDecimal balance = iConsumerInfoService.queryBalance();
+		BigDecimal balance = consumerInfoService.queryBalance();
 		model.addAttribute("balance",balance);
 		
 		if(null != money && null != cardId) {
 			try {
-				if(!iConsumerInfoService.cashOut(money)) {
+				if(!consumerInfoService.cashOut(money)) {
 					json.setSuccess(false);
 					json.setMsg("提现失败，请重试.");
 					return json;
@@ -318,6 +315,20 @@ public class TransferController {
 		List<String> cardIds = bankCardInfoService.queryCardId();
 		requset.setAttribute("cardIds", cardIds);
 		return "personal/queryBankCards";
+	}
+	
+
+	/**产品详情页面*/
+	@RequestMapping("invest")
+	public String invest(@RequestParam(required = true, defaultValue = "1") Integer pageindex,
+			HttpServletRequest request, SelectCondition sc) {
+		System.out.println(sc.toString());
+		PageHelper.startPage(pageindex, 3);
+		List<Product> plist = productService.queryProductByCond(sc);
+		PageInfo<Product> pageInfo = new PageInfo<Product>(plist, 5);
+		request.setAttribute("pageInfo", pageInfo);
+		request.setAttribute("condition", sc);		
+		return "personal/invest";
 	}
 	
 	/**购买产品页面*/

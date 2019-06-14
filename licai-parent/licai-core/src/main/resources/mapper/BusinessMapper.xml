@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zl.mapper.BusinessMapper">
+	<!-- 产品经理人添加 -->
+	<insert id="addProductManger"
+		parameterType="com.zl.pojo.ProductManager">
+		INSERT INTO PRODUCTMANAGER
+		(MANAGERID,
+		CARDID,
+		SEX,
+		JOB,
+		CHECKFLAG,
+		ADDTIME,
+		APPLYTIME,
+		UPDATETIME,
+		MANAGERNAME,
+		BUSINESSID)
+		VALUES
+		('MANGER' || LPAD(SEQ_PRODUCTMANGERID.NEXTVAL, 4, '0'),
+		#{cardId},
+		#{sex},
+		#{job},
+		#{checkFlag},SYSDATE,
+		NULL,
+		SYSDATE,
+		#{managerName},
+		#{businessid})
+	</insert>
+	<!-- 企业名下产品经理人查询 -->
+	<select id="queryProductMangerByBID"
+		parameterType="com.zl.pojo.SelectCondition"
+		resultType="com.zl.pojo.ProductManager">
+		SELECT T.MANAGERID,
+		T.CARDID,
+		T.SEX,
+		T.JOB,
+		T.CHECKFLAG,
+		T.ADDTIME,
+		T.APPLYTIME,
+		T.MANAGERNAME,
+		T.BUSINESSID
+		FROM PRODUCTMANAGER T
+		<where>
+			<if test="businessID != null">
+				and BUSINESSID = #{businessID}
+			</if>
+			<if test="checkflag != null and checkflag != -1">
+				and CHECKFLAG = #{checkflag}
+			</if>
+		</where>
+	</select>
+	<!-- 企业名下产品查询 -->
+	<select id="queryProductByBID"
+		parameterType="com.zl.pojo.SelectCondition"
+		resultType="com.zl.pojo.Product">
+		SELECT P.PRODUCTID,P.PRODUCTNAME,P.PRODUCTMANAGER,P.PRODUCTSTATE from
+		product P
+		<where>
+			<if test="productstate != null and productstate != -1">
+				and PRODUCTSTATE = #{productstate}
+			</if>
+			<if test="businessID != null ">
+				and BUSINESSID = #{businessID}
+			</if>
+		</where>
+	</select>
+	<!-- id查询产品详细 -->
+	<select id="queryProductByPID" resultType="com.zl.pojo.Product">
+		 SELECT PRODUCTID,
+       PRODUCTNAME,
+       PRODUCTQUOTA,
+       PRODUCTTYPE,
+       PRODUCTPROFIT,
+       PRODUCTSALEDQUOTA,
+       PRODUCTSALEDTIME,
+       PRODUCTMANAGER,
+       PRODUCTSTATE,
+       PRODUCTLOWQUOTA,
+       PRODUCTPROFITTYPE,
+       PRODUCTBACK,
+       PRODUCTLOWPROFITDATE,
+       PRODUCTRISKGRADE,
+       PRODUCTEFFECTDATE,
+       CHECKFLAG,
+       ADDTIME,
+       UPDATETIME,
+       PRODUCTACOUNTTIME,
+       BUSINESSID
+  FROM PRODUCT P  where P.PRODUCTID=#{0}
+	</select>
 	<!-- 登录 -->
 	<select id="insertSimpleBusinssInfo"
 		resultType="com.zl.pojo.Business">
@@ -35,38 +122,46 @@
 		SYSDATE, #{bankCardId})
 	</select>
 	<select id="querySimpleBusinessInfoByEmail"
-		resultType="com.zl.pojo.Business" >
-		SELECT BUSINESSID, EMAIL, LOGINPWD, PAYPWD, CREATETIME,
+		resultType="com.zl.pojo.Business">
+		SELECT BUSINESSID, EMAIL, LOGINPWD,
+		PAYPWD, CREATETIME,
 		UPDATETIME, ISDEL
 		FROM BUSINESS
-		WHERE EMAIL = #{email}
+		WHERE EMAIL =
+		#{email}
 		AND LOGINPWD =
 		#{loginPwd}
 	</select>
-	<select id="queryBusinessInfoById" parameterType="com.zl.pojo.Business" resultType="com.zl.pojo.BusinessInfo">
+	<select id="queryBusinessInfoById"
+		parameterType="com.zl.pojo.Business"
+		resultType="com.zl.pojo.BusinessInfo">
 		SELECT BUSINESSID businessId,
 		BUSINESSTYPE businessType,
 		BUSINESSNAME businessName,
 		BUSINESSCODE businessCode,
-		REGISTERMONEY registerMoney,
+		REGISTERMONEY
+		registerMoney,
 		REGISTERSTATES registerStates,
 		ADDRESS address,
-		TEL tel, 
+		TEL tel,
 		LICENSE license,
 		QUALIFICATION qualification,
-		CORPORATIONSNAME corporationsName,
+		CORPORATIONSNAME
+		corporationsName,
 		CARDTYPE cardType,
 		CARDID cardId,
-	
-		CORPORATIONSTEL corporationsTel,
+
+		CORPORATIONSTEL
+		corporationsTel,
 		JOB job,
 		IMAGE1 image1,
 		IMAGE2 image2,
-		CHECKFLAG checkFlag,
+		CHECKFLAG
+		checkFlag,
 		ADDDATE addDate,
 		UPDATEDATE updateDate,
 		BANKCARDID bankCardId
-		FROM BUSINESSINFO 
+		FROM BUSINESSINFO
 		WHERE BUSINESSID = #{businessId,jdbcType=VARCHAR}
 	</select>
 </mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.ShenHeMapper">
+	<!-- 查询一级企业 -->
+	<select id="SelectOneQiye" resultType="com.zl.pojo.BusinessInfo"
+		parameterType="ConsumerInfoCondition">
+		select * from BusinessInfo where checkFlag ='1'
+		<include refid="qiyename"></include>
+	</select>
+
+
+	<!-- 查询二级企业 -->
+	<select id="SelectTwoQiye" resultType="com.zl.pojo.BusinessInfo"
+		parameterType="ConsumerInfoCondition">
+		select * from BusinessInfo where checkFlag ='2'
+		<include refid="qiyename"></include>
+	</select>
+
+	<!-- 查询三级企业 -->
+	<select id="SelectThreeQiye"
+		resultType="com.zl.pojo.BusinessInfo"
+		parameterType="ConsumerInfoCondition">
+		select * from BusinessInfo where checkFlag ='3'
+		<include refid="qiyename"></include>
+	</select>
+	
+	<!-- 查询审核完成企业 -->
+	<select id="SelectFulfillQiye"
+		resultType="com.zl.pojo.BusinessInfo"
+		parameterType="ConsumerInfoCondition">
+		select * from BusinessInfo where checkFlag ='5'
+		<include refid="qiyename"></include>
+	</select>
+
+	<!-- 查询一级产品 -->
+	<select id="SelectOneChangping" resultType="com.zl.pojo.Product"
+		parameterType="ConsumerInfoCondition">
+		select * from Product where checkFlag ='0'
+		<include refid="changpingname"></include>
+	</select>
+
+
+
+	<!-- 查询二级产品 -->
+	<select id="SelectTwoChangping" resultType="com.zl.pojo.Product"
+		parameterType="ConsumerInfoCondition">
+		select * from Product where checkFlag ='1'
+		<include refid="changpingname"></include>
+	</select>
+
+
+	<!-- 查询三级产品 -->
+	<select id="SelectThreeChangping"
+		resultType="com.zl.pojo.Product" parameterType="ConsumerInfoCondition">
+		select * from Product where checkFlag ='2'
+		<include refid="changpingname"></include>
+	</select>
+	
+	<!-- 查询审核完成产品 -->
+	<select id="SelectFulfillChangping"
+		resultType="com.zl.pojo.Product" parameterType="ConsumerInfoCondition">
+		select * from Product where checkFlag ='3'
+		<include refid="changpingname"></include>
+	</select>
+
+	<sql id="qiyename">
+
+		<if test="QiYeName != null and QiYeName != ''.toString()">
+			and BUSINESSNAME like '%${QiYeName}%'
+		</if>
+
+	</sql>
+
+	<sql id="changpingname">
+
+		<if test="ChangpingName != null and ChangpingName != ''.toString()">
+			and PRODUCTNAME like '%${ChangpingName}%'
+		</if>
+
+	</sql>
+
+
+	<!-- 根据id查询企业 -->
+	<select id="selectQiye" parameterType="String"
+		resultType="com.zl.pojo.BusinessInfo">
+		select * from BusinessInfo where businessId = #{id}
+	</select>
+
+
+	<!-- 通过企业审核-->
+	<update id="alterPass">
+		UPDATE BusinessInfo SET checkFlag = #{state}+1 WHERE businessId = #{passid}
+	</update>
+
+	<!-- 拒绝企业审核 -->
+	<update id="alterRefuse">
+		UPDATE BusinessInfo SET checkFlag ='4' WHERE businessId = #{passid}
+	</update>
+	
+	
+	
+	
+	<!-- 根据id查询产品-->
+	<select id="selectChangping" parameterType="String"
+		resultType="com.zl.pojo.Product">
+		select * from Product where productId = #{id}
+	</select>
+	
+	
+</mapper>

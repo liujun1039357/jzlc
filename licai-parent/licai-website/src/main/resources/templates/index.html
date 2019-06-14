@@ -138,339 +138,75 @@
 		</div>
 	</div>
 	
-	<div id="gy_treasure_xszx_bid">
-		<div class="gy_treasure_xsbid_main px1000 clearfix">
-			<div class="gy_treasure_xszx_bid_tu">
-				<img src="/images/gy_treasure_xszx_bid_tu.png">
-			</div>
-			<div class="">
-				<div class="gy_treasure_xsbid_left fl">
-					<div class="gy_treasure_xsbid_left_up">
-						<div class="fl gy_caifu_oone" >
-							<p class="gy_treasure_ccp_bid">
-								<span class="">新手专享投资项目第345期A</span>
-								<span><img src="/images/gy_treasure_xszx_bid_hot.png"></span>
+		<div th:each="p : ${productPageInfo.list}">
+				<div class="gy_guide_index_xzk_bid_rit"
+					id="gy_guide_index_xzk_bid_rit" style="display: block;margin-left: 170px;width: 1010px;">
+					<div class="clearfix gy_guide_index_xzkbid_one">
+						<span class="fl gy_guide_index_xzkbi1" id="gy_guide_index_xzkbi5">
+							<p>
+								<span style="font-size: 14px; color: #808080;"
+									th:text="${p.productName}"></span> <img
+									th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}" />
 							</p>
-							<p class="gy_treasure_bili_bid">
-								<span>18.20</span>
-								<span style="font-size:20.49px;">%</span>
+							<p th:text="'产品ID:'+${p.productId}"></p>
+						</span> <span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5" style="width: 124px;">
+							<p>
+								<span style="font-size: 25px; color: #FC8026;margin-left: 30px;"
+									th:text="${p.productProfit}"></span><span
+									style="font-size: 18px; color: #FC8026;">%</span>
 							</p>
-							<p>年化收益率</p>
-						</div>
-						<div class="fl gy_caifu_oont">
-							<p class="gy_treasure_bili_bid">30</p>
-							<p>项目期限（天）</p>
-						</div>
-						<div class="gy_treasure_xsbid_right fl">
-							<p>距下场更新：<span>16 时 53 分 08 秒</span></p>
-							<div class="gy_treasure_xsbid_right_one">
-							<div class="fl" style="color:#29A7E1">正在筹集</div>
-							<div class="gy_treasur_bg1 fl">
-								<div class="gy_treasur_bg2" style="width:50%;">
-									
-								</div>
-							</div>
-							<span class="fl" style="font-size:15.27px;color:#29A7E1;">50%</span>
-							</div>
-						</div>
-					</div>
-					<div class="fl">
-						<div class="gy_treasure_xsbid_down">
-							<span class="gy_treasure_x_cp">企投金额：1元</span>
-							<span class="gy_treasure_x_cp">付息方式：按月</span>
-							<span class="gy_treasure_x_cp">赎回方式：T+10， 投资满30天即可申请赎回，赎回期内同等计息</span>
-						</div>
-					</div>
-				</div>
-				<div class="gy_treasure_xsbid_r_rdo fr">
-					<div class="gy_treasure_xsbid_r_rping">
-						<input type="text" value="输入金额" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '输入金额';}"/>
-						<img src="/images/gy_treasure_small_bgt.png">
-						<input type="text" value="预期收益" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '预期收益';}"/>
-						<div class="gy_treasure_xsbid_down_tbmain">
-							<a href="">
-								<p class="gy_treasure_xsbid_down_tb">
-								立即投标
-								</p>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-<div id="gy_treasure_xszx_bid">
-		<div class="gy_treasure_xsbid_main12 px1000 clearfix">
-			<div class="">
-			<div class="gy_treasure_xszx_bid_tu">
-				<img src="/images/gy_treasure_xszx_bid_ppp.png">
-			</div>
-				<div class="gy_treasure_xsbid_left fl">
-					<div class="gy_treasure_xsbid_left_up">
-						<div class="fl gy_caifu_oone" >
-							<p class="gy_treasure_ccp_bid">
-								<span class="">新手专享投资项目第345期A</span>
-								<span><img src="/images/gy_treasure_xszx_bid_hot.png"></span>
+							<p style="margin-left: 20px;">预期年化收益率</p>
+						</span> <span class="fl gy_guide_index_xzkbi3" id="gy_guide_index_xzkbi5">
+							<p>
+								<span style="font-size: 25px; color: #FC8026;"
+									th:text="${p.acountCycle}">4-360</span><span
+									style="font-size: 18px; color: #FC8026;">天</span>
 							</p>
-							<p class="gy_treasure_bili_bid">
-								<span>18.20</span>
-								<span style="font-size:20.49px;">%</span>
-							</p>
-							<p>年化收益率</p>
-						</div>
-						<div class="fl gy_caifu_oont">
-							<p class="gy_treasure_bili_bid">30</p>
-							<p>项目期限（天）</p>
-						</div>
-						<div class="gy_treasure_xsbid_right fl">
-							<p>距下场更新：<span>16 时 53 分 08 秒</span></p>
-							<div class="gy_treasure_xsbid_right_one">
-							<div class="fl" style="color:#29A7E1">正在筹集</div>
-							<div class="gy_treasur_bg1 fl">
-								<div class="gy_treasur_bg2" style="width:40%;">
-									
-								</div>
+							<p>收益周期</p>
+						</span> <span class="fl gy_guide_index_xzkbi4" id="gy_guide_index_xzkbi5"
+							style="text-align: center;">
+							<p th:if="${p.productRiskGrade}==1">风险说明：本金保证收益保证</p>
+							<p th:if="${p.productRiskGrade}==2">风险说明：本金保证收益浮动</p>
+							<p th:if="${p.productRiskGrade}==3">风险说明：本金/收益浮动</p>
+							<div class="gy_treasur_bg1">
+								<div class="gy_treasur_bg2" style="width: 70%;"
+									th:style="'width:'+(${p.productSaledQuota}/${p.productQuota}*146)+'px;'"></div>
+								<div class="gy_treasur_bg2""></div>
 							</div>
-							<span class="fl" style="font-size:15.27px;color:#29A7E1;">45%</span>
-							</div>
-						</div>
-					</div>
-					<div class="fl">
-						<div class="gy_treasure_xsbid_down">
-							<span class="gy_treasure_x_cp">企投金额：1元</span>
-							<span class="gy_treasure_x_cp">付息方式：按月</span>
-							<span class="gy_treasure_x_cp">赎回方式：T+10， 投资满30天即可申请赎回，赎回期内同等计息</span>
-						</div>
-					</div>
-				</div>
-				<div class="gy_treasure_xsbid_r_rdo fr">
-					<div class="gy_treasure_xsbid_r_rping">
-						<input type="text" value="输入金额" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '输入金额';}"/>
-						<img src="/images/gy_treasure_small_bgt.png">
-						<input type="text" value="预期收益" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '预期收益';}"/>
-						<div class="gy_treasure_xsbid_down_tbmain">
-							<a href="">
-								<p class="gy_treasure_xsbid_down_tb">
-								立即投标
-								</p>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
-
-	<div id="gy_treasure_xszx_bids">
-		<div class="gy_treasure_xsbid_masin px1000 clearfix">
-			<div class="">
-				<div class="gy_treasure_xsbid_left fl">
-					<div class="gy_treasure_xsbid_left_up">
-						<div class="fl gy_caifu_oone" >
-							<p class="gy_treasure_ccp_bid">
-								<span class="">新手专享投资项目第345期A</span>
-								<span><img src="/images/gy_treasure_xszx_bid_hot.png"></span>
+							<p>
+								<span style="color: #000;" th:text="${p.productSaledQuota}+'元/'"></span><span
+									th:text="${p.productQuota}+'元'"></span>
 							</p>
-							<p class="gy_treasure_bili_bid">
-								<span>18.20</span>
-								<span style="font-size:20.49px;">%</span>
+						</span> <span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
+							<p style="margin-left: 50px;">
+								<a style="font-size: 18px; color: #fff;" href="">立即投标</a>
 							</p>
-							<p>年化收益率</p>
-						</div>
-						<div class="fl gy_caifu_oont">
-							<p class="gy_treasure_bili_bid">30</p>
-							<p>项目期限（天）</p>
-						</div>
-						<div class="gy_treasure_xsbid_right fl">
-							<p>距下场更新：<span>16 时 53 分 08 秒</span></p>
-							<div class="gy_treasure_xsbid_right_one">
-							<div class="fl" style="color:#29A7E1">正在筹集</div>
-							<div class="gy_treasur_bg1 fl">
-								<div class="gy_treasur_bg2" style="width:80%;">
-									
-								</div>
-							</div>
-							<span class="fl" style="font-size:15.27px;color:#29A7E1;">80%</span>
-							</div>
-						</div>
-					</div>
-					<div class="fl">
-						<div class="gy_treasure_xsbid_down">
-							<span class="gy_treasure_x_cp">企投金额：1元</span>
-							<span class="gy_treasure_x_cp">付息方式：按月</span>
-							<span class="gy_treasure_x_cp">赎回方式：T+10， 投资满30天即可申请赎回，赎回期内同等计息</span>
-						</div>
-					</div>
-					<div class="fl">
-						<div class="gy_treasure_xsll_down">
-							<span class="gy_treasure_xsll_cp"><a href="">查看更多投资理财项目</a></span>
-						</div>
-					</div>
-				</div>
-				<div class="gy_treasure_xsbid_r_rdo fr" id="gy_treasure_xsbid_r_pos">
-					<div class="gy_treasure_xsbid_r_rping" style="height:160px;">
-						<input type="text" value="输入金额" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '输入金额';}"/>
-						<img src="/images/gy_treasure_small_bgt.png">
-						<input type="text" value="预期收益" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '预期收益';}"/>
-						<div class="gy_treasure_xsbid_down_tbmain">
-							<a href="">
-								<p class="gy_treasure_xsbid_down_tb">
-								立即投标
-								</p>
-							</a>
-						</div>
+						</span>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	
-	<div id="gy_guide_goverfirm_debt">
-		<div class="px1000">
-			<div class="gy_guide_gf_de_main_vbc clearfix">
-				<div class="fl">
-					<div class="gy_guide_gf_de_menu clearfix">
-						<div class="gy_guide_gove_gd_zfdz fl">
-								<span class="gy_guide_gove_gd_zfdz_font">政府债</span>
-						</div>
-						<div class="gy_guide_gove_gd fl"><a href="">更多>></a></div>
-					</div>	
-					<div class="gy_guide_gf_onetwo">
-						<div class="fl gy_guide_gf_thrch">
-							<p class="gy_guide_gf_poing">融资租赁债权转让项目<br/>
-							第345期B</p>
-							<p><span class="gy_guide_gf_sz">8.0</span>
-							<span class="gy_guide_gfc_bfh">%</span>
-							年化收益率
-							</p>
-							<p class="gy_guide_gf_cnima">期限7-180天</p>
-							<p style="padding-top:30px;">河北 · 品牌服饰贸易企业</p>
-							<div class="gy_treasur_bg3">
-								<div class="gy_treasur_bg2" style="width:90%;background-color:#29A7E1;">
-								</div>
-							</div>
-							<div><span class="gy_guide_gf_cnidie">214,000.00</span>70 万</div>
-							<div class="gy_guide_gf_cnidie_ljtbst">
-								<div class="gy_guide_gf_cnidie_ljtbs">
-									<a href="">立即投标</a>
-								</div>
-							</div>
-							
-						</div>
-
-						<div class="fl gy_guide_gf_thrch">
-							<p class="gy_guide_gf_poing">融资租赁债权转让项目<br/>
-							第345期B</p>
-							<p><span class="gy_guide_gf_sz">13.0</span>
-							<span class="gy_guide_gfc_bfh">%</span>
-							年化收益率
-							</p>
-							<p class="gy_guide_gf_cnima">期限40-360天</p>
-							<p style="padding-top:30px;">河北 · 品牌服饰贸易企业</p>
-							<div class="gy_treasur_bg3">
-								<div class="gy_treasur_bg2" style="width:90%;background:#29A7E1 left center">
-								</div>
-							</div>
-							<div><span class="gy_guide_gf_cnidie">融资完成，金额</span> 500 万</div>
-							<div class="gy_guide_gf_cnidie_ljtbst">
-								<div class="gy_guide_gf_cnidie_ljtbs">
-									<a href="">立即投标</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="fl">
-					<div class="gy_guide_gf_de_menu clearfix">
-						<div class="gy_guide_gove_gd_zfdz fl">
-								<span class="gy_guide_gove_gd_zfdz_font">企业债</span>
-						</div>
-						<div class="gy_guide_gove_gd fl"><a href="">更多>></a></div>
-					</div>
-					<div class="gy_guide_gf_threefour">
-						<div class="fl gy_guide_gf_thrch">
-							<p class="gy_guide_gf_poing">融资租赁债权转让项目<br/>
-							第345期B</p>
-							<p><span class="gy_guide_gf_sz">9.0</span>
-							<span class="gy_guide_gfc_bfh">%</span>
-							年化收益率
-							</p>
-							<p class="gy_guide_gf_cnima">期限2-360天</p>
-							<p style="padding-top:30px;">河北 · 品牌服饰贸易企业</p>
-							<div class="gy_treasur_bg3">
-								<div class="gy_treasur_bg2" style="width:90%;background-color:#29A7E1;">
-								</div>
-							</div>
-							<div><span class="gy_guide_gf_cnidie">融资完成，金额</span> 500 万</div>
-							<div class="gy_guide_gf_cnidie_ljtbst">
-								<div class="gy_guide_gf_cnidie_ljtbs">
-									<a href="">立即投标</a>
-								</div>
-							</div>
-						</div>
-						<div class="fl  gy_guide_gf_thrch" >
-							<p class="gy_guide_gf_poing">融资租赁债权转让项目<br/>
-							第345期B</p>
-							<p><span class="gy_guide_gf_sz">8.0</span>
-							<span class="gy_guide_gfc_bfh">%</span>
-							年化收益率
-							</p>
-							<p class="gy_guide_gf_cnima">期限7-180天</p>
-							<p style="padding-top:30px;">河北 · 品牌服饰贸易企业</p>
-							<div class="gy_treasur_bg3">
-								<div class="gy_treasur_bg2" style="width:90%;background-color:#29A7E1;">
-								</div>
-							</div>
-							<div><span class="gy_guide_gf_cnidie">融资完成，金额</span> 500 万</div>
-							<div class="gy_guide_gf_cnidie_ljtbst">
-								<div class="gy_guide_gf_cnidie_ljtbs">
-									<a href="">立即投标</a>
-								</div>
-							</div>
-						</div>
-					
-				  </div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-<div id="gy_guide_assignment_claim">
-		<div class="px1000 gy_guide_assignment_claim_main">
-			<div class="gy_guide_assignment_xx">
-				<div class="fl gy_guide_assignment_img">
-					<img src="/images/gy_guide_assignment_claim_main_header.png">
-				</div>
-				<div class="gy_guide_assignment_one fl">
-					<span>债权转让</span>
-				</div>
-				<div class="gy_guide_assignment_two fl">
-					<span>/////////////////////////////////////////////////////////////////////////////////////////</span>
-				</div>
-				<div class="gy_guide_assignment_look fl">
-					<a href="">立即查看</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
 
 	<div id="gy_guide_stater_notice">
 		<div class="px1000">
 			<div class="gy_guide_staten_xk clearfix">
 						<div class="gy_guide_staten_xkds1 clearfix">
-							<span class="gy_guide_staten_ggdt fl" id="gy_guide_sarter1" onmouseover="guideone()";>公司公告</span>
-							<span class="gy_guide_staten_ggdt fl" id="gy_guide_sarter2" onmouseover="guidetwo()";>行业动态</span>
-							<span class="gy_guide_staten_gdd fr">更多公告</span>
+							<span class="gy_guide_staten_ggdt fl" id="gy_guide_sarter1" onmouseover="guideone()">公司公告</span>
+							
+							<span class="gy_guide_staten_gdd fr"  ><a th:href="@{/systemInformation}">更多公告</a></span>
 						</div>
 					
 						<div class="fl gy_guide_staten_xkds2" id="gy_guide_staten_xkds2">
 							<div>
-								<ul class="gy_guide_staten_main1 fl">
+								<ul class="gy_guide_staten_main1 fl"  th:each="notice: ${noticePageInfo.list}">
+									<li><a href="">
+										<span><img src="/images/gy_guide_stater_notice_bj.png"></span>
+										<span><a th:href="@{noticeInfo/}+${notice.nId}"  th:text="${notice.title}"></a></span>
+										<span><img src="/images/gy_guide_stater_notice_new.png"></span>
+										<span class="fr">06/14</span>
+									</a></li>
+								</ul>
+								<!-- <ul class="gy_guide_staten_main2 fl">
 									<li><a href="">
 										<span><img src="/images/gy_guide_stater_notice_bj.png"></span>
 										<span>大众富裕阶层青睐互联网金融 e租宝成...</span>
@@ -488,26 +224,7 @@
 										<span>大众富裕阶层青睐互联网金融</span>
 										<span class="fr">07/22</span>
 									</a></li>
-								</ul>
-								<ul class="gy_guide_staten_main2 fl">
-									<li><a href="">
-										<span><img src="/images/gy_guide_stater_notice_bj.png"></span>
-										<span>大众富裕阶层青睐互联网金融 e租宝成...</span>
-										<span><img src="/images/gy_guide_stater_notice_new.png"></span>
-										<span class="fr">07/22</span>
-									</a></li>
-									<li><a href="">
-										<span><img src="/images/gy_guide_stater_notice_bj.png"></span>
-										<span>大众富裕阶层青睐</span>
-										<span><img src="/images/gy_guide_stater_notice_new.png"></span>
-										<span class="fr">07/22</span>
-									</a></li>
-									<li><a href="">
-										<span><img src="/images/gy_guide_stater_notice_bj.png"></span>
-										<span>大众富裕阶层青睐互联网金融</span>
-										<span class="fr">07/22</span>
-									</a></li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 						<div class="fl gy_guide_staten_xkds5" id="gy_guide_staten_xkds5" style="display:none">
@@ -549,33 +266,6 @@
 		</div>
 	</div>
 
-
-
-	
-	<div id="gy_guide_hzhb_main">
-		<div class="px1000 gy_guide_hzhb_main_cp">
-			<div class="gy_guide_news_macp clearfix">
-				<span class="gy_guide_news_macp1 fl">合作机构</span>
-				<span class="gy_guide_news_macp2 fr"><a href="">更多>></a></span>
-			</div>
-			
-			<div>
-				<img src="/images/gy_guide_hzhb_main_cp_pic.png">
-			</div>
-		</div>
-	</div>
-	<div id="gy_guide_hzhb_main">
-		<div class="px1000 gy_guide_hzhb_main_cp">
-			<div class="gy_guide_news_macp clearfix">
-				<span class="gy_guide_news_macp1 fl">合作媒体</span>
-				<span class="gy_guide_news_macp2 fr"><a href="">更多>></a></span>
-			</div>
-			
-			<div>
-				<img src="/images/gy_guide_hzhb_main_cp_pic.png">
-			</div>
-		</div>
-	</div>
 	
 	<div id="gy_guide_end_main">
 		<div class="px1000 gy_guide_end_main_cp">

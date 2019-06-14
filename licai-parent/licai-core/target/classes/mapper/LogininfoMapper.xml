@@ -5,12 +5,78 @@
 
 <mapper namespace="com.zl.mapper.LogininfoMapper">
 
-	<!-- 登录 -->
-    <select id="queryByUsernameAndPassword" resultType="com.zl.pojo.Controller">
-        select username,password,states from controller where username = #{username} 
-                and password = #{password}
-    </select>
-    
-  
+	<!-- 管理员登录 -->
+	<select id="queryByUsernameAndPassword"
+		resultType="com.zl.pojo.Controller">
+		select jobNumber,username,states,jurisdiction from
+		controller where username
+		= #{username}
+		and password = #{password}
+	</select>
 
+	<!-- 管理员插入登录信息 -->
+	<insert id="saveConsumerRecord" parameterType="ConsumerRecord">
+		insert into
+		Consumer_Record values(SEQ_CONSUMERRECORD.NEXTVAL,
+		#{consumerId},#{ip},#{loginTime},#{loginFlag})
+	</insert>
+
+	<!-- 管理员登录记录查询 -->
+	<select id="queryById" resultType="ConsumerRecord">
+		select recordid,consumerid,ip,logintime,loginflag from( select
+		t.recordid,t.consumerid,t.ip,t.logintime,t.loginflag,rownum rn from
+		(select r.recordid,r.consumerid,r.ip,r.logintime,r.loginflag from
+		Consumer_Record r where consumerId
+		=#{consumerId} and loginFlag = '0' order by loginTime desc ) t)n where n.rn=2
+	</select>
+	<!-- select * from( select t.recordid,t.consumerid,t.ip,t.logintime,t.loginflag,rownum 
+		rn from (select r.recordid,r.consumerid,r.ip,r.logintime,r.loginflag from 
+		Consumer_Record r where consumerId = #{consumerId} and loginFlag = '0' order 
+		by loginTime desc ) t)n where n.rn>1 and n.rn<3 -->
+
+	<!-- 公告 -->
+	<insert id="savenotice" parameterType="Notice">
+		insert into notice
+		values(#{title},#{textContent},#{inUse},seq_notice.nextval)
+	</insert>
+	
+	
+	<!-- 用户数 -->
+	<select id="queryCountConsumerInfo" resultType="int">
+		select count(1) from ConsumerInfo 
+	</select>
+	
+	<!-- //根据id查询用户-->
+	<select id="selectYonghu" resultType="ConsumerInfo">
+		 select * from ConsumerInfo where CONSUMERID = #{id}
+	</select>
+	
+	
+	<!-- 查询所有用户详情信息 -->
+	<select id="queryByAllConsumerInfo" parameterType="ConsumerInfoCondition" resultType="ConsumerInfo">
+        select * from ConsumerInfo <include refid="conditionMap"></include>
+	</select>
+	
+        <sql id="conditionMap">
+		<where>
+			<if test="name != null and name != ''.toString()">
+				and name like '%${name}%'
+			</if>	
+		</where>
+	</sql>
+        
+        
+	<!-- 企业数 -->
+		<select id="queryCountBusinessInfo" resultType="int">
+		select count(1) from BusinessInfo 
+	</select>
+	
+	<!-- 产品数 -->
+	<select id="queryCountProduct" resultType="int">
+		select count(1) from Product 
+	</select>
+	
+	
+	
+	
 </mapper>

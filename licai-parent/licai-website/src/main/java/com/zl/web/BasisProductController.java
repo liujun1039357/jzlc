@@ -24,16 +24,6 @@ public class BasisProductController {
 	 * 用户查询产品信息列表
 	 * @param binder
 	 */
-	@RequestMapping("invest")
-	public String invest(HttpServletRequest request) {
-		System.out.println("aaa");
-		List<BasisProduct> proBasList = basisProductService.findBasisProducts();
-		System.out.println(proBasList);
-		System.out.println("bbb");
-		request.setAttribute("proBasLists", proBasList);
-		System.out.println("ccc");
-		return "personal/invest";
-	}
 
 	@InitBinder  
 	public void initBinder(WebDataBinder binder) {  
