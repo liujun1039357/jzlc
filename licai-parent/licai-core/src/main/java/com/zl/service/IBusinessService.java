@@ -1,7 +1,12 @@
 package com.zl.service;
 
+import java.util.List;
+
 import com.zl.pojo.Business;
 import com.zl.pojo.BusinessInfo;
+import com.zl.pojo.Product;
+import com.zl.pojo.ProductManager;
+import com.zl.pojo.SelectCondition;
 import com.zl.util.AjaxJson;
 
 public interface IBusinessService {
@@ -14,5 +19,10 @@ public interface IBusinessService {
 	
 	 BusinessInfo queryBusinessInfoByID(Business bs) ;
 	
-	
+	 AjaxJson addProductManger(ProductManager pm);
+	 
+	 List<ProductManager> queryProductMangerByBID(SelectCondition selectCondition);
+	 
+	 List<Product> queryProductByBID(SelectCondition sc);
+		Product queryProductByPID(String pid);
 }

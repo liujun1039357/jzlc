@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -70,7 +71,7 @@ public class Product implements Serializable{
 	/**产品类型 0活期1定期*/
 	private Integer productType = CURRENT;
 	/**预期收益率*/
-	private Integer productProfit;
+	private BigDecimal productProfit;
 	/**已售额度*/
 	private Integer productSaledQuota;
 	/**售完时间*/
@@ -107,5 +108,6 @@ public class Product implements Serializable{
 	/**死期类结算时间*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date productAcountTime;
-
+	/**收益周期*/
+	private Integer  acountCycle;
 }

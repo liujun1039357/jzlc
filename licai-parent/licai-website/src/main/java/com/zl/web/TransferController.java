@@ -7,12 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zl.pojo.Product;
 import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.RealAuthShow;
+import com.zl.pojo.SelectCondition;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
+import com.zl.service.IProductService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
 /**
@@ -26,6 +31,9 @@ public class TransferController {
 	private IConsumerInfoService consumerInfoService;
 	@Autowired
 	private IBankCardInfoService bankCardInfoService;
+	@Autowired
+	private IProductService productService;
+	
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -212,7 +220,14 @@ public class TransferController {
 	
 	/**产品详情页面*/
 	@RequestMapping("invest")
-	public String invest() {
+	public String invest(@RequestParam(required = true, defaultValue = "1") Integer pageindex,
+			HttpServletRequest request, SelectCondition sc) {
+		System.out.println(sc.toString());
+		PageHelper.startPage(pageindex, 3);
+		List<Product> plist = productService.queryProductByCond(sc);
+		PageInfo<Product> pageInfo = new PageInfo<Product>(plist, 5);
+		request.setAttribute("pageInfo", pageInfo);
+		request.setAttribute("condition", sc);		
 		return "personal/invest";
 	}
 	

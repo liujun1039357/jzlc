@@ -33,6 +33,23 @@
 </head>
 
 <body>
+	<script>
+		$(function() {
+			//设置时间格式
+			$("#start,#end").datetimepicker({
+				format : 'yyyy-mm-dd',
+				language : 'zh-CN',
+				minView : 2,
+				endDate : new Date()
+			});
+			//给分页添加点击事件,使每次点击页码都提交高级查询表单
+			$(".pages").click(function() {
+				$("#getpage").val($(this).attr("data"));//设置隐藏域中的value,this为点击的页码;
+				$("#productListform").submit(); //selectInfo是表单id,提交表单;
+			});
+
+		})
+	</script>
 	<header>
 	<div th:replace="common/headpart :: top"></div>
 	</header>
@@ -44,41 +61,33 @@
 			<div class="personal-main">
 				<div class="personal-money" style="padding-top: 30px">
 					<h3>
-						<i>交易记录</i>
+						<i>产品列表</i>
 					</h3>
-					<form id="form" name="form" method="post" action="">
+					<form id="productListform" name="productListform" method="post" action="productList">
 						<div class="money-choose">
 							<span style="padding-left: 10px; padding-right: 10px;">产品状态</span>
-							<select name=”select_type“ style="width: 150px; height: 30px;">
+							<select name="productstate" style="width: 150px; height: 30px;">
 								<option value="-1">全部</option>
-								<option value="1">审核中</option>
-								<option value="2">已审核</option>
-								<option value="3">待发行</option>
-								<option value="4">发行中</option>
-								<option value="5">已售完</option>
-								<option value="6">已过期</option>
+								<option value="0" th:if="${condition.productstate==0}" selected="selected">未审核</option>
+								<option value="0" th:if="${condition.productstate!=0}">未审核</option>
+								<option value="1" th:if="${condition.productstate==1}" selected="selected">审核中</option>
+								<option value="1" th:if="${condition.productstate!=1}">审核中</option>
+								<option value="2" th:if="${condition.productstate==2}" selected="selected">已审核</option>
+								<option value="2" th:if="${condition.productstate!=2}">已审核</option>
+								<option value="3" th:if="${condition.productstate!=3}">待发行</option>
+								<option value="3" th:if="${condition.productstate==3}" selected="selected">待发行</option>			
+								<option value="4" th:if="${condition.productstate!=4}">发行中</option>
+								<option value="4" th:if="${condition.productstate==4}" selected="selected">发行中</option>
+								<option value="5" th:if="${condition.productstate!=5}">已售完</option>
+								<option value="5" th:if="${condition.productstate==5}" selected="selected">已售完</option>
+								<option value="6" th:if="${condition.productstate!=6}">已过期</option>
+								<option value="6" th:if="${condition.productstate==6}" selected="selected">已过期</option>
+								
+								
+								<input type="hidden" name="pageindex" th:value="${1}"
+								id="getpage" />
+								
 							</select>
-							<script>
-								$(function() {
-									//设置时间格式
-									$("#start,#end").datetimepicker({
-										format : 'yyyy-mm-dd',
-										language : 'zh-CN',
-										minView : 2,
-										endDate : new Date()
-									});
-									/*  //给分页添加点击事件,使每次点击页码都提交高级查询表单
-									 $(".pages").click(function() {
-									  $("#getpage").val($(this).attr("thispage"));//设置隐藏域中的value,this为点击的页码;
-									  $("#selectInfo").submit(); //selectInfo是表单id,提交表单;
-									 });
-									 */
-								})
-							</script>
-
-							<span style="padding-left: 20px; padding-right: 10px;">查询时间</span>
-							<input type="text" id="start" style="width: 100px; height: 24px;" />
-							— <input type="text" id="end" style="width: 100px; height: 24px;" />
 
 							<button
 								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-sx">
@@ -98,22 +107,69 @@
 								<table>
 									<thead>
 										<tr class="pmain-contitle">
-											<td style="width: 120px; padding-left: 20px;">产品流水号</td>
-											<td style="width: 120px;">产品名称</td>
-											<td style="width: 120px;">状态</td>
+											<td style="width: 120px; padding-left: 30px;">产品流水号</td>
+											<td style="width: 120px; padding-left: 30px;">产品名称</td>
+											<td style="width: 120px; padding-left: 30px;">状态</td>
 											<td style="width: 120px;">产品经理人</td>
-											<td style="width: 120px;">操作</td>
+											<td style="width: 120px; padding-left: 18px;">操作</td>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td style="width: 120px; padding-left: 20px;">111</td>
-											<td style="width: 120px;">aaa</td>
-											<td style="width: 120px;">asd</td>
-											<td style="width: 120px;">asd</td>
-											<td style="width: 120px;"><a>详情</a></td>
+										<tr th:each="p : ${pageInfo.list}">
+											<td style="width: 120px; padding-left: 20px;"
+												th:text="${p.productId}">111</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:text="${p.productName}"></td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==0}">待审核</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==1}">审核中</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==2}">已审核</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==3}">待发行</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==4}">发行中</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==5}">已售完</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:if="${p.productState==6}">已过期</td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:text="${p.productManager}"></td>
+											<td style="width: 120px; padding-left: 20px;"><a
+												th:href="'productinfobyid?productId='+${p.productId}">详情</a></td>
 										</tr>
 									</tbody>
+									<tfoot>
+										<tr height='30px'>
+											<td colspan='8' align='center'>
+												<!-- 当前页为第一页时,首页和上一页按钮禁用 --> <span class="disabled"
+												th:if="${pageInfo.isFirstPage}"><a href="#">首页</a></span> <span
+												class="disabled" th:if="${pageInfo.isFirstPage}"><a
+													href="#">上一页</a></span> <span th:unless="${pageInfo.isFirstPage}"><a
+													href="javascript:void(0);" class="pages" th:data="1">首页</a></span>
+												<span th:unless="${pageInfo.isFirstPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.prePage}">上一页</a></span> <th:block
+													th:each="nav : ${pageInfo.navigatepageNums}">
+													<!--如果是当前页，class属性为curPage，且无法跳转-->
+													<span th:if="${nav==pageInfo.pageNum}" class="curPage"><a
+														href="javascript:void(0)" th:text="${nav}"></a></span>
+													<span th:if="${nav!=pageInfo.pageNum}"><a
+														href="javascript:void(0);" th:text="${nav}" class="pages"
+														th:data="${nav}"></a></span>
+												</th:block> <!-- 当前页为最后一页时,下一页和最后一页按钮禁用 --> <span class="disabled"
+												th:if="${pageInfo.isLastPage}"><a href="#">下一页</a></span> <span
+												class="disabled" th:if="${pageInfo.isLastPage}"><a
+													href="#">最后一页</a></span> <span th:unless="${pageInfo.isLastPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.nextPage}">下一页</a></span> <span
+												th:unless="${pageInfo.isLastPage}"><a
+													href="javascript:void(0);" class="pages"
+													th:data="${pageInfo.pages}">最后一页</a></span>
+											</td>
+										</tr>
+									</tfoot>
 								</table>
 							</div>
 						</span>
