@@ -109,5 +109,7 @@ public class Product implements Serializable{
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date productAcountTime;
 	/**所属公司*/
-	private BusinessInfo businessInfo;
+	private String businessid;
+	/**结算周期*/
+	private Integer  acountcycle;
 }

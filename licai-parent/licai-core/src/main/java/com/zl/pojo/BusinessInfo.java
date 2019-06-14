@@ -86,7 +86,7 @@ public class BusinessInfo implements Serializable{
 	private String image1;
 	/**法人证件反面*/
 	private String image2;
-	/**审核状态：1.审核中 2.审核失败 3.审核通过 4.冻结 5.注销 6.删除*/
+	/* 1.一级审核 2.二级审核 3.三级审核 4.审核失败 5.审核通过 6.冻结 7.注销 8.删除 */
 	private Integer checkFlag = REVIEW;
 	/**提交时间*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
