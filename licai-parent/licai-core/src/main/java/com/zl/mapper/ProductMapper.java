@@ -9,7 +9,10 @@ import org.apache.ibatis.annotations.Param;
 import com.zl.exception.JZLCException;
 import com.zl.pojo.BigDecimalParam;
 import com.zl.pojo.Product;
+
 import com.zl.pojo.ProductShowInfo;
+import com.zl.pojo.SelectCondition;
+
 
 @Mapper
 public interface ProductMapper {
@@ -19,6 +22,8 @@ public interface ProductMapper {
 	 * */
 	List<Product> getProducts();
 
+	List<Product> queryProductByCond(SelectCondition sc);
+	
 	/**查询产品详情
 	 * @param productId
 	 * @return
@@ -51,7 +56,6 @@ public interface ProductMapper {
 	/**检验购买金额是否大于起投金
 	 * @param productId
 	 * @param buyMoney
-	 * @return
 	 */
 	int queryProductLowQuata(BigDecimalParam bigDecimalParam) throws JZLCException;
 }

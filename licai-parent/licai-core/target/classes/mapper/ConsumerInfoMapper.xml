@@ -86,4 +86,16 @@
 	<update id="updateSumMoney" parameterType="BigDecimalParam">
 		update consumerInfo set sumMoney = #{num1,jdbcType=NUMERIC}+#{num2,jdbcType=NUMERIC}+balance where consumerId = #{str}
 	</update>
+	<!-- 充值 -->
+	<update id="recharge" >
+		update consumerInfo
+		set balance = (#{balance} + #{money})
+		where consumerId=#{consumerId}
+	</update>
+	<!-- 提现 -->
+	<update id="cashOut" >
+		update consumerInfo
+		set balance = #{balance} - (1.01*#{money})
+		where consumerId=#{consumerId}
+	</update>
 </mapper>

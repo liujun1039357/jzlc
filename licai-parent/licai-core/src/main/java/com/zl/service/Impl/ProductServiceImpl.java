@@ -11,6 +11,7 @@ import com.zl.exception.JZLCException;
 import com.zl.mapper.ProductMapper;
 import com.zl.pojo.BigDecimalParam;
 import com.zl.pojo.Product;
+import com.zl.pojo.SelectCondition;
 import com.zl.pojo.ProductShowInfo;
 import com.zl.service.IProductService;
 import com.zl.util.DateUtil;
@@ -22,11 +23,15 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public List<Product> getProducts() {
-		List<Product> products= productMapper.getProducts();
+		List<Product> products = productMapper.getProducts();
 		return products;
 	}
 
 	@Override
+	public List<Product> queryProductByCond(SelectCondition sc) {
+		return productMapper.queryProductByCond(sc);
+	}
+
 	public ProductShowInfo queryProductInfo(String productId) throws JZLCException {
 		ProductShowInfo productShowInfo = productMapper.queryProductInfo(productId);
 		productShowInfo.setRevenueTime(DateUtil.addDays(new Date(), productShowInfo.getAcountCycle()));

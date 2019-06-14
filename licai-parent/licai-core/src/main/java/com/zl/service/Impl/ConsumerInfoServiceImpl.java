@@ -216,5 +216,32 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		return true;
 	}
 
+	@Override
+	public Boolean recharge(BigDecimal money) throws JZLCException {
+
+		String consumerId =  UserContext.getLogininfo().getConsumerId();
+		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		int count = consumerInfoMapper.recharge(balance,money,consumerId);
+		if(count <= 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Boolean cashOut(BigDecimal money) throws JZLCException {
+
+		String consumerId =  UserContext.getLogininfo().getConsumerId();
+		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		if(money.compareTo(balance)==1) {
+			return false;
+		}
+		int count = consumerInfoMapper.cashOut(balance, money,consumerId);
+		if(count <= 0) {
+			return false;
+		}
+		return true;
+	}
+
 
 }

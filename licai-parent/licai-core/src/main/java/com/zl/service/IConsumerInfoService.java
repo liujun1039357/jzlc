@@ -86,7 +86,7 @@ public interface IConsumerInfoService {
 	 * @return
 	 */
 	BigDecimal queryBalance() throws JZLCException;
-
+	
 	/**购买产品
 	 * @param buyMoney
 	 * @return
@@ -100,6 +100,20 @@ public interface IConsumerInfoService {
 	 */
 	boolean turnOutProduct(String productId, BigDecimal sumMoney) throws JZLCException;
 
+	/**
+	 *充值
+	 * @param consumerId
+	 * @param balance
+	 * @param money
+	 */
+	Boolean recharge(BigDecimal money) throws JZLCException;
 
-		
+	/**
+	 *提现
+	 * @param consumerId
+	 * @param balance
+	 * @param money
+	 */
+	Boolean cashOut(BigDecimal money) throws JZLCException;
+	
 }

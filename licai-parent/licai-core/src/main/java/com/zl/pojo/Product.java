@@ -1,6 +1,7 @@
 package com.zl.pojo;
 
 import lombok.Data;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -108,8 +109,10 @@ public class Product implements Serializable{
 	/**死期类结算时间*/
 	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
 	private Date productAcountTime;
-	/**所属公司*/
-	private BusinessInfo businessInfo;
+	/**所属公司id*/
+	private String businessid;
 	/**收益周期*/
 	private Integer acountCycle;
+	
+
 }

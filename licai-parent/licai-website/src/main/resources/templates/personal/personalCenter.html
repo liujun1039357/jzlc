@@ -15,6 +15,26 @@
 <script th:src="@{/script/user.js}" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<style>
+	.pagination{
+		width:600px;
+		position: relative;
+ 		left: 200px;
+	}
+
+	.pagination li{
+		width :60px;
+		height: 20px;
+		margin:0;
+	}
+	
+	.pagination li a{
+		width : 60px;
+		height: 20px;
+		padding:0;
+		text-decoration: none;
+	}
+</style>
 <style type="text/css">
 #
 、】 =MsnDialog.ad, #MyMoveAd, #QQ_Full, #ad-SNSSplashAd, #ad6cn,
@@ -146,7 +166,17 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 	height: 0px !important;
 }
 </style>
-
+<script>
+	 $(function() {
+	  
+	 //给分页添加点击事件,使每次点击页码都提交高级查询表单
+	   $(".pages").click(function() {
+	   $("#getpage").val($(this).attr("data"));//设置隐藏域中的value,this为点击的页码;
+	   $("#queryPersonalProduct").submit(); //queryPersonalProduct是表单id,提交表单;
+	  });
+	
+	 })
+</script>
 <style id="tsbrowser_video_independent_player_style" type="text/css">
 [tsbrowser_force_max_size] {
 	width: 100% !important;
@@ -188,16 +218,18 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 </style>
 			<div class="personal-main">
 				<div class="personal-investnote" style="padding-top: 30px">
-					<h3>
+					<h3 style="width:800px;">
 						<i>账户总览</i>
 					</h3>
 					<div class="investnote-money">
-						<span><b class="fb">累计投资</b><br/> <i>0.00</i> 元 </span> <span><b
-							class="fb">累计收益</b><br/> <i class="c-pink">0.00</i> 元 </span> <span><b
-							class="fb">待收本金</b><br/> <i>0.00</i> 元 </span> <span class="none"><b
-							class="fb">待收收益</b><br/> <i>0.00</i> 元 </span>
+						<span><b class="fb">累计投资</b><br/> <i th:text="${baseMoney}">0.00</i> 元 </span> <span><b
+							class="fb">累计收益</b><br/> <i class="c-pink" th:text="${interest}">0.00</i> 元 </span> <span><b
+							class="fb">待收本金</b><br/> <i th:text="${instableBaseMoney}">0.00</i> 元 </span> <span class="none"><b
+							class="fb">待收收益</b><br/> <i th:text="${instableInterest}">0.00</i> 元 </span>
 					</div>
-					<form id="form" name="form" method="post" action="#">
+					<form id="queryPersonalProduct" name="form" method="post" action="#">
+					
+	       			<input type="hidden" name="pageindex" th:value="${1}" id="getpage" />
 						<script type="text/javascript">
 							clearPage = function() {
 								PrimeFaces.ab({
@@ -209,44 +241,29 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 							}
 						</script>
 						<span id="form:dataTable">
-							<div class="invest-tab">
-								<ul>
-									<li class="on"><span><a href="#" title="投标中">投标中
-										</a> </span></li>
-									<li><a href="#" title="回款中">回款中 </a></li>
-									<li><a href="#" title="已结束">已结束 </a></li>
-								</ul>
-							</div>
+							
 							<div class="investnote-list">
 								<div class="investnote-contitle">
-									<span class="investnote-w1 fb">交易时间</span> <span
-										class="investnote-w2 fb">项目</span> <span
-										class="investnote-w3 fb">状态</span> <span
-										class="investnote-hbw4 fb">我的投资</span> <span
-										class="investnote-hbw5 fb">我的收益</span> <span
-										class="investnote-hbw6 fb">操作</span>
+									<span class="investnote-w1 fb" style="width: 116px;margin-left: 10px;">生效日期</span> 
+									<span class="investnote-w2 fb" style="width: 80px;margin-left: 60px;">产品名称</span> 
+									<span class="investnote-w3 fb" style="margin-left: 60px;">状态</span> 
+									<span class="investnote-hbw4 fb" style="width: 100px;">我的投资</span> 
+									<span class="investnote-hbw5 fb" style="width: 100px;">我的收益</span> 
+									<span class="investnote-hbw6 fb" style="margin-left: 80px;">操作</span>
 								</div>
-								<ul>
-									<li><span class="investnote-w1">2015-10-1</span><span
-										class="investnote-w2">债权转让</span><span class="investnote-w3">已还款</span><span
-										class="investnote-hbw4">12000.00</span> <span
-										class="investnote-hbw5">12000.00</span> <span
-										class="investnote-hbw6"><a href="#">删除</a></span></li>
-									<li><span class="investnote-w1">2015-10-1</span><span
-										class="investnote-w2">债权转让</span><span class="investnote-w3">已还款</span><span
-										class="investnote-hbw4">12000.00</span> <span
-										class="investnote-hbw5">12000.00</span> <span
-										class="investnote-hbw6"><a href="#">删除</a></span></li>
-									<li><span class="investnote-w1">2015-10-1</span><span
-										class="investnote-w2">债权转让</span><span class="investnote-w3">已还款</span><span
-										class="investnote-hbw4">12000.00</span> <span
-										class="investnote-hbw5">12000.00</span> <span
-										class="investnote-hbw6"><a href="#">删除</a></span></li>
-									<li><span class="investnote-w1">2015-10-1</span><span
-										class="investnote-w2">债权转让</span><span class="investnote-w3">已还款</span><span
-										class="investnote-hbw4">12000.00</span> <span
-										class="investnote-hbw5">12000.00</span> <span
-										class="investnote-hbw6"><a href="#">删除</a></span></li>
+								<ul th:each="tradeRecordList: ${pageInfo.list}">
+									<li>
+									<span class="investnote-w1" th:text="${#dates.format(tradeRecordList.effectDate, 'yyyy-MM-dd')}" style="width: 100px;">2015-10-1</span>
+									<span class="investnote-w2" th:text="${tradeRecordList.productName}" style="margin-left: 55px;width: 150px;">债权转让</span>
+									<span class="investnote-w3"  th:switch="${tradeRecordList.states}" style=" margin-left: 15px;width: 40px;">
+									<p th:case="0">购买中</p>
+						            <p th:case="1" >已转出</p>
+									</span>
+									<span class="investnote-hbw4"  th:text="${tradeRecordList.baseMoney}" style=" width: 100px;">12000.00</span> 
+									<span class="investnote-hbw5" th:text="${tradeRecordList.interest}" style=" width: 100px;">12000.00</span> 
+									<span class="investnote-hbw6" style="margin-left: 70px;padding-right: 0px;width: 30px;"><a href="#">追加</a></span> 
+									<span class="investnote-hbw6"><a href="#">转出</a></span>
+									</li>
 									<!--<div style=" width:760px;height:200px;padding-top:100px; text-align:center;color:#d4d4d4; font-size:16px;">
 								 <img src="images/nondata.png" width="60" height="60"><br><br>
 								   暂无投资记录</div>-->
@@ -254,6 +271,32 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 							</div>
 						</span>
 					</form>
+					<table>
+            		<tfoot>
+				<tr height='30px'>
+					<td colspan='8' align='center'>
+						<ul class="pagination" >
+							<!-- 当前页为第一页时,首页和上一页按钮禁用 -->
+								<li class="disabled" th:if="${pageInfo.isFirstPage}"><a href="#">首页</a></li>
+								<li class="disabled" th:if="${pageInfo.isFirstPage}"><a href="#">上一页</a></li>
+								<li th:unless="${pageInfo.isFirstPage}"><a href="javascript:void(0);" class="pages" th:data="1">首页</a></li>
+								<li th:unless="${pageInfo.isFirstPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.prePage}">上一页</a></li>
+							
+							 <th:block th:each="nav : ${pageInfo.navigatepageNums}">
+					            <!--如果是当前页，class属性为curPage，且无法跳转-->
+					            <li th:if="${nav==pageInfo.pageNum}" class="curPage"><a href="javascript:void(0)" th:text="${nav}"></a></li>
+					            <li th:if="${nav!=pageInfo.pageNum}" ><a href="javascript:void(0);" th:text="${nav}" class="pages" th:data="${nav}"></a></li>
+					        </th:block>
+        						<!-- 当前页为最后一页时,下一页和最后一页按钮禁用 -->
+								<li class="disabled"  th:if="${pageInfo.isLastPage}"><a href="#">下一页</a></li>
+								<li class="disabled"  th:if="${pageInfo.isLastPage}"><a href="#">最后一页</a></li>
+								<li  th:unless="${pageInfo.isLastPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.nextPage}">下一页</a></li>
+								<li  th:unless="${pageInfo.isLastPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.pages}">最后一页</a></li>
+						</ul>
+					</td>
+				</tr>
+			</tfoot>
+            	</table>
 				</div>
 			</div>
 			<div class="clear"></div>

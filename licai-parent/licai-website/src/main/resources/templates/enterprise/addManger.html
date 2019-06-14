@@ -1,0 +1,132 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>p2p网贷平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="asserts/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
+	rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+
+</head>
+
+<body>
+	<header>
+	<div th:replace="common/headpart :: top"></div>
+	</header>
+	<!--个人中心-->
+	<div class="wrapper wbgcolor">
+		<div class="w1200 personal">
+			<div
+				th:replace="enterprise/leftmenu :: left (activeUri = 'addManger')"></div>
+			<div class="personal-main">
+				<div class="personal-money" style="padding-top: 30px">
+					<h3>
+						<i>新增经理人</i>
+					</h3>
+					<form id="addmangerform" name="addmangerform" method="post"
+						action="addProductManager">
+						<table>
+							<hr></hr>
+							<tr class="form-group" style="width:">
+								<td><label>姓名</label></td>
+								<td><input style="margin-left: 50px; margin-top: 20px;"
+									type="text" class="form-control" id="managerName"
+									name="managerName" /></td>
+							</tr>
+							<tr class="form-group">
+								<td><label>身份证号</label></td>
+								<td><input style="margin-left: 50px; margin-top: 20px;"
+									type="text" class="form-control" id="cardId" name="cardId" /></td>
+							</tr>
+							<tr class="form-group">
+								<td><label>性别</label></td>
+								<td><input type="radio" value="0" name="sex" style=" margin-left: 50px;"
+									checked="checked" /><span>男</span> <input type="radio"
+									value="1" name="sex" />女</td>
+							</tr>
+							<tr class="form-group">
+								<td><label>职位</label></td>
+								<td><input style="margin-left: 50px; margin-top: 20px;"
+									type="text" class="form-control" id="job" name="job" /></td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<button type="submit" class="btn btn-info btn-lg"
+										style="width: 300px; margin-left: 50px; margin-top: 20px;">提交</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--网站底部-->
+	<div th:replace="common/footpart :: foot"></div>
+	<script type="text/javascript">
+	$(function() {
+		
+		
+		//Ajax提交表单
+		$("#addmangerform").validate({
+			
+			submitHandler : function(form) {
+				$("#addmangerform").ajaxSubmit({
+					dataType : "json",
+					success : function(data) {
+						if (data.success) {
+							$.messager.model = {
+								ok : {
+									text : "关闭",
+									classed : 'btn­default'
+								},
+								cancel : {
+									text : "取消",
+									classed : 'btn­error'
+								}
+							};
+							$.messager.confirm("提示", "申请提交成功", function() {
+								//跳转到登录页面
+								location.href = "businessIndex";
+							});
+
+						} else {
+							$.messager.popup("申请提交失败!")
+						}
+					},
+					resetForm : true
+				});
+			},
+			errorClass : "text-danger",
+			highlight : function(element) {
+				$(element).closest("div.form-group").addClass("has-error");
+			},
+			unhighlight : function(element) {
+				$(element).closest("div.form-group").removeClass("has-error");
+			}
+		});
+	});
+</script>
+	
+	
+</body>
+
+</html>

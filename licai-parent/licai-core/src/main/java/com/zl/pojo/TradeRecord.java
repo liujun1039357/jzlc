@@ -52,4 +52,5 @@ public class TradeRecord implements Serializable{
 	private Integer productProfitType = DAY;
 	/**购买产品记录id*/
 	private String tradeRecordId;
+
 }

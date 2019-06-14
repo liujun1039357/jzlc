@@ -98,7 +98,7 @@ public interface ConsumerInfoMapper {
 	 */
 	void updateBankBind(@Param("bitState")long bitState, @Param("password")String password,@Param("consumerId")String consumerId) throws JZLCException;
 
-	/**查询可用余额
+	/**查询金额
 	 * @param consumerId
 	 * @return
 	 */
@@ -137,5 +137,19 @@ public interface ConsumerInfoMapper {
 	 */
 	void updateSumMoney(BigDecimalParam bigDecimalParam);
 
-
+	/**
+	 *充值
+	 *@param consumerId
+	 *@param balance
+	 *@param money
+	 */
+	int recharge(@Param("balance")BigDecimal balance,@Param("money")BigDecimal money,@Param("consumerId")String consumerId) throws JZLCException;
+	
+	/**
+	 *提现
+	 *@param consumerId
+	 *@param balance
+	 *@param money
+	 */
+	int cashOut(@Param("balance")BigDecimal balance,@Param("money")BigDecimal money,@Param("consumerId")String consumerId) throws JZLCException;
 }

@@ -6,24 +6,18 @@
 		id,consumerid,productid,tradetype,budget,trademoney,balance,orderstates,tradetime
 	</sql>
 	
-	<sql id="where">
-		 <if test="tradetype''">
-                and tradetype=#{tradeType}
-         </if>
-         <if test="tradetype''">
-                and tradetype=#{tradeType}
-         </if>
-	</sql>
-	
-	<select id="getTradeLists" resultType="com.zl.pojo.TradeList"> 
+	<select id="getTradeLists" parameterType="com.zl.pojo.SelectTradeListCondition" resultType="com.zl.pojo.TradeList"> 
 		select <include refid="queryColumn"></include>
 		from tradelist
 		<where>
-		<if test="tradeType != null and tradeType != ''">
-                and tradetype=#{tradeType}
+		<if test="tradeType != null and tradeType != 5">
+                and tradetype = #{tradeType}
          </if>
-         <if test="tradeTime1 != null and tradeTime2 != null">
-         		and tradetime &gt;= #{tradeTime1} and tradetime &lt;= #{tradeTime2}
+         <if test="start != null">
+         		and tradetime  &gt;=  #{start}
+         </if>
+         <if test="end != null">
+         		and tradetime  &lt;=  #{end}
          </if>
 		</where>
 	</select>
@@ -32,4 +26,7 @@
 		insert into tradeList values('jzlc'||lpad(SEQ_TRADELIST.NEXTVAL,7,'0'),#{consumerId},#{productId},#{tradeType},
 		#{tradeMoney},#{tradeMoney},'0',#{orderStates},SYSDATE)
 	</insert>
+	<select id="getTradeTypes" resultType="Integer">
+		select tradetype from tradelist group by tradetype
+	</select>
 </mapper>

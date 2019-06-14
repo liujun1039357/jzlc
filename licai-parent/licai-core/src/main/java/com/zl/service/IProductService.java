@@ -5,11 +5,12 @@ import java.util.List;
 
 import com.zl.exception.JZLCException;
 import com.zl.pojo.Product;
+import com.zl.pojo.SelectCondition;
 import com.zl.pojo.ProductShowInfo;
 
 public interface IProductService {
 	
-	List<Product> getProducts();
+	List<Product> getProducts() throws JZLCException;
 
 	/**
 	 * @param productId
@@ -30,4 +31,5 @@ public interface IProductService {
 	 */
 	boolean checkProductLowQuata(String productId, BigDecimal buyMoney);
 
+	List<Product> queryProductByCond(SelectCondition sc);
 }

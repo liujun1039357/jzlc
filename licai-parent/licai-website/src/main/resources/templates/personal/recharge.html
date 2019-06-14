@@ -3,22 +3,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>p2p网贷平台</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
-<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/all.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
-<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
-<script type="text/javascript" th:src="@{/script/common.js}"></script>
-<script th:src="@{/script/user.js}" type="text/javascript"></script>
+<link href="asserts/css/bootstrap.min.css"
+ th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
+ rel="stylesheet"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
-<script src="script/jquery.datetimepicker.js" type="text/javascript"></script>
-<script src="script/datepicker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<script type="text/javascript"
+ th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript"
+ th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript"
+ th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript"
+ th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+
 </head>
+
 
 <body>
 <header>
@@ -31,6 +37,11 @@
     <label id="typeValue" style="display:none;"> </label>
     <script>
 		$(function(){
+
+			var int1=self.setInterval("checkRecharge()",200);
+			var int2=self.setInterval("checkRecharge1()",200);
+			var int3=self.setInterval("checkRecharge2()",200);
+			
 		    $('.quick-tit').click(function(){
 		      
 		      $(this).addClass('pay-cur');
@@ -53,6 +64,8 @@
 		      $(".pay-tipcon2").hide();
 		      $(".pay-tipcon").show();
 		    })
+		    
+		    
 	  });
 		//<![CDATA[
 			function showSpan(op){
@@ -171,7 +184,7 @@
 					$("#bankCardError").html("");
 				}
 				return true;
-			}
+			};
 			function checkBank() {
 				$("#form\\:defaultBankName").text("");
 				var cardNo = $("#form\\:bankCardNo").val(); 
@@ -184,7 +197,7 @@
 					$(".info2-bank").css({"display":"block"});
 				}
 				return true;
-			}
+			};
 
 			function validateAgree2()
 			{
@@ -198,7 +211,7 @@
 				{
 					return true;		
 				}
-			}
+			};
 			
 			function checkRecharge1() {
 				var moneyRegex="^(([1-9]+[0-9]*)|((([1-9]+[0-9]*)|0)\\.[0-9]{1,2}))$";
@@ -250,7 +263,7 @@
 					$(".quick-error").html("");
 				}
 				return true;
-			}
+			};
 
 			function getShowPayVal1(){
 				var rechargeFlag=checkRecharge1();
@@ -270,6 +283,16 @@
 					$("#bankProtocol_message").show();
 					 return false;
 				}*/
+				$("#recharge").ajaxSubmit(function(data) {
+					if (data.success) {
+						alert(ooooo);
+						$.messager.popup("充值成功!");
+							location.href = "recharge";
+						
+					} else {
+						$.messager.popup(data.msg);
+					}
+				})
 				return payflag;
 			}
 
@@ -360,29 +383,34 @@
 			 });
 			//]]>
 		</script>
+   
     <div class="personal-main">
       <div class="personal-pay" style="padding-top: 30px">
-        <h3><i>充值</i></h3>
+        <h3 style="width:820px"><i>充值</i></h3>
         <div class="quick-pay-wrap">
-          <h4> <span class="quick-tit pay-cur"><em>快捷支付</em></span> <span class="online-tit"><em>网银充值</em></span> </h4>
-          <form id="form" name="form" method="post" action="" >
+          <h4> <span class="quick-tit pay-cur"><em>银行卡支付</em></span> </h4>
+          <form id="recharge" name="recharge" method="post"  th:action="${recharge}" >
             <div class="quick-main" style="height:350px">
               <div class="fl quick-info">
                 <div class="info-1"> <span class="info-tit">充值金额</span> <span class="info1-input">
-                  <input id="form:actualMoney1" type="text" name="" class="pay-money-txt" maxlength="10" >
+                  <input id="form:actualMoney1" type="text" name="" class="pay-money-txt" maxlength="10" ></input>
                   <em>元</em> </span> <span class="quick-error"> </span> </div>
-                <div class="info-tips">亿人宝提醒您：充值金额超过50000元时，请切换到网银充值</div>
+                <div class="info-tips">橘子理财提醒您：充值金额超过50000元时，请切换到银行卡充值</div>
                 <div class="info-2"> <span class="info-tit">银行卡号</span> <span class="info2-input">
-                  <input id="form:bankCardNo" type="text" name="form:bankCardNo" class="tx-txt">
+                  <!-- <input id="form:bankCardNo" type="text" name="form:bankCardNo" class="tx-txt"/> -->
+                  
+                 <select  style="width:172px ; height:37px;" name="cardId" id="cardId" >
+              	 <th:block th:each="bankCard : ${bankCardList}">
+			         <option th:value="${bankCard}"  th:text="${bankCard}" ></option>
+			     </th:block>
+			     </select>
+                  
+                  
                   <em class="info2-bank" style="display: none;">
                   <label id="form:defaultBankName" style="font-size:16px;"> </label>
                   </em> </span> <span class="quick-error3" id="bankCardError"></span> </div>
-                <div class="bank-check" id="bank-check2"> <b class="selected" id="bankProtocol1"></b><span class="bank-agree">我同意并接受<a href="#" target="_blank">《亿人宝投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
-                <input type="submit" name="" value="充值" class="btn-paycz" onclick="return getShowPayVal1()">
-              </div>
-              <div class="fr bank-info">
-                <p class="bank-tit">快捷支付支持银行：</p>
-                <div class="bank-pic"></div>
+                <div class="bank-check" id="bank-check2"> <b class="selected" id="bankProtocol1"></b><span class="bank-agree">我同意并接受<a href="#" target="_blank">《橘子理财投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
+                <input id="recharge"  type="button" name="recharge" value="充值" class="btn-paycz" />
               </div>
             </div>
           </form>
@@ -391,31 +419,14 @@
               <div class="online-mar">
                 <div class="quick-info quick-info-width">
                   <div class="info-1"> <span class="info-tit">充值金额</span> <span class="info1-input">
-                    <input id="recharge:actualMoney" type="text" name="recharge:actualMoney" class="pay-money-txt" maxlength="10" onblur="checkRecharge()" onkeydown="amount(this);keyUpcheck()" onkeyup="amount(this);keyUpcheck()">
+                    <input id="recharge:actualMoney" type="text" name="recharge:actualMoney" class="pay-money-txt" maxlength="10" onblur="checkRecharge()" onkeydown="amount(this);keyUpcheck()" onkeyup="amount(this);keyUpcheck()"/>
                     <em>元</em> </span> <span id="actualMoneyErrorDiv" class="quick-error2"> </span> </div>
                 </div>
               </div>
-              <div> <span><font style=" color:#848484;font-weight:bold; margin-left:80px; height:32px; line-height:32px; font-size:12px;">亿人宝提醒您：充值前，请核实您的可用支付额度！</font></span> </div>
+              <div> <span><font style=" color:#848484;font-weight:bold; margin-left:80px; height:32px; line-height:32px; font-size:12px;">橘子理财提醒您：充值前，请核实您的可用支付额度！</font></span> </div>
               <div class="pay-bank" id="pay-bank">
                 <h6>请选择充值银行</h6>
-                <span id="showpay" style="display:none;">icbc</span>
-                <ul id="paysSpan" style="height:150px;">
-                  <li><img src="images/bank_002.gif" property1="icbc" class="on"><em></em><i></i></li>
-                  <li><img src="images/bank_006.gif" property1="abc"><em></em></li>
-                  <li><img src="images/bank_001.gif" property1="boc"><em></em></li>
-                  <li><img src="images/bank_004.gif" property1="ccb"><em></em></li>
-                  <li><img src="images/bank_008.gif" property1="hxb"><em></em></li>
-                  <li><img src="images/bank_007.gif" property1="comm"><em></em></li>
-                  <li><img src="images/bank_003.gif" property1="cmb"><em></em></li>
-                  <li><img src="images/bank_011.gif" property1="ceb"><em></em></li>
-                  <li><img src="images/bank_015.gif" property1="cncb"><em></em></li>
-                  <li><img src="images/bank_010.gif" property1="cmsb"><em></em></li>
-                  <li><img src="images/bank_012.gif" property1="cgb"><em></em></li>
-                  <li><img src="images/bank_bos.gif" property1="shb"><em></em></li>
-                  <li><img src="images/bccb.gif" property1="bjb"><em></em></li>
-                  <li><img src="images/bank-nsyh.gif" property1="rcb"><em></em></li>
-                  <li><img src="images/bank-xyyh.gif" property1="cib"><em></em></li>
-                </ul>
+                
                 <span class="pay-other"><span class="paytxt">选择其他银行卡</span><i class="paydown"></i></span> </div>
               <div class="pay-bankstate"> <span class="bankstate-head"><i class="fl">请关注您的充值金额是否超限：</i><i class="fr" id="show-pay-hotLine">工商银行客服热线：95588</i></span>
                 <table>
@@ -455,25 +466,25 @@
                   </tbody>
                 </table>
               </div>
-              <div class="bank-check" id="bank-check"> <b class="selected" id="bankProtocol"></b><span class="bank-agree">我同意并接受<a href="/node/Candyprivacypolicy/candyprivacypolicy_tzzxyglfwdzxy" target="_blank">《亿人宝金融投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
-              <input type="submit" name="recharge:j_idt96" value="充值" class="btn-paycz" onclick="return getShowPayVal()">
-              <input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState">
+              <div class="bank-check" id="bank-check"> <b class="selected" id="bankProtocol"></b><span class="bank-agree">我同意并接受<a href="/node/Candyprivacypolicy/candyprivacypolicy_tzzxyglfwdzxy" target="_blank">《橘子理财金融投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
+              <input type="submit" name="recharge:j_idt96" value="充值" class="btn-paycz" onclick="return getShowPayVal()"/>
+              <input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState"/>
             </form>
           </div>
-          <div class="pay-tipcon" style="display:none;"> <b>充值提示：</b><br>
-            1．亿人宝充值过程免费，不向用户收取任何手续费。<br>
-            2．为了您的账户安全，请在充值前进行身份认证、手机绑定以及交易密码设置。<br>
-            3．您的账户资金将通过丰付支付第三方平台进行充值。<br>
-            4．请注意您的银行卡充值限制，以免造成不便。<br>
+          <div class="pay-tipcon" style="display:none;"> <b>充值提示：</b><br/>
+            1．橘子理财充值过程免费，不向用户收取任何手续费。<br/>
+            2．为了您的账户安全，请在充值前进行身份认证、手机绑定以及交易密码设置。<br/>
+            3．您的账户资金将通过丰付支付第三方平台进行充值。<br/>
+            4．请注意您的银行卡充值限制，以免造成不便。<br/>
             5．如果充值金额没有及时到账，请联系客服—400-999-8850 </div>
-          <div class="pay-tipcon2" style="height:240px"> <b>温馨提示：</b><br>
-            1. 投资人充值过程全程免费，不收取任何手续费。<br>
-            2. 为防止套现，所充资金必须经投标回款后才能提现。<br>
-            3. 使用快捷支付进行充值，可能会受到不同银行的限制，如需大额充值请使用网银充值进行操作。<br>
-            4. 充值/提现必须为银行借记卡，不支持存折、信用卡充值。<br>
-            5. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天。<br>
-            6. 充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请联系客服。<br>
-            7. 充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服。<br>
+          <div class="pay-tipcon2" style="height:240px"> <b>温馨提示：</b><br/>
+            1. 投资人充值过程全程免费，不收取任何手续费。<br/>
+            2. 为防止套现，所充资金必须经投标回款后才能提现。<br/>
+            3. 使用快捷支付进行充值，可能会受到不同银行的限制，如需大额充值请使用网银充值进行操作。<br/>
+            4. 充值/提现必须为银行借记卡，不支持存折、信用卡充值。<br/>
+            5. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号30天。<br/>
+            6. 充值期间，请勿关闭浏览器，待充值成功并返回首页后，所充资金才能入账，如有疑问，请联系客服。<br/>
+            7. 充值需开通银行卡网上支付功能，如有疑问请咨询开户行客服。<br/>
           </div>
         </div>
       </div>
@@ -587,7 +598,7 @@
           <h3>提示信息</h3>
           <span class="alert-close" onclick="displaySpan('alert-tyht')"></span></div>
         <div class="alert-main" style="margin-bottom: 35px;margin-left: 25px;">
-          <p class="msg4"> 你需要阅读并同意《亿人宝金融投资咨询与管理服务电子协议》 </p>
+          <p class="msg4"> 你需要阅读并同意《橘子理财金融投资咨询与管理服务电子协议》 </p>
         </div>
       </div>
     </div>

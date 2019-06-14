@@ -46,5 +46,30 @@
 	<select id="queryTradeRecord" resultType="TradeRecord">
 		select baseMoney,interest,consumerId from tradeRecord where tradeRecordId =#{tradeRecordId}
 	</select>
+	<!-- 查询个人的购买产品 -->
+	<select id="queryPersonTradeRecord" resultType="TradeRecord">
+		select productId,productName,baseMoney,interest,effectDate,states,balance,productProfitType
+		from tradeRecord where consumerId=#{consumerId}
+	</select>
+	<!-- 查询个人购买的产品累计投资 -->
+	<select id="queryBaseMoney" resultType="int">
+		select sum(baseMoney) from tradeRecord where consumerId=#{consumerId}
+	</select>
+	<!-- 查询个人购买的累计收益 -->
+	<select id="queryInterest" resultType="int">
+		select sum(interest) from tradeRecord where consumerId=#{consumerId}
+	</select>
+	<!-- 查询个人购买的待收本金 -->
+	<select id="queryInstableBaseMoney" resultType="int">
+		select sum(baseMoney) from tradeRecord where states='0' and consumerId=#{consumerId}
+	</select>
+	<!-- 查询个人购买的待收收益 -->
+	<select id="queryInstableInterest" resultType="int">
+		select sum(interest) from tradeRecord where states='0' and consumerId=#{consumerId}
+	</select>
+	<!-- 查询个人回款记录 -->
+	<select id="queryProfitList" resultType="com.zl.pojo.Profit">
+		select consumerId,productName,clearDate,principal,profit from profitList where consumerId=#{consumerId}
+	</select>
 	
 </mapper>

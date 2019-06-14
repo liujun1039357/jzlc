@@ -21,6 +21,44 @@
 <link type='text/css' rel="stylesheet" th:href="@{/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css}" />
 <script th:src="@{/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
 <script th:src="@{/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script>
+	 $(function() {
+	  //设置时间格式
+	  $("#start,#end").datetimepicker({
+	   format : 'yyyy-mm-dd',
+	   language : 'zh-CN',
+	   minView : 2,
+	   endDate : new Date()
+	  }); 
+	 //给分页添加点击事件,使每次点击页码都提交高级查询表单
+	   $(".pages").click(function() {
+	   $("#getpage").val($(this).attr("data"));//设置隐藏域中的value,this为点击的页码;
+	   $("#selectTradeList").submit(); //selectTradeList是表单id,提交表单;
+	  });
+	
+	 })
+</script>
+
+<style>
+	.pagination{
+		width:600px;
+		position: relative;
+ 		left: 200px;
+	}
+
+	.pagination li{
+		width :60px;
+		height: 20px;
+		margin:0;
+	}
+	
+	.pagination li a{
+		width : 60px;
+		height: 20px;
+		padding:0;
+		text-decoration: none;
+	}
+</style>
 </head>
 
 <body>
@@ -31,63 +69,106 @@
 <div class="wrapper wbgcolor">
   <div class="w1200 personal">
    	<div th:replace="common/leftmenu :: left (activeUri = 'tradeList')"></div>
+   
     <div class="personal-main">
       <div class="personal-money" style="padding-top: 30px">
-        <h3><i>交易记录</i></h3>
-        <form id="form" name="form" method="post" action="">
+        <h3 style="width:830px;"><i>交易记录</i></h3>
           <div class="money-choose">
-			<span style=" padding-left: 10px; padding-right: 10px;">操作类型</span>
-          	<select name=”select_type“ style="width:150px ; height: 30px;">
-          		<option value="1">转出</option>
-        		<option value="2">转入</option>
-		        <option value="3">充值</option>
-		        <option value="4">提现</option>
-          	</select>
-	         
-	         <script>
-				 $(function() {
-				  //设置时间格式
-				  $("#start,#end").datetimepicker({
-				   format : 'yyyy-mm-dd',
-				   language : 'zh-CN',
-				   minView : 2,
-				   endDate : new Date()
-				  }); 
-				 /*  //给分页添加点击事件,使每次点击页码都提交高级查询表单
-				  $(".pages").click(function() {
-				   $("#getpage").val($(this).attr("thispage"));//设置隐藏域中的value,this为点击的页码;
-				   $("#selectInfo").submit(); //selectInfo是表单id,提交表单;
-				  });
-				 */
-				 })
-			</script>
-	         
-            <span style=" padding-left: 20px; padding-right: 10px;">查询时间</span>
-            <input type="text" id="start" style="width:100px ; height: 24px;"/> — <input type="text" id="end" style="width:100px ; height: 24px;"/>
+        	<form id="selectTradeList" name="form" method="post"  th:action="@{/tradeList}">
+				<span style=" padding-left: 10px; padding-right: 10px;">操作类型</span>
+				
+	          	<select  style="width:150px ; height: 30px;" name="tradeType" id="tradeType">
+			       	<option value="5">全部</option>
+	          		<th:block th:each="tradeType : ${tradeTypes}">
+			         <option th:value="${tradeType}" th:switch="${tradeType}" th:if="${condition.tradeType==tradeType}"  selected="selected">
+			          <p th:case="'0'">充值</p>
+		              <p th:case="'1'">提现</p>
+		              <p th:case="'2'">买入</p>
+		              <p th:case="'3'">卖出</p>
+			         </option>
+			         <option th:value="${tradeType}" th:unless="${condition.tradeType==tradeType}"  th:switch="${tradeType}">
+			          <p th:case="'0'">充值</p>
+		              <p th:case="'1'">提现</p>
+		              <p th:case="'2'">买入</p>
+		              <p th:case="'3'">卖出</p>
+			         </option>
+			    	</th:block>
+	          	</select>
+
+		        <span style=" padding-left: 20px; padding-right: 10px;">查询时间</span>
+	            <input type="text" id="start" name="start" readonly="readonly" style="width:100px ; height: 24px;" th:value="${#dates.format(condition.start, 'yyyy-MM-dd')}"/> — 
+	            <input type="text" id="end" name="end" readonly="readonly" style="width:100px ; height: 24px;" th:value="${#dates.format(condition.end, 'yyyy-MM-dd')}"/>
+	       		<!-- 在提交表单添加隐藏域 -->
+	       		<input type="hidden" name="pageindex" th:value="${1}" id="getpage" />
+	            <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-sx">筛选</button>
+	         </form>
+          </div>  
         
-            <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-sx"><span class="ui-button-text ui-c">筛选</span></button>
-            <!-- <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-dc"><span class="ui-button-text ui-c">导出</span></button> -->
-          </div>
           <span id="form:dataTable">
-          <div class="personal-moneylist">
-            <div class="pmain-contitle"> <span class="pmain-title1 fb">交易时间</span> <span class="pmain-title2 fb">交易类型</span> <span class="pmain-title3 fb">交易金额</span> <span class="pmain-title4 fb">余额</span> <span class="pmain-title5 fb">备注</span> </div>
-            <ul>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <li><span class="pmain-title1 pmain-height">2015-10-20</span><span class="pmain-title2 pmain-height">债权转让</span><span class="pmain-title3 pmain-height">10.00</span><span class="pmain-title4 pmain-height">10.00</span><span class="pmain-title5 pmain-height">备注</span></li>
-              <!-- <div style=" width:760px;height:200px;padding-top:100px; text-align:center;color:#d4d4d4; font-size:16px;"> <img src="images/nondata.png" width="60" height="60"><br>
-                <br>
-                暂无资金记录</div>-->
+          <div class="personal-moneylist" style="width: 820px;">
+          <div class="pmain-contitle"> 
+              <span class="pmain-title1 fb" >用户账号</span>
+              <span class="pmain-title1 fb">交易时间</span>
+              <span class="pmain-title1 fb" >产品编号</span>
+              <span class="pmain-title1 fb">交易类型</span>
+              <span class="pmain-title1 fb">交易金额</span>
+              <span class="pmain-title1 fb">余额收支</span> 
+              <span class="pmain-title1 fb"  style="padding-left: 20px;width: 80px;">订单状态</span>
+           </div>
+            <ul th:each="tradeList: ${pageInfo.list}">
+              <li style="width:820px;">
+              	  <span class="pmain-title1 pmain-height"  th:text="${tradeList.consumerId}" ></span>
+              	  <span class="pmain-title1 pmain-height"  th:text="${#dates.format(tradeList.tradeTime, 'yyyy-MM-dd')}">2019-06-10</span>
+              	  <span class="pmain-title2 pmain-height"  th:text="${tradeList.productId}"  style="margin-left: 15px;"></span>
+	              <span class="pmain-title2 pmain-height"  th:switch="${tradeList.tradeType}"  style="margin-left: 25px;">
+	              <p th:case="'0'">充值</p>
+	              <p th:case="'1'">提现</p>
+	              <p th:case="'2'">买入</p>
+	              <p th:case="'3'">卖出</p></span>
+	              <span class="pmain-title3 pmain-height" th:text="${tradeList.tradeMoney}" style="text-align:left">tradeMoney10.00</span>
+	              <span class="pmain-title4 pmain-height" th:text="${tradeList.balance}" style="padding-right: 0px;text-align:left;margin-left: 20px; width: 100px;">10.00</span>
+	              <span class="pmain-title2 pmain-height"  th:switch="${tradeList.orderStates}" style="width: 70px; margin-left: 10px;">
+	              <p th:case="'0'">未完成</p>
+	              <p th:case="'1'">已完成</p>
+	              <p th:case="'2'">已失败</p></span>
+              </li>
             </ul>
+            
+            <div>
+            </div>
           </div>
           </span>
-        </form>
+          
+            
+            	<table>
+            		<tfoot>
+				<tr height='30px'>
+					<td colspan='8' align='center'>
+						<ul class="pagination" >
+							<!-- 当前页为第一页时,首页和上一页按钮禁用 -->
+								<li class="disabled" th:if="${pageInfo.isFirstPage}"><a href="#">首页</a></li>
+								<li class="disabled" th:if="${pageInfo.isFirstPage}"><a href="#">上一页</a></li>
+								<li th:unless="${pageInfo.isFirstPage}"><a href="javascript:void(0);" class="pages" th:data="1">首页</a></li>
+								<li th:unless="${pageInfo.isFirstPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.prePage}">上一页</a></li>
+							
+							 <th:block th:each="nav : ${pageInfo.navigatepageNums}">
+					            <!--如果是当前页，class属性为curPage，且无法跳转-->
+					            <li th:if="${nav==pageInfo.pageNum}" class="curPage"><a href="javascript:void(0)" th:text="${nav}"></a></li>
+					            <li th:if="${nav!=pageInfo.pageNum}" ><a href="javascript:void(0);" th:text="${nav}" class="pages" th:data="${nav}"></a></li>
+					        </th:block>
+        						<!-- 当前页为最后一页时,下一页和最后一页按钮禁用 -->
+								<li class="disabled"  th:if="${pageInfo.isLastPage}"><a href="#">下一页</a></li>
+								<li class="disabled"  th:if="${pageInfo.isLastPage}"><a href="#">最后一页</a></li>
+								<li  th:unless="${pageInfo.isLastPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.nextPage}">下一页</a></li>
+								<li  th:unless="${pageInfo.isLastPage}"><a href="javascript:void(0);" class="pages" th:data="${pageInfo.pages}">最后一页</a></li>
+						</ul>
+					</td>
+				</tr>
+			</tfoot>
+            	</table>
       </div>
     </div>
+
     <div class="clear"></div>
   </div>
 </div>

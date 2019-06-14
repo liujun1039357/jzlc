@@ -7,6 +7,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.zl.pojo.Business;
 import com.zl.pojo.Consumer;
+import com.zl.pojo.Controller;
 import com.zl.pojo.MailInfo;
 import com.zl.pojo.VerifyCodeInfo;
 
@@ -39,6 +40,17 @@ public class UserContext {
 	public static Consumer getLogininfo(){
 		return (Consumer) getHttpSession().getAttribute(USER_IN_SESSION);
 	}
+	
+	
+	/**将当前管理员登录存到session域*/
+	public static void setCurrent(Controller current) {
+		getHttpSession().setAttribute(USER_IN_SESSION,current);
+	}
+	/**从session域中获取当前登录管理员*/
+	public static Controller getCurrent(){
+		return (Controller) getHttpSession().getAttribute(USER_IN_SESSION);
+	}
+	
 	
 
 	/**将当前登录的企业用户存到session域*/

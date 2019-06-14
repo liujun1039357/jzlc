@@ -28,5 +28,12 @@ public interface BankCardInfoMapper {
 	 * @param bankcardInfo
 	 */
 	void addBankCard(BankcardInfo bankcardInfo) throws JZLCException;
-
+	
+	/**
+	 * 验证是否绑定银行卡
+	 * @param consumerId
+	 * @param cardId
+	 * */
+	BankcardInfo isBoundCard(String consumerId,String cardId)  throws JZLCException;
+	
 }

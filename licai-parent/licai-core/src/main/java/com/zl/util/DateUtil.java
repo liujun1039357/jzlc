@@ -87,4 +87,30 @@ public class DateUtil {
 		time += days; // 相加得到新的毫秒数
 		return new Date(time); // 将毫秒数转换成日期
 	}
+	
+	/**
+	 * 获取一年前的日期
+	 * @param date
+	 * @return
+	 */
+	public static Date OneYearAgoDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, -1);
+        Date y = c.getTime();
+		return y;
+	}
+	
+	/**
+	 * 获取一个月前的日期
+	 * @param date
+	 * @return
+	 */
+	public static Date OneMonthAgoDate(Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date y = c.getTime();
+		return y;
+	}
 }
