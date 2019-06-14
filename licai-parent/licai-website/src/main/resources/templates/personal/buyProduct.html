@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>购买产品</title>
+<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery-validation/localization/messages_zh.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/jquery.form.js}"></script>
+<script type="text/javascript" th:src="@{/js/plugins/uploadify/jquery.uploadify.js}"></script>
+<script type="text/javascript" th:src="@{/script/common.js}"></script>
+<script type="text/javascript" th:src="@{/script/user.js}"></script>
+<script type="text/javascript" th:src="@{/js/all.js}"></script>
+<script type="text/javascript">
+$(function() {
+	$("#buyProductSubmit").click(function() {
+		$("#buyProductForm").ajaxSubmit(function(data) {
+			if (data.success) {
+				$.messager.popup("购买成功");
+				location.href = "personalCenter";
+			} else {
+				$.messager.popup(data.msg);
+			}
+		})
+	});
+});
+</script>
+</head>
+<body>
+<header>
+  <div th:replace="common/headpart :: top"></div>
+</header>
+<!--个人中心-->
+<div class="wrapper wbgcolor">
+	<div class="w1200 personal">
+		<div th:replace="common/leftmenu :: left (activeUri = 'accountSettings')"></div>			
+<script type="text/javascript">
+
+
+</script>
+		<label id="typeValue" style="display:none;"> </label>
+    <div class="personal-main">
+      <div class="personal-deposit" style="padding-top: 30px">
+        <h3><i>转出</i></h3>
+        <form id="buyProductForm" method="post" action="/buyProductSubmit" >
+          <div class="deposit-form" style="margin-top:0px;border-top:0px none;">
+            <h6>填写转出金额</h6>
+            <ul>
+              <li> <span class="deposit-formleft">用户名</span> <span class="deposit-formright"> <i>
+                <label id="form:blance" th:text="${session.consumer.consumerName }"></label>
+                </i></span> </li>
+              <li> <span class="deposit-formleft">真实姓名</span> <span class="deposit-formright"> <i>
+                <label id="form:blance" th:text="${name}"></label>
+                </i> </span> </li>
+              <li> <span class="deposit-formleft">购买金额</span> <span class="deposit-formright">
+                <input id="balance" type="text" name="balance" class="deposite-txt" maxlength="10"/>
+                元 </span> <span id="actualMoneyErrorDiv"><span id="actualMoney_message" style="display:none" class="error"></span></span> </li>
+              <li><span class="deposit-formleft">可用余额</span> <em id="dzje" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
+                <label id="form:cashFine"  th:text="${balance}"></label>
+                </i> 元</span></li>
+              <li>
+                <input type="button" id="buyProductSubmit" name="form:j_idt78" value="购买" class="btn-depositok"/>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+
+	<div class="clear"></div>
+	</div>
+	</div>
+	</div>
+</div>
+<!--网站底部-->
+<div th:replace="common/footpart :: foot"></div>
+</body>
+</html>

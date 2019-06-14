@@ -3,12 +3,20 @@
 <mapper namespace="com.zl.mapper.NoticeMapper">
 
 	<sql  id="queryColumn">
-		title,textContent,inuse
+		title,textContent,inUse,nId
 	</sql>
-	
+	<!-- 获取公告 -->
 	<select id="getNotices" resultType="com.zl.pojo.Notice"> 
 		select <include refid="queryColumn"></include>
-		from notice
-		where inuse=0
+		from notice where inUse = '1'
 	</select>
+	<!-- 获取公告详情 -->
+	<select id="getNoticeInfo"  parameterType="Integer" resultType="com.zl.pojo.Notice"> 
+		select <include refid="queryColumn"></include>
+		from notice
+		<where>
+			nId = #{nId}
+		</where>
+	</select>
+	
 </mapper>

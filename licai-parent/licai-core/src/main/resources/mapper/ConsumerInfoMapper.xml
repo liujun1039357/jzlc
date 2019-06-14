@@ -53,5 +53,25 @@
 			address = #{address},image_A = #{imageA},image_B = #{imageB},
 			updateTime = sysdate where consumerId = #{consumerId}
 	</update>
-	
+	<!-- 修改银行卡绑定信息 -->
+	<update id="updateBankBind">
+		update consumerInfo set bitstate = #{bitState},password = #{password},
+			updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 查询余额 -->
+	<select id="queryBalance" resultType="BigDecimal">
+		select balance from consumerInfo where consumerId = #{consumerId}
+	</select>
+	<!-- 充值 -->
+	<select id="recharge" resultType="com.zl.pojo.ConsumerInfo">
+		update consumerInfo
+		set balance = #{balance} + #{money}
+		where consumerId=#{consumerId}
+	</select>
+	<!-- 提现 -->
+	<select id="cashOut" resultType="com.zl.pojo.ConsumerInfo">
+		update consumerInfo
+		set balance = #{balance} - (1.01*#{money})
+		where consumerId=#{consumerId}
+	</select>
 </mapper>

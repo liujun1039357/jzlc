@@ -3,12 +3,17 @@
  */
 package com.zl.service.Impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zl.exception.JZLCException;
 import com.zl.mapper.AuthMapper;
+import com.zl.mapper.BankCardInfoMapper;
+import com.zl.mapper.CardRuleMapper;
 import com.zl.mapper.ConsumerInfoMapper;
+import com.zl.pojo.BankcardInfo;
 import com.zl.pojo.ConsumerInfo;
 import com.zl.pojo.MailInfo;
 import com.zl.pojo.RealAuthShow;
@@ -29,6 +34,10 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 	private ConsumerInfoMapper consumerInfoMapper;
 	@Autowired
 	private AuthMapper authMapper;
+	@Autowired
+	private CardRuleMapper cardRuleMapper;
+	@Autowired
+	private BankCardInfoMapper bankCardInfoMapper;
 	
 	@Override
 	public void personalEmailBind(String email, String emailCode) throws JZLCException {
@@ -110,6 +119,53 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		consumerInfo.setBitState(BitStateUtil.addAuthentication(bitState, BitStateUtil.OPEN_REAL_AUTH));
 		consumerInfoMapper.updateRealAuth(consumerInfo);
 		return true;
+	}
+
+	@Override
+	public String judgeBank(String cardId) throws JZLCException {
+		return cardRuleMapper.queryBankName(cardId.substring(0, 6));
+	}
+
+	@Override
+	public void bindBankSubmit(String cardId, String password) throws JZLCException {
+		if(password != null) {
+			//首次绑定银行卡
+			long bitState = consumerInfoMapper.queryBitState(UserContext.getLogininfo().getConsumerId());
+			consumerInfoMapper.updateBankBind(BitStateUtil.addAuthentication(bitState, BitStateUtil.OPEN_BANKCARD),password,UserContext.getLogininfo().getConsumerId());
+		}
+		//添加银行卡
+		BankcardInfo bankcardInfo = new BankcardInfo();
+		bankcardInfo.setConsumerId(UserContext.getLogininfo().getConsumerId());
+		bankcardInfo.setCardId(cardId);
+		bankCardInfoMapper.addBankCard(bankcardInfo);
+	}
+
+	@Override
+	public BigDecimal queryBalance() throws JZLCException {
+		return consumerInfoMapper.queryBalance(UserContext.getLogininfo().getConsumerId());
+	}
+
+	@Override
+	public boolean buyProduct(BigDecimal buyMoney) throws JZLCException {
+		String consumerId = UserContext.getLogininfo().getConsumerId();
+		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
+		if(balance.doubleValue()<buyMoney.doubleValue()) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public Boolean recharge(String consumerId,BigDecimal balance,BigDecimal money) {
+		ConsumerInfo consumerInfo = consumerInfoMapper.recharge(consumerId,balance,money);
+		return consumerInfo != null;
+	}
+
+	@Override
+	public Boolean cashOut(String consumerId, BigDecimal balance, BigDecimal money) {
+		ConsumerInfo consumerInfo = consumerInfoMapper.cashOut(consumerId, balance, money);
+		return consumerInfo!=null;
 	}
 
 

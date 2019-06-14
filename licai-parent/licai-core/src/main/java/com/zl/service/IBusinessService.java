@@ -13,9 +13,10 @@ public interface IBusinessService {
 	/*
 	 * 企业注册
 	 */
-	AjaxJson registerBusiness(Business bs,BusinessInfo bsi);
-	
+	AjaxJson registerBusiness(Business bs, BusinessInfo bsi);
+
 	AjaxJson loginBusiness(Business bs);
+
 	
 	 BusinessInfo queryBusinessInfoByID(Business bs) ;
 	
@@ -25,4 +26,9 @@ public interface IBusinessService {
 	 
 	 List<Product> queryProductByBID(SelectCondition sc);
 		Product queryProductByPID(String pid);
+
+
+
+
+
 }

@@ -22,7 +22,7 @@
 									</div>
 									<div class="right-text-con">
 										<p class="name">用户数</p>
-										<p><span class="color-org">89</span>数据<span class="iconfont">&#xe628;</span></p>
+										<p><span class="color-org"><span th:text="${session.ConsumerInfo}">89</span></span>数据<span class="iconfont">&#xe628;</span></p>
 									</div>
 								</a>
 							</li>
@@ -33,7 +33,7 @@
 									</div>
 									<div class="right-text-con">
 										<p class="name">企业数</p>
-										<p><span class="color-blue">189</span>数据<span class="iconfont">&#xe628;</span></p>
+										<p><span class="color-blue"><span th:text="${session.BusinessInfo}">89</span></span>数据<span class="iconfont">&#xe628;</span></p>
 									</div>
 								</a>
 							</li>
@@ -44,7 +44,7 @@
 									</div>
 									<div class="right-text-con">
 										<p class="name">产品数</p>
-										<p><span class="color-green">221</span>数据<span class="iconfont">&#xe628;</span></p>
+										<p><span class="color-green"><span th:text="${session.Product}">89</span></span>数据<span class="iconfont">&#xe628;</span></p>
 									</div>
 								</a>
 							</li>
@@ -81,7 +81,7 @@
 							</div>
 							<div class="col-md-2">
 								<p class="title">服务器当前时间</p>
-								<span class="info">2019-06-2 11:37:35</span>
+								<span class="info"><span th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}">89</span></span>
 							</div>
 						</div>
 					</div>
@@ -250,7 +250,7 @@
 						                    }
 						                }
 						            },
-						            data: [10, 12, 21, 54, 260, 830, 710]
+						            data: []
 						        },
 						        {
 						            name: "企业",
@@ -263,7 +263,7 @@
 						                    }
 						                }
 						            },
-						            data: [30, 182, 434, 791, 390, 30, 10]
+						            data: []
 						        },
 						        {
 						            name: "产品",
@@ -277,7 +277,7 @@
 						                    color: "rgb(110, 211, 199)"
 						                }
 						            },
-						            data: [1320, 1132, 601, 234, 120, 90, 20]
+						            data: []
 						        }
 						    ]
 						}

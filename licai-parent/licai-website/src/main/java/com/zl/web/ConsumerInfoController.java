@@ -1,10 +1,10 @@
-/**
- * 
- */
 package com.zl.web;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -211,6 +211,78 @@ public class ConsumerInfoController {
 				json.setMsg("身份信息错误,认证失败!");
 			}
 		}catch(JZLCException e){
+			e.printStackTrace();
+			json.setSuccess(false);
+			json.setMsg("系统忙!稍后重试...");
+		}
+		return json;
+	}
+	
+	/**邮箱绑定*/
+	@RequestMapping("judgeBank")
+	@CheckLogin
+	@ResponseBody
+	public AjaxJson judgeBank(String cardId) {
+		AjaxJson json = new AjaxJson();
+		String bank = null;
+		try{
+			bank = consumerInfoService.judgeBank(cardId);
+			if(bank == null) {
+				json.setSuccess(false);
+				json.setMsg("银行卡错误");
+			}
+		}catch(JZLCException e){
+			e.printStackTrace();
+			json.setSuccess(false);
+			json.setMsg("系统忙!稍后重试...");
+		}
+		json.setMsg(bank);
+		return json;
+	}
+	
+	/**绑定银行卡*/
+	@RequestMapping("bindBankSubmit")
+	@CheckLogin
+	@ResponseBody
+	public AjaxJson bindBankSubmit(String cardId,String password) {
+		AjaxJson json = new AjaxJson();
+		try{
+			consumerInfoService.bindBankSubmit(cardId,password);
+		}catch(JZLCException e){
+			e.printStackTrace();
+			json.setSuccess(false);
+			json.setMsg("系统忙!稍后重试...");
+		}
+		return json;
+	}
+	
+	/**购买产品*/
+	@RequestMapping("buyProductSubmit")
+	@CheckLogin
+	@ResponseBody
+	public AjaxJson buyProductSubmit(BigDecimal buyMoney) {
+		AjaxJson json = new AjaxJson();
+		boolean balance = true;
+		try{
+			/*balance = consumerInfoService.buyProduct(buyMoney);
+			if(!balance) {
+				json.setSuccess(false);
+				json.setMsg("余额不足");
+			}*/
+		}catch(JZLCException e){
+			e.printStackTrace();
+			json.setSuccess(false);
+			json.setMsg("系统忙!稍后重试...");
+		}
+		return json;
+	}
+	
+	@RequestMapping("turnOutProductSubmit")
+	@ResponseBody
+	public AjaxJson turnOutProductSubmit(String productId,HttpServletRequest request) {
+		AjaxJson json = new AjaxJson();
+		try {
+		} catch (JZLCException e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");

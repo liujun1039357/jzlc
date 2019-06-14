@@ -1,11 +1,13 @@
 package com.zl.web;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,6 +22,7 @@ import com.zl.service.IConsumerInfoService;
 import com.zl.service.IProductService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
+import com.zl.util.UserContext;
 /**
  * 所有页面的跳转
  * @author ivy
@@ -33,7 +36,9 @@ public class TransferController {
 	private IBankCardInfoService bankCardInfoService;
 	@Autowired
 	private IProductService productService;
-	
+	@Autowired
+	private IConsumerInfoService iConsumerInfoService;
+
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -95,12 +100,6 @@ public class TransferController {
 		return "personal/personalCenter";
 	}
 	
-	/**理财产品列表页面*/
-	@RequestMapping("productInfo")
-	public String productInfo(String id) {
-		return "personal/productInfo";
-	}
-	
 	/**安全保障页面*/
 	@RequestMapping("safety")
 	public String safety(String id) {
@@ -127,13 +126,51 @@ public class TransferController {
 	
 	/***/
 	@RequestMapping("recharge")
-	public String recharge() {
+	public String recharge(BigDecimal money,String cardId, Model model) {
+		
+	/*	if(null != money && null != cardId) {
+			String consumerId =  UserContext.getLogininfo().getConsumerId();
+			Boolean cardyes = iBankCardInfoService.isBoundCard(consumerId,cardId);
+			if(cardyes) {
+				// TODO 支付密码验证
+				//银行卡余额判断
+				if(money.compareTo(new BigDecimal(2000))==1) {
+					model.addAttribute("message","银行卡余额不足，请重试。");
+					System.out.println("银行卡余额不足，请重试。");
+				}else {
+					//获取账户余额进行充值
+					BigDecimal balance = iConsumerInfoService.queryBalance();
+					Boolean flag = iConsumerInfoService.recharge(consumerId, balance, money);
+					if(flag) {
+						model.addAttribute("message","支付已成功！");
+						System.out.println("支付已成功！");
+					}else {
+						model.addAttribute("message","支付失败，请重试。");
+						System.out.println("支付失败，请重试。");
+					}
+				}
+			}
+		}*/
 		return "personal/recharge";
 	}
-
+	
 	/***/
 	@RequestMapping("cashOut")
-	public String cashOut() {
+	public String cashOut(BigDecimal money,String cardId, Model model) {
+		/*String consumerId =  UserContext.getLogininfo().getConsumerId();
+		//获取账户余额进行回显
+		BigDecimal balance = iConsumerInfoService.getBalace(consumerId);
+		model.addAttribute("balance",balance);
+		if(null != money && null != cardId) {
+			Boolean flag = iConsumerInfoService.cashOut(consumerId, balance, money);
+			if(flag) {
+				model.addAttribute("message","提现已成功！");
+				System.out.println("提现已成功！");
+			}else {
+				model.addAttribute("message","提现失败，请重试。");
+				System.out.println("提现失败，请重试。");
+			}
+		}*/
 		return "personal/cashOut";
 	}
 
@@ -141,12 +178,6 @@ public class TransferController {
 	@RequestMapping("myMoney")
 	public String myMoney() {
 		return "personal/myMoney";
-	}
-
-	/***/
-	@RequestMapping("systemInformation")
-	public String systemInformation() {
-		return "personal/systemInformation";
 	}
 
 	/**账户设置页面*/
@@ -218,6 +249,7 @@ public class TransferController {
 		return "personal/queryBankCards";
 	}
 	
+
 	/**产品详情页面*/
 	@RequestMapping("invest")
 	public String invest(@RequestParam(required = true, defaultValue = "1") Integer pageindex,
@@ -231,5 +263,36 @@ public class TransferController {
 		return "personal/invest";
 	}
 	
-
+	/**购买产品页面*/
+	@RequestMapping("buyProduct")
+	@CheckLogin
+	public String buyProduct(HttpServletRequest requset) {
+		long bitState = consumerInfoService.queryBitState();
+		String name = consumerInfoService.queryRealName();
+		BigDecimal balance = consumerInfoService.queryBalance();
+		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_REAL_AUTH)) {
+			requset.setAttribute("unRealAuth", "请先实名认证!");
+			return "personal/realAuth";
+		}
+		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_BANKCARD)) {
+			requset.setAttribute("unBindBank", "请先绑定银行卡");
+			return "personal/bindBank";
+		}
+		
+		requset.setAttribute("name", name);
+		requset.setAttribute("balance", balance);
+		return "personal/buyProduct";
+	}
+	
+	/**转出产品页面*/
+	@RequestMapping("turnOut")
+	public String turnOut(HttpServletRequest requset,String productId) {
+		String name = consumerInfoService.queryRealName();
+		BigDecimal balance = consumerInfoService.queryBalance();
+		int productType = productService.queryProductType(productId);
+		requset.setAttribute("name", name);
+		requset.setAttribute("balance", balance);
+		requset.setAttribute("productType", productType);
+		return "personal/turnOut";
+	}
 }

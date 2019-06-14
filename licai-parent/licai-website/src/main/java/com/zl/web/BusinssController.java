@@ -46,8 +46,7 @@ public class BusinssController {
 	}
 	
 	
-	
-	
+
 	
 	@RequestMapping("addManger")
 	public String addManger() {
@@ -104,12 +103,17 @@ public class BusinssController {
 		return "enterprise/productRecord";
 	}
 
+
 	@RequestMapping("loginBusiness")
 	@ResponseBody
 	public AjaxJson loginBusiness(Business business, HttpSession hs) {
 		AjaxJson aj = businessService.loginBusiness(business);
 		return aj;
 	}
+
+
+	
+	
 
 	@RequestMapping("businessIndex")
 	public String businessIndex(HttpSession hs, HttpServletRequest hsr) {
@@ -120,7 +124,13 @@ public class BusinssController {
 		String bankcard = businessService.queryBusinessInfoByID(business).getBankCardId();
 		hsr.setAttribute("bankcard", bankcard.substring(bankcard.length() - 4));
 		return "enterprise/businessCenter";
+
 	}
+
+
+		
+	
+	
 
 	@RequestMapping("enterpriseRegister")
 	@ResponseBody

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.zl.exception.JZLCException;
 import com.zl.mapper.BankCardInfoMapper;
+import com.zl.pojo.BankcardInfo;
 import com.zl.service.IBankCardInfoService;
 import com.zl.util.UserContext;
 
@@ -24,7 +25,7 @@ public class BankCardInfoServiceImpl implements IBankCardInfoService {
 	
 	@Override
 	public List<String> queryCardId() throws JZLCException {
-		return bankCardInfoMapper.queryCardId(UserContext.getLogininfo().getConsumerId());
+		return bankCardInfoMapper.queryCardId(UserContext.getLogininfo().getConsumerId(),BankcardInfo.BOUND);
 	}
 
 }

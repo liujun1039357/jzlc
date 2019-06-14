@@ -1,0 +1,350 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>橘子后台管理</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{admin/layui/css/layui.css}" />
+
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/2.2.0/jquery.js}"></script>
+
+<link rel="stylesheet" type="text/css" th:href="@{admin/css/admin.css}" />
+
+<script type="text/javascript" th:src="@{admin/layui/layui.js}"></script>
+
+<script type="text/javascript" th:src="@{admin/js/main.js}"></script>
+
+<link rel="stylesheet"
+	th:href="@{/js/bootstrap-3.3.2-dist/css/bootstrap.css}" type="text/css" />
+
+<script type="text/javascript" th:src="@{/js/jquery/jquery-2.1.3.js}"></script>
+<script type="text/javascript"
+	th:src="@{/js/bootstrap-3.3.2-dist/js/bootstrap.js}"></script>
+
+<style>
+#xxx {
+	position: relative;
+	left: 550px;
+	top: 350px;
+}
+</style>
+
+
+</head>
+
+
+
+<body>
+	<div class="main-layout-side">
+		<div class="m-logo"></div>
+		<ul class="layui-nav layui-nav-tree" lay-filter="leftNav">
+			<li class="layui-nav-item "><a href="javascript:;"><i
+					class="iconfont">&#xe607;</i>用户管理</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<!-- th:replace="common/headpart :: top" -->
+						<a href="menu3" data-id='1' data-text="查看用户"><span
+							class="l-line"></span>查看用户</a>
+					</dd>
+					<dd>
+						<a href="" data-id='2' data-text="修改用户"><span class="l-line"></span>修改用户</a>
+					</dd>
+				</dl></li>
+			<li class="layui-nav-item "><a href="javascript:;"><i
+					class="iconfont">&#xe608;</i>企业管理</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="qiye" data-url="article-list.html" data-id='3'
+							data-text="未审核企业 "><span class="l-line"></span>未审核企业</a>
+					</dd>
+					<dd>
+						<a href="javascript:;" data-url="danye-list.html" data-id='9'
+							data-text="审核企业"><span class="l-line"></span>审核企业</a>
+					</dd>
+				</dl></li>
+
+
+			<li class="layui-nav-item layui-nav-itemed"><a
+				href="javascript:;"><i class="iconfont">&#xe608;</i>产品管理</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="menu-add3" data-url="article-list.html" data-id='3'
+							data-text="未审核产品" style="color: #c2c2c2;"><span
+							class="l-line"></span>未审核产品</a>
+					</dd>
+					<dd>
+						<a href="javascript:;" data-url="danye-list.html" data-id='9'
+							data-text="审核产品" style="color: #00b5f9;"><span class="l-line"></span>审核产品</a>
+					</dd>
+				</dl></li>
+
+
+			<li class="layui-nav-item"><a href="email-write"><i
+					class="iconfont">&#xe60a;</i>公告设置</a></li>
+			<li class="layui-nav-item"><a href="admin-info"
+				data-url="admin-info.html" data-id='5' data-text="个人信息"><i
+					class="iconfont">&#xe606;</i>个人信息</a></li>
+			<!-- <li class="layui-nav-item"><a href="javascript:;"
+				data-url="system.html" data-id='6' data-text="系统设置"><i
+					class="iconfont">&#xe60b;</i>系统设置</a></li> -->
+		</ul>
+	</div>
+	<!--右侧内容-->
+	<div class="main-layout-container">
+		<!--头部-->
+		<div class="main-layout-header">
+			<div class="menu-btn" id="hideBtn">
+				<a href="javascript:;"> <span class="iconfont">&#xe60e;</span>
+				</a>
+			</div>
+			<ul class="layui-nav" lay-filter="rightNav">
+				<li class="layui-nav-item"><a href="javascript:;"
+					data-url="email.html" data-id='4' data-text="邮件系统"><i
+						class="iconfont">&#xe603;</i></a></li>
+
+
+				<li class="layui-nav-item"
+					th:if="${session.controller.jurisdiction==1}"><a
+					href="javascript:;" data-url="admin-info.html" data-id='5'
+					data-text="个人信息">一级管理员</a></li>
+				<li class="layui-nav-item"
+					th:if="${session.controller.jurisdiction==2}"><a
+					href="javascript:;" data-url="admin-info.html" data-id='5'
+					data-text="个人信息">二级管理员</a></li>
+				<li class="layui-nav-item"
+					th:if="${session.controller.jurisdiction==3}"><a
+					href="javascript:;" data-url="admin-info.html" data-id='5'
+					data-text="个人信息">三级管理员</a></li>
+
+
+				<li class="layui-nav-item"><a href="login">退出</a></li>
+			</ul>
+		</div>
+		<!--主体内容-->
+		<div class="main-layout-body">
+			<!--tab 切换-->
+			<div class=" layui-tab-brief" lay-allowclose="true" lay-filter="tab">
+				<ul class="layui-tab-title"
+					style="margin-bottom: 0px; border-bottom-width: 0px;">
+					<li class="layui-this welcome">产品详情信息</li>
+				</ul>
+				<div class="layui-tab-content" style="padding-top: 0px;">
+					<div class="layui-tab-item layui-show" style="background: #f5f5f5;">
+						<!-- Modal -->
+						<div>
+							<table class="table table-hover">
+								<tbody>
+									<tr>
+										<td style="padding-top: 12px;">产品流水号</td>
+										<td style="width: 206px; padding-left: 0px;"><input
+											class="form-control" id="exampleInputName2" type="text"
+											th:value="${session.pageInfo5.productId}"></td>
+										<td
+											style="padding-top: 13px; width: 103px; padding-right: 0px; padding-left: 15px;">产品名称</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px; margin-right: 0px;"
+											th:value="${session.pageInfo5.productName}"></td>
+										<td style="padding-top: 12px; width: 86px;">产品额度</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text" th:value="${session.pageInfo5.productQuota}"></td>
+
+
+										<td style="padding-top: 12px; width: 113px;">产品类型</td>
+										<td><input class="form-control" id="exampleInputName2"
+											th:if="${session.pageInfo5.productType==0}" type="text"
+											th:value='活期'></td>
+										<td><input class="form-control" id="exampleInputName2"
+											th:if="${session.pageInfo5.productType==1}" type="text"
+											th:value='死期'></td>
+
+									</tr>
+									<tr>
+										<td style="padding-top: 12px;">预期收益率</td>
+										<td style="padding-left: 0px;"><input
+											class="form-control" id="exampleInputName2"
+											style="width: 198px;" type="text"
+											th:value="${session.pageInfo5.productProfit}"></td>
+										<td
+											style="padding-top: 12px; padding-left: 15px; padding-right: 0px;">已售额度</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px;"
+											th:value="${session.pageInfo5.productSaledQuota}"></td>
+										<td style="padding-top: 12px;">售完时间</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text"
+											th:value="${#dates.format(session.pageInfo5.productSaledTime,'yyyy-MM-dd')}"></td>
+										<td style="padding-top: 12px; width: 103px;">产品经理人</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text" th:value="${session.pageInfo5.productManager}"></td>
+									</tr>
+									<tr>
+										<td style="padding-top: 12px;">产品状态</td>
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==0}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='待审核'></td>
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==1}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='审核中'></td>
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==2}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='已审核'></td>
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==3}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='待发行'></td>
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==4}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='发行中'></td>
+
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==5}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='已售完'></td>
+
+										<td style="padding-left: 0px;"
+											th:if="${session.pageInfo5.productState==6}"><input
+											class="form-control" style="width: 198px;" type="text"
+											th:value='已过期'></td>
+
+
+
+
+
+
+
+										<td
+											style="padding-top: 12px; padding-left: 15px; padding-right: 0px;">起售金额</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px;"
+											th:value="${session.pageInfo5.productLowQuota}"></td>
+										
+										<td style="padding-top: 12px;">收益方式</td>
+										<td th:if="${session.pageInfo5.productProfitType==0}">
+										<input class="form-control" id="exampleInputName2"
+											type="text" th:value='日结'></td>
+										<td th:if="${session.pageInfo5.productProfitType==1}">
+										<input class="form-control" id="exampleInputName2"
+											type="text" th:value='期结'></td>	
+											
+										<td style="padding-top: 12px;">可否赎回</td>
+										<td th:if="${session.pageInfo5.productBack==0}">
+										<input class="form-control" id="exampleInputName2"
+											type="text" th:value='可以'></td>
+											<td th:if="${session.pageInfo5.productBack==1}">
+										<input class="form-control" id="exampleInputName2"
+											type="text" th:value='不可以'></td>
+									</tr>
+									<tr>
+										<td style="padding-top: 12px;">最短收益生效日</td>
+										<td style="padding-left: 0px;"><input
+											class="form-control" id="exampleInputName2"
+											style="width: 198px;" type="text"
+											th:value="${#dates.format(session.pageInfo5.productLowProfitDate,'yyyy-MM-dd')}"></td>
+										<td
+											style="padding-top: 12px; padding-left: 15px; padding-right: 0px;">风险等级</td>
+										<td  th:if="${session.pageInfo5.productRiskGrade==1}"
+										><input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px;"
+											th:value="保本保收"></td>
+											
+											<td th:if="${session.pageInfo5.productRiskGrade==2}">
+											<input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px;"
+											th:value="保本不保收"></td>
+											
+											<td th:if="${session.pageInfo5.productRiskGrade==3}"
+											><input class="form-control" id="exampleInputName2"
+											type="text" style="width: 259px;"
+											th:value="不保本不保收"></td>
+											
+											
+											
+										<td style="padding-top: 12px;">上线时间生效时间</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text"
+											th:value="${#dates.format(session.pageInfo5.productEffectDate,'yyyy-MM-dd')}"></td>
+										
+										<td style="padding-top: 12px;">审核状态</td>
+										<td th:if="${session.pageInfo5.checkFlag==0}">
+										<input class="form-control" id="exampleInputName2"
+											type="text" th:value="未审核"></td>
+											
+											<td th:if="${session.pageInfo5.checkFlag==1}">
+											<input class="form-control" id="exampleInputName2"
+											type="text" th:value="一审通过"></td>
+											
+											<td th:if="${session.pageInfo5.checkFlag==2}">
+											<input class="form-control" id="exampleInputName2"
+											type="text" th:value="二审通过"></td>
+											
+											<td th:if="${session.pageInfo5.checkFlag==3}">
+											<input class="form-control" id="exampleInputName2"
+											type="text" th:value="审核通过"></td>
+											
+									</tr>
+									<tr>
+										<td style="padding-top: 12px;">提交时间</td>
+										<td style="padding-left: 0px;"><input
+											class="form-control" id="exampleInputName2"
+											style="width: 198px;" type="text"
+											th:value="${#dates.format(session.pageInfo5.addTime,'yyyy-MM-dd')}"></td>
+
+										<td style="padding-top: 12px;">修改时间</td>
+										<td><input class="form-control" id="exampleInputName2"
+											type="text"
+											th:value="${#dates.format(session.pageInfo5.updateTime,'yyyy-MM-dd')}"></td>
+										<td style="padding-top: 12px;">死期类结算时间</td>
+										<td><input class="form-control" type="text"
+											th:value="${#dates.format(session.pageInfo5.productAcountTime,'yyyy-MM-dd')}"></td>
+										<td style="padding-top: 12px;">所属公司</td>
+										<td><input class="form-control" type="text"
+											th:value="${session.pageInfo5.businessid}"></td>
+									</tr>
+									<tr>
+										<td style="padding-top: 12px;">结算周期</td>
+										<td style="padding-left: 0px;"><input
+											class="form-control" id="exampleInputName2"
+											style="width: 198px;" type="text" type="text"
+											th:value="${session.pageInfo5.acountcycle}"></td>
+
+									</tr>
+
+
+									<div id="xxx">
+										<a th:href="menu-add3"><button class="btn btn-default"
+												data-dismiss="modal" type="button">关闭</button></a> <a
+											th:href="@{/pass(passid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
+											<button type="button" class="btn btn-success">审核通过</button>
+										</a> <a
+											th:href="@{/Refuse(Refuseid=${session.pageInfo5.productId},state=${session.pageInfo5.checkFlag})}">
+											<button type="button" class="btn btn-warning">审核拒绝</button>
+										</a>
+									</div>
+
+								</tbody>
+							</table>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

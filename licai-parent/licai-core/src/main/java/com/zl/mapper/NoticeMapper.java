@@ -14,6 +14,12 @@ public interface NoticeMapper {
 	 * */
 	List<Notice> getNotices();
 	
+	/**
+	 * 获取公告详情
+	 * */
+	Notice getNoticeInfo(Integer nId);
+	
 }
+	
 /*
 */
