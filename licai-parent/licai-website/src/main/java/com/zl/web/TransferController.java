@@ -1,6 +1,7 @@
 package com.zl.web;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.Profit;
 import com.zl.pojo.RealAuthShow;
 import com.zl.pojo.SelectCondition;
+import com.zl.pojo.TradeList;
 import com.zl.pojo.TradeRecord;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
@@ -27,6 +29,9 @@ import com.zl.service.ITradeRecordService;
 import com.zl.util.AjaxJson;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
+import com.zl.util.DateUtil;
+import com.zl.util.SystemConstant;
+import com.zl.util.UserContext;
 /**
  * 所有页面的跳转
  * @author ivy
@@ -154,41 +159,35 @@ public class TransferController {
 	}
 	
 	/**充值页面*/
-/*  @RequestMapping("recharge")
+	@RequestMapping("recharge")
 	@CheckLogin
 	public String recharge(BigDecimal money,String cardId, Model model) {
-
 		List<String> bankCardList = bankCardInfoService.queryCardId();
 		model.addAttribute("bankCardList",bankCardList);
 		System.out.println("bankCardList"+bankCardList);
 		if(null != money && null != cardId) {
-			long bitState = consumerInfoService.queryBitState();
-			Boolean cardyes = BitStateUtil.hasState(bitState, BitStateUtil.OPEN_BANKCARD);
-			if(cardyes) {
-				// TODO 支付密码验证
-				//银行卡余额判断
-				if(money.compareTo(new BigDecimal(5035))==1) {
-					model.addAttribute("message","银行卡余额不足，请重试。");
-					System.out.println("银行卡余额不足，请重试。");
+			//银行卡余额判断
+			if(money.compareTo(new BigDecimal(5035))==1) {
+				model.addAttribute("message","银行卡余额不足，请重试。");
+				System.out.println("银行卡余额不足，请重试。");
+			}else {
+				//获取账户余额进行充值
+				Boolean flag = consumerInfoService.recharge(money);
+				if(flag) {
+					model.addAttribute("message","支付已成功！");
+					System.out.println("支付已成功！");
 				}else {
-					//获取账户余额进行充值
-					Boolean flag = consumerInfoService.recharge(money);
-					if(flag) {
-						model.addAttribute("message","支付已成功！");
-						System.out.println("支付已成功！");
-					}else {
-						model.addAttribute("message","支付失败，请重试。");
-						System.out.println("支付失败，请重试。");
-					}
+					model.addAttribute("message","支付失败，请重试。");
+					System.out.println("支付失败，请重试。");
 				}
 			}
 		}
 		return "personal/recharge";
 	}
-	*/
-	@RequestMapping("recharge")
+	
+/*	@RequestMapping("recharge")
 	@ResponseBody
-	public AjaxJson recharge1(BigDecimal money,String cardId, Model model) {
+	public AjaxJson recharge(BigDecimal money,String cardId, Model model) {
 		AjaxJson json = new AjaxJson();
 		//获取银行卡供用户选择
 		List<String> bankCardList = bankCardInfoService.queryCardId();
@@ -196,7 +195,6 @@ public class TransferController {
 		System.out.println("bankCardList"+bankCardList);
 		try {
 			if(money != null) {
-
 				if(money.compareTo(new BigDecimal(5035))==1) {
 					json.setSuccess(false);
 					json.setMsg("银行卡余额不足，请重试.");
@@ -214,9 +212,35 @@ public class TransferController {
 		}
 		return json;	
 	}
-	
-	/***/
+	*/
+	/**提现页面*/
 	@RequestMapping("cashOut")
+	public String cashOut(BigDecimal money,String cardId, Model model) {
+		
+		//获取银行卡供用户选择
+		List<String> bankCardList = bankCardInfoService.queryCardId();
+		model.addAttribute("bankCardList",bankCardList);
+		//获取账户余额进行回显
+		BigDecimal balance = consumerInfoService.queryBalance();
+		model.addAttribute("balance",balance);
+		
+		if(null != money && null != cardId) {
+			//获取账户余额进行提现
+			Boolean flag = consumerInfoService.cashOut(money);
+			if(flag) {
+				BigDecimal balance1 = consumerInfoService.queryBalance();
+				model.addAttribute("message","提现已成功！");
+				model.addAttribute("balance1",balance1);
+				System.out.println("提现已成功！");
+			}else {
+				model.addAttribute("message","提现失败，请重试。");
+				System.out.println("提现失败，请重试。");
+			}
+		}
+		return "personal/cashOut";
+	}
+	
+ /*@RequestMapping("cashOut")
 	@CheckLogin
 	@ResponseBody
 	public AjaxJson cashOut(BigDecimal money,String cardId, Model model) {
@@ -241,9 +265,8 @@ public class TransferController {
 				json.setMsg("系统忙!稍后重试...");
 			}
 		}
-		
 		return json;
-	}
+	}*/
 
 	/**我的钱包页面*/
 	@RequestMapping("myMoney")

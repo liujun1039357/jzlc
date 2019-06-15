@@ -26,6 +26,8 @@ public interface ITradeRecordService {
 	 */
 	List<TradeRecord> queryTradeRecord() throws JZLCException;
 	
+	
+	
 
 	/**
 	 * 查詢个人购买的产品累计投资

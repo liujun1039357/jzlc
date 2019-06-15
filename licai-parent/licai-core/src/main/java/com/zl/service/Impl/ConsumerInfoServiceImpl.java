@@ -28,6 +28,7 @@ import com.zl.service.IAuthentication;
 import com.zl.service.IConsumerInfoService;
 import com.zl.util.BitStateUtil;
 import com.zl.util.DateUtil;
+import com.zl.util.SystemConstant;
 import com.zl.util.UserContext;
 
 /**
@@ -226,6 +227,24 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		if(count <= 0) {
 			return false;
 		}
+		//插入tradeRecord表
+		TradeRecord tradeRecord = new TradeRecord();
+		tradeRecord.setProductId(SystemConstant.JUZILICAI_ID);
+		tradeRecord.setProductName(SystemConstant.JUZILICAI_NAME);
+		tradeRecord.setBaseMoney(money);
+		tradeRecord.setRate(SystemConstant.JUZILICAI_RATE);
+		tradeRecord.setConsumerId(consumerId);
+		tradeRecord.setEffectDate(new Date());
+		tradeRecord.setProductProfitType(SystemConstant.JUZILICAI_PROFIT_TYPE);
+		tradeRecordMapper.insertTradeRecord(tradeRecord);
+
+		//插入tradeList表
+		TradeList tradeList = new TradeList();
+		tradeList.setConsumerId(consumerId);
+		tradeList.setProductId(SystemConstant.JUZILICAI_ID);
+		tradeList.setTradeType(TradeList.PURCHASE);
+		tradeList.setTradeMoney(money);
+		tradeListMapper.insertTradeList(tradeList);
 		return true;
 	}
 

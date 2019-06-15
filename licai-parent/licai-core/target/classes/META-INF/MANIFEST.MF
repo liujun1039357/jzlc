@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: licai-core
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Administrator
+Built-By: liuxiaolei
 Implementation-Vendor-Id: com.licai
-Build-Jdk: 1.8.0_181
+Build-Jdk: 1.8.0_131
 Implementation-URL: https://projects.spring.io/spring-boot/licai-paren
  t/licai-core/
 Created-By: Maven Integration for Eclipse
