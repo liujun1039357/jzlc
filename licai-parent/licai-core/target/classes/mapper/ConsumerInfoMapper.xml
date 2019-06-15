@@ -62,13 +62,13 @@
 	<select id="queryBalance" resultType="BigDecimal">
 		select balance from consumerInfo where consumerId = #{consumerId}
 	</select>
-	<!-- 购买产品修改余额及已用金额 -->
+	<!-- 购买产品修改总金额,余额及已用金额 -->
 	<update id="updateMoneyOfBuyProduct">
-		update consumerInfo set balance = balance-#{buyMoney},usedMoney = balance+#{buyMoney},updateTime = sysdate where consumerId = #{consumerId}
+		update consumerInfo set sumMoney = sumMoney+#{sumMoney},balance = balance-#{buyMoney},usedMoney = balance+#{buyMoney},updateTime = sysdate where consumerId = #{consumerId}
 	</update>
-	<!-- 转出产品修改余额及已用金额 -->
+	<!-- 转出产品修改总金额,余额及已用金额 -->
 	<update id="updateMoneyOfTurnOut">
-		update consumerInfo set balance = balance+#{sumMoney},usedMoney = balance-#{sumMoney},updateTime = sysdate where consumerId = #{consumerId}
+		update consumerInfo set sumMoney = sumMoney-#{sumMoney},balance = balance+#{sumMoney},usedMoney = balance-#{sumMoney},updateTime = sysdate where consumerId = #{consumerId}
 	</update>
 	<!-- 定时任务计算总金额 -->
 	<update id="updateSumMoneyTest">

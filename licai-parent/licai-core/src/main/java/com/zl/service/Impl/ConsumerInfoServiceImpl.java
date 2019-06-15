@@ -173,7 +173,7 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		if(canSaledQuota.doubleValue()<buyMoney.doubleValue()) {
 			throw new JZLCException("购买金额不能大于剩余可买额度!");
 		}
-		//更新余额及已用金额
+		//更新总金额余额及已用金额
 		consumerInfoMapper.updateMoneyOfBuyProduct(consumerId,buyMoney);
 		//更新产品已售额度
 		
@@ -202,6 +202,7 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 	@Override
 	public boolean turnOutProduct(String productId, BigDecimal sumMoney) throws JZLCException {
 		String consumerId = UserContext.getLogininfo().getConsumerId();
+		//更新总金额余额及已用金额
 		consumerInfoMapper.updateMoneyOfTurnOut(consumerId,sumMoney);
 		System.out.println(productId);
 		//修改tradeRecord表的状态

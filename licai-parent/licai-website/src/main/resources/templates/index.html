@@ -7,7 +7,29 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
 <script type="text/javascript"  th:src="@{/script/jquery.min.js}"></script>
 <script type="text/javascript"  th:src="@{/js/all.js}"></script>
+<script>
+	$(function() {
+		$("#buyProduct").click(function() {
+			$.ajax({
+				url : "buyProductSubmit",
+				type : "post",
+				dataType : "json",
+				data : {
+					productId : $("#productId").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						$.messager.popup("购买成功!");
+						location.href = "personalCenter";
+					} else { //失败
+						$.messager.popup(data.msg);
+					}
+				}
+			})
+		});
 
+	})
+</script>
 </head>
 
 <body onload="init()">
@@ -171,7 +193,7 @@
 							<div class="gy_treasur_bg1">
 								<div class="gy_treasur_bg2" style="width: 70%;"
 									th:style="'width:'+(${p.productSaledQuota}/${p.productQuota}*146)+'px;'"></div>
-								<div class="gy_treasur_bg2""></div>
+								<div class="gy_treasur_bg2"></div>
 							</div>
 
 							<p>
@@ -180,7 +202,7 @@
 							</p>
 						</span> <span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
 							<p style="margin-left: 50px;">
-								<a style="font-size: 18px; color: #fff;" href="">立即投标</a>
+								<a style="font-size: 18px; color: #fff;" href="" id="buyProduct">立即投标</a>
 							</p>
 						</span>
 					</div>
