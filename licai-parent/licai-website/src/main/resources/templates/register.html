@@ -81,7 +81,7 @@
 				},
 				tel : {
 		            required : true,
-		            minlength : 11,
+		            minlength : [ 11, 11 ],
 		            remote : {
 						url : "/checkTel",
 						type : "post"
@@ -105,7 +105,7 @@
 				},
 				tel : {
 		            required : "请输入手机号",
-		            minlength : "确认手机不能小于11个字符",
+		            minlength : "确认手机号码为11位",
 		            remote : "该手机号已注册!"
 		            //isPhone : "请正确填写您的手机号码"
 		        }

@@ -35,7 +35,7 @@
   <div class="w1200 personal">
     <div th:replace="common/leftmenu :: left (activeUri = 'recharge')" ></div>
     <label id="typeValue" style="display:none;"> </label>
-    <script>
+    <!-- <script>
 		$(function(){
 
 			var int1=self.setInterval("checkRecharge()",200);
@@ -79,10 +79,8 @@
 				$("#mask").css("display","none");
 				$("#"+op).css("display","none");
 			}
-		//]]>
-		</script>
-    <script>
-			//<![CDATA[
+			
+
 			function checkRecharge() {
 				var moneyRegex="^(([1-9]+[0-9]*)|((([1-9]+[0-9]*)|0)\\.[0-9]{1,2}))$";
 				var money = $("#recharge\\:actualMoney").val();
@@ -386,6 +384,17 @@
 						 showSpan("alert-unbindMsgDialog");
 					  } 
 			 });
+		//]]>
+	</script> -->
+    <script>
+			//<![CDATA[
+			
+			$(function (){
+				var message = document.getElementById("Controllermessage").value;
+				if("" != message){
+					alert(message);
+				}
+			});
 			//]]>
 		</script>
    
@@ -394,11 +403,12 @@
         <h3 style="width:820px"><i>充值</i></h3>
         <div class="quick-pay-wrap">
           <h4> <span class="quick-tit pay-cur"><em>银行卡支付</em></span> </h4>
-          <form id="recharge" name="recharge" method="post"  th:action="${recharge}" >
+          <form id="recharge" name="recharge" method="post"  action="recharge" >
+          <input type="hidden"  th:value="${message}" id="Controllermessage"  />
             <div class="quick-main" style="height:350px">
               <div class="fl quick-info">
                 <div class="info-1"> <span class="info-tit">充值金额</span> <span class="info1-input">
-                  <input id="form:actualMoney1" type="text" name="" class="pay-money-txt" maxlength="10" ></input>
+                  <input id="form:actualMoney1" type="text" name="money" class="pay-money-txt" maxlength="10" ></input>
                   <em>元</em> </span> <span class="quick-error"> </span> </div>
                 <div class="info-tips">橘子理财提醒您：充值金额超过50000元时，请切换到银行卡充值</div>
                 <div class="info-2"> <span class="info-tit">银行卡号</span> <span class="info2-input">
@@ -409,13 +419,11 @@
 			         <option th:value="${bankCard}"  th:text="${bankCard}" ></option>
 			     </th:block>
 			     </select>
-                  
-                  
                   <em class="info2-bank" style="display: none;">
                   <label id="form:defaultBankName" style="font-size:16px;"> </label>
                   </em> </span> <span class="quick-error3" id="bankCardError"></span> </div>
                 <div class="bank-check" id="bank-check2"> <b class="selected" id="bankProtocol1"></b><span class="bank-agree">我同意并接受<a href="#" target="_blank">《橘子理财投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
-                <input id="recharge"  type="button" name="recharge" value="充值" class="btn-paycz" />
+                <input id="recharge"  type="submit" name="recharge" value="充值" class="btn-paycz" />
               </div>
             </div>
           </form>

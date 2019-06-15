@@ -16,8 +16,8 @@ public class CardRule implements Serializable{
 	/**银行名称*/
 	private String bankName;
 	/**银行卡前6位;发卡行识别码区段起始*/
-	private Integer sBin;
+	private String sBin;
 	/**银行卡前6位;发卡行识别码区段结束*/
-	private Integer eBin;
+	private String eBin;
 
 }

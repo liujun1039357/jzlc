@@ -21,7 +21,11 @@
          </if>
 		</where>
 	</select>
-	
+	<!-- 插入交易记录 -->
+	<insert id="insertTradeList" parameterType="TradeList">
+		insert into tradeList values('jzlc'||lpad(SEQ_TRADELIST.NEXTVAL,7,'0'),#{consumerId},#{productId},#{tradeType},
+		#{tradeMoney},#{tradeMoney},'0',#{orderStates},SYSDATE)
+	</insert>
 	<select id="getTradeTypes" resultType="Integer">
 		select tradetype from tradelist group by tradetype
 	</select>

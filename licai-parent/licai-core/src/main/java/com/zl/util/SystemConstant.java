@@ -20,5 +20,13 @@ public class SystemConstant {
 	public static final int VERIFYCODE_VALIDATE_TIME = 60;
 	/**邮箱验证码有效时间*/
 	public static final int MAILCODE_VALIDATE_TIME = 5*60;
+	/**橘子理财ID*/
+	public static final String JUZILICAI_ID="jzlc0000000";
+	/**橘子理财NAME*/
+	public static final String JUZILICAI_NAME="橘子理财理财宝";
+	/**橘子理财利率*/
+	public static final BigDecimal JUZILICAI_RATE= new BigDecimal("0.001");
+	/**橘子理财类型*/
+	public static final int JUZILICAI_PROFIT_TYPE= 0;
 
 }

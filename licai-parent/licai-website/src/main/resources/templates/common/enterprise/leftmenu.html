@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>p2p网贷平台</title>
+</head>
+<body>
+	<div id="personal-left" class="personal-left" th:fragment="left">
+		<ul>
+			<li class=""  th:class="${activeUri == 'businessIndex' ? 'pleft-cur' : ''}"><span><a th:href="@{/businessIndex}"><i class="dot dot1"></i>账户信息</a></span></li>
+			<li class=""  th:class="${activeUri == 'productList' ? 'pleft-cur' : ''}"><span><a th:href="@{/productList}"><i class="dot dot02"></i>产品列表</a></span></li>
+			<li class="" th:class="${activeUri == 'addProduct' ? 'pleft-cur' : ''}"><span><a style="font-size: 14px; text-align: center; width: 127px;" th:href="@{/addProduct}"><i class="dot dot07"></i>产品提交</a></span></li>
+			<li class="" th:class="${activeUri == 'productRecord' ? 'pleft-cur' : ''}"><span><a th:href="@{/productRecord}"><i class="dot dot03"></i>产品审核记录查看</a></span></li>
+			<li class="" th:class="${activeUri == 'productManger' ? 'pleft-cur' : ''}"><span><a th:href="@{/productManger}"><i class="dot dot04"></i>产品经理人</a></span></li>
+			<li class="" th:class="${activeUri == 'addManger' ? 'pleft-cur' : ''}"><span><a th:href="@{/addManger}"><i class="dot dot04"></i>经理人注册</a></span></li>
+		</ul>
+	</div>
+</body>
+</html>

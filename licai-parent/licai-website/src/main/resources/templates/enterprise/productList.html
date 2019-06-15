@@ -104,7 +104,7 @@
 										class="pmain-title4 fb">产品经理人</span> <span
 										class="pmain-title5 fb">操作</span>
 								</div> -->
-								<table style="width:800px;">
+								<table>
 									<thead>
 										<tr class="pmain-contitle">
 											<td style="width: 120px; padding-left: 30px;">产品流水号</td>
@@ -115,11 +115,11 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="p : ${pageInfo.list}" style="height: 40px;">
+										<tr th:each="p : ${pageInfo.list}">
 											<td style="width: 120px; padding-left: 20px;"
 												th:text="${p.productId}">111</td>
-											<td style="width: 150px;padding-left: 0px;"
-												th:text="${p.productName}" ></td>
+											<td style="width: 120px; padding-left: 20px;"
+												th:text="${p.productName}"></td>
 											<td style="width: 120px; padding-left: 20px;"
 												th:if="${p.productState==0}">待审核</td>
 											<td style="width: 120px; padding-left: 20px;"

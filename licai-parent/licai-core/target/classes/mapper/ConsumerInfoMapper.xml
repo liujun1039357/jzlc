@@ -62,6 +62,30 @@
 	<select id="queryBalance" resultType="BigDecimal">
 		select balance from consumerInfo where consumerId = #{consumerId}
 	</select>
+	<!-- 购买产品修改总金额,余额及已用金额 -->
+	<update id="updateMoneyOfBuyProduct">
+		update consumerInfo set sumMoney = sumMoney+#{buyMoney},balance = balance-#{buyMoney},usedMoney = balance+#{buyMoney},updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 转出产品修改总金额,余额及已用金额 -->
+	<update id="updateMoneyOfTurnOut">
+		update consumerInfo set sumMoney = sumMoney-#{sumMoney},balance = balance+#{sumMoney},usedMoney = balance-#{sumMoney},updateTime = sysdate where consumerId = #{consumerId}
+	</update>
+	<!-- 定时任务计算总金额 -->
+	<update id="updateSumMoneyTest">
+		update consumerInfo set sumMoney = sumMoney+1 
+	</update>
+	<!-- 查询所有用户 -->
+	<select id="queryConsumers" resultType="String">
+		select consumerId  from consumerInfo
+	</select>
+	<!-- 更新余额 -->
+	<update id="updateBalance">
+		update consumerInfo set balance = balance*0.001+balance where consumerId = #{consumerId} 
+	</update>
+	<!-- 更新总金额 -->
+	<update id="updateSumMoney" parameterType="BigDecimalParam">
+		update consumerInfo set sumMoney = #{num1,jdbcType=NUMERIC}+#{num2,jdbcType=NUMERIC}+balance where consumerId = #{str}
+	</update>
 	<!-- 充值 -->
 	<update id="recharge" >
 		update consumerInfo

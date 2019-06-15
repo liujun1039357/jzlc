@@ -58,11 +58,11 @@
 					</a>
 				</div>
 				<ul class="top-nav fn-clear">
-					<li class="on"><a th:href="@{/index}">首页</a></li>
-					<li><a th:href="@{/invest}" class="">我要投资</a></li>
-					<li class="top-nav-safe"><a th:href="@{/personalCenter}">我的账户</a></li>
-					<li><a th:href="@{/safety}">安全保障</a></li>
-					<li><a th:href="@{/aboutUs}">关于我们</a></li>
+					<li class="on"  th:if="${session.loginBusiness}==null"><a th:href="@{/index}">首页</a></li>
+					<li><a th:href="@{/invest}" class=""  th:if="${session.loginBusiness}==null">我要投资</a></li>
+					<li class="top-nav-safe"  th:if="${session.loginBusiness}==null"><a th:href="@{/personalCenter}">我的账户</a></li>
+					<li><a th:href="@{/safety}"  th:if="${session.loginBusiness}==null">安全保障</a></li>
+					<li><a th:href="@{/aboutUs}"   th:if="${session.loginBusiness}==null">关于我们</a></li>
 				</ul>
 			</div>
 		</div>

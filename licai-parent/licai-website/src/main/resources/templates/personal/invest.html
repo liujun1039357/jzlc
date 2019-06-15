@@ -25,17 +25,28 @@
 <title>我要投资</title>
 <script>
 	$(function() {
-	/* 	//设置时间格式
-		$("#start,#end").datetimepicker({
-			format : 'yyyy-mm-dd',
-			language : 'zh-CN',
-			minView : 2,
-			endDate : new Date()
-		}); */
-		//给分页添加点击事件,使每次点击页码都提交高级查询表单
 		$(".pages").click(function() {
 			$("#getpage").val($(this).attr("data"));//设置隐藏域中的value,this为点击的页码;
 			$("#productListform").submit(); //selectInfo是表单id,提交表单;
+		});
+		
+		$("#buyProduct").click(function() {
+			$.ajax({
+				url : "buyProductSubmit",
+				type : "post",
+				dataType : "json",
+				data : {
+					productId : $("#productId").val()
+				},
+				success : function(data) {
+					if (data.success) {
+						$.messager.popup("购买成功!");
+						location.href = "personalCenter";
+					} else { //失败
+						$.messager.popup(data.msg);
+					}
+				}
+			})
 		});
 
 	})
@@ -122,7 +133,8 @@
 									th:text="${p.productName}"></span> <img
 									th:src="@{/images/gy_guide_index_xzk_bid_ritre.png}" />
 							</p>
-							<p th:text="'产品ID:'+${p.productId}"></p>
+							<p th:text="'产品ID:'+${p.productId}" ></p>
+							<input type="hidden" th:value="${p.productId}" id="productId" />
 						</span> <span class="fl gy_guide_index_xzkbi2" id="gy_guide_index_xzkbi5">
 							<p>
 								<span style="font-size: 25px; color: #FC8026;"
@@ -154,7 +166,7 @@
 							</p>
 						</span> <span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
 							<p>
-								<a style="font-size: 18px; color: #fff;" href="">立即投标</a>
+								<a style="font-size: 18px; color: #fff;" id="buyProduct" href="#">立即投标</a>
 							</p>
 						</span>
 					</div>
@@ -206,17 +218,7 @@
 			</td>
 		</tr>
 
-
-
-
 	</table>
-
-
-
-
-
-
-
 
 	<div id="gy_treasure_kind">
 		<div class="gy_treasure_kind_main1 px1000 clearfix">

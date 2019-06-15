@@ -20,17 +20,43 @@
 <script type="text/javascript" th:src="@{/js/all.js}"></script>
 <script type="text/javascript">
 $(function() {
-	$("#buyProductSubmit").click(function() {
-		$("#buyProductForm").ajaxSubmit(function(data) {
-			if (data.success) {
-				$.messager.popup("购买成功");
-				location.href = "personalCenter";
-			} else {
-				$.messager.popup(data.msg);
+	$("#buyMoney").blur(function() {
+		$.ajax({
+			url : "checkProductLowQuata",
+			type : "post",
+			dataType : "json",
+			data : {
+				productId : $("#productId").val(),
+				buyMoney : $("#buyMoney").val()
+			},
+			success : function(data) {
+				if (!data) {
+					$.messager.popup("购买金额不能小于起投金!");
+				}
 			}
 		})
 	});
-});
+	
+	$("#buyProductSubmit").click(function() {
+		$.ajax({
+			url : "buyProductSubmit",
+			type : "post",
+			dataType : "json",
+			data : {
+				productId : $("#productId").val(),
+				buyMoney : $("#buyMoney").val()
+			},
+			success : function(data) {
+				if (data.success) {
+					$.messager.popup("购买成功!");
+					location.href = "personalCenter";
+				} else { //失败
+					$.messager.popup(data.msg);
+				}
+			}
+		})
+	});
+})
 </script>
 </head>
 <body>
@@ -49,7 +75,6 @@ $(function() {
     <div class="personal-main">
       <div class="personal-deposit" style="padding-top: 30px">
         <h3><i>转出</i></h3>
-        <form id="buyProductForm" method="post" action="/buyProductSubmit" >
           <div class="deposit-form" style="margin-top:0px;border-top:0px none;">
             <h6>填写转出金额</h6>
             <ul>
@@ -60,25 +85,23 @@ $(function() {
                 <label id="form:blance" th:text="${name}"></label>
                 </i> </span> </li>
               <li> <span class="deposit-formleft">购买金额</span> <span class="deposit-formright">
-                <input id="balance" type="text" name="balance" class="deposite-txt" maxlength="10"/>
+                <input id="buyMoney" type="text" name="buyMoney" class="deposite-txt" maxlength="10"/>
                 元 </span> <span id="actualMoneyErrorDiv"><span id="actualMoney_message" style="display:none" class="error"></span></span> </li>
               <li><span class="deposit-formleft">可用余额</span> <em id="dzje" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
                 <label id="form:cashFine"  th:text="${balance}"></label>
                 </i> 元</span></li>
               <li>
                 <input type="button" id="buyProductSubmit" name="form:j_idt78" value="购买" class="btn-depositok"/>
+                <input type="hidden" id="productId" name="productId" th:value="${productId}"/>
               </li>
             </ul>
           </div>
-        </form>
       </div>
     </div>
 
 	<div class="clear"></div>
 	</div>
 	</div>
-	</div>
-</div>
 <!--网站底部-->
 <div th:replace="common/footpart :: foot"></div>
 </body>

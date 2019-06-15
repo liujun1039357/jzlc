@@ -2,12 +2,11 @@
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zl.mapper.BankCardInfoMapper">
 	<!-- 根据当前用户所绑银行卡数量 -->
-	<select id="queryCardId" resultType="int">
+	<select id="queryCardId" resultType="String">
 		select cardId from BankCardInfo where consumerId = #{consumerId} and cardStates = #{cardStates}
 	</select>
 	<!-- 添加银行卡 -->
 	<insert id="addBankCard" parameterType="BankCardInfo">
 		insert into BankCardInfo values(#{consumerId},#{cardId},sysdate,#{cardStates})
 	</insert>
-	
 </mapper>

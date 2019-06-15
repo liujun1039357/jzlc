@@ -21,23 +21,41 @@
 <script type="text/javascript">
 $(function() {
 	$("#turnOutSubmit").click(function() {
-		$("#turnOutProductForm").ajaxSubmit(function(data) {
-			if (data.success) {
-				$.messager.popup("转出成功");
-				location.href = "personalCenter";
-			} else {
-				$.messager.popup(data.msg);
+		$.ajax({
+			url : "turnOutProductSubmit",
+			type : "post",
+			dataType : "json",
+			data : {
+				productId : $("#productId").val(),
+				sumMoney : $("#sumMoney").text()
+			},
+			success : function(data) {
+				if (data.success) {
+					$.messager.popup(data.msg);
+					location.href = "personalCenter";
+				} else { //失败
+					$.messager.popup(data.msg);
+				}
 			}
-		})
+		});
 	});
 	
 	$("#turnOut").click(function() {
-		$("#turnOutProductForm").ajaxSubmit(function(data) {
-			if (data.success) {
-				$.messager.popup("转出成功");
-				location.href = "personalCenter";
-			} else {
-				$.messager.popup(data.msg);
+		$.ajax({
+			url : "turnOutProductSubmit",
+			type : "post",
+			dataType : "json",
+			data : {
+				productId : $("#productId").val(),
+				sumMoney : $("#sumMoney").text()
+			},
+			success : function(data) {
+				if (data.success) {
+					$.messager.popup(data.msg);
+					location.href = "personalCenter";
+				} else { //失败
+					$.messager.popup(data.msg);
+				}
 			}
 		})
 	});
@@ -60,9 +78,8 @@ $(function() {
     <div class="personal-main">
       <div class="personal-deposit" style="padding-top: 30px">
         <h3><i>转出</i></h3>
-        <form id="turnOutProductForm" method="post" action="/turnOutProductSubmit" >
           <div class="deposit-form" style="margin-top:0px;border-top:0px none;">
-            <h6>填写转出金额</h6>
+            <h6>请确认可转出金额</h6>
             <ul>
               <li> <span class="deposit-formleft">用户名</span> <span class="deposit-formright"> <i>
                 <label id="form:blance" th:text="${session.consumer.consumerName }"></label>
@@ -71,15 +88,15 @@ $(function() {
                 <label id="form:blance" th:text="${name}"></label>
                 </i> </span> </li>
               <li><span class="deposit-formleft">可转出金额</span> <em id="dzje" class="markicon fl"></em> <span class="deposit-formright deposit-formright1"> <i>
-                <label id="form:cashFine"  th:text="${balance}"></label>
+                <label id="sumMoney" name="sumMoney" th:text="${sumMoney}"></label>
                 </i> 元</span></li>
               <li>
                 <input type="button" id="turnOutSubmit" name="form:j_idt78" value="转出" class="btn-depositok" th:if="${productType} == 0"/>
                 <input type="button" value="转出" class="btn-depositok" th:if="${productType} == 1" data-toggle="modal" data-target="#ifTurnOutModal"/>
+                <input type="hidden" id="productId" name="productId" th:value="${productId}"/>
               </li>
             </ul>
           </div>
-        </form>
       </div>
     </div>
 

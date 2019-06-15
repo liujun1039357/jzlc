@@ -49,7 +49,7 @@ public class ConsumerController {
 		AjaxJson json = new AjaxJson();
 		try{
 			authentication.sendVertifyCode(tel);
-		}catch(JZLCException e){
+		}catch(Exception e){
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
@@ -118,7 +118,7 @@ public class ConsumerController {
 				json.setSuccess(false);
 				json.setMsg("原密码错误!");
 			}
-		} catch (JZLCException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");

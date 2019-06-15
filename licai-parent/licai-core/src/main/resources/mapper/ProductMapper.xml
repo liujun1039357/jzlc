@@ -54,12 +54,27 @@
 	<!-- 查询产品信息 -->
 	<select id="queryProductInfo" resultType="ProductShowInfo">
 		select p.productName,b.businessName,p.productRiskGrade,p.productBack,p.productQuota,p.productProfit,
-		p.productSaledQuota,p.productLowQuota,p.productProfitType,p.productLowProfitDate 
+		p.productSaledQuota,p.productLowQuota,p.productProfitType,p.acountCycle 
 		from product p left join businessInfo b on p.businessId = b.businessId where p.productId = #{productId}
 	</select>
 	<!-- 查询产品种类 -->
 	<select id="queryProductType" resultType="int"> 
 		select productType from product where productId = #{productId}
 	</select>
-	
+	<!-- 查询产品收益类型 -->
+	<select id="queryProductProfitType" resultType="int">
+		SELECT productProfitType FROM product WHERE productId = #{productId}
+	</select>
+	<!-- 更新产品已售额度 -->
+	<update id="updateProductSaledQuota">
+		update product set ProductSaledQuota = ProductSaledQuota+#{buyMoney} where productId = #{productId} 
+	</update>
+	<!-- 查询产品收益类型 -->
+	<select id="queryCanSaledQuota" resultType="BigDecimal">
+		SELECT productQuota-productSaledQuota canSaledQuota  FROM product WHERE productId = #{productId}
+	</select>
+	<!-- 检验购买金额是否大于起投金 -->
+	<select id="queryProductLowQuata" parameterType="BigDecimalParam" resultType="int">
+		select count(0) from PRODUCT where productId = #{str} and productLowQuota &gt; #{num1,jdbcType=NUMERIC}
+	</select>
 </mapper>

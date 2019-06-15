@@ -1,6 +1,7 @@
 package com.zl.web;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.Profit;
 import com.zl.pojo.RealAuthShow;
 import com.zl.pojo.SelectCondition;
+import com.zl.pojo.TradeList;
 import com.zl.pojo.TradeRecord;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
@@ -27,6 +29,9 @@ import com.zl.service.ITradeRecordService;
 import com.zl.util.AjaxJson;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
+import com.zl.util.DateUtil;
+import com.zl.util.SystemConstant;
+import com.zl.util.UserContext;
 /**
  * 所有页面的跳转
  * @author ivy
@@ -41,7 +46,7 @@ public class TransferController {
 	@Autowired
 	private IProductService productService;
 	@Autowired
-	private ITradeRecordService iTradeRecordService;
+	private ITradeRecordService tradeRecordService;
 	
 	/**跳转登录页面*/
 	@RequestMapping("login")
@@ -80,6 +85,7 @@ public class TransferController {
 
 	/**跳转添加产品页面*/
 	@RequestMapping("addProduct")
+	@CheckLogin
 	public String addProduct(Product product) {
 		return "enterprise/addProduct";
 	}
@@ -92,6 +98,7 @@ public class TransferController {
 	
 	/**个人产品审核列表页面*/
 	@RequestMapping("personalProductList")
+	@CheckLogin
 	public String personalProductList(Product product) {
 		return "personal/personalProductList";
 	}
@@ -104,13 +111,13 @@ public class TransferController {
 	    //PageHelper.startPage(page, pageSize);这段代码表示，程序开始分页了，
 		//page默认值是1，pageSize默认是10，意思是从第1页开始，每页显示10条记录。
 		PageHelper.startPage(pageindex,7);
-		List<TradeRecord>list = iTradeRecordService.queryTradeRecord();
+		List<TradeRecord>list = tradeRecordService.queryTradeRecord();
 		//再对查询结果进行包装成PageInfo对象,保存查询出的结果，PageInfo是pageHelper中的对象
 		PageInfo<TradeRecord> pageInfo = new PageInfo<TradeRecord>(list,3);
-		int baseMoney = iTradeRecordService.queryBaseMoney();
-		int interest = iTradeRecordService.queryInterest();
-		int instableBaseMoney = iTradeRecordService.queryInstableBaseMoney();
-		int instableInterest = iTradeRecordService.queryInstableInterest();
+		int baseMoney = tradeRecordService.queryBaseMoney();
+		int interest = tradeRecordService.queryInterest();
+		int instableBaseMoney = tradeRecordService.queryInstableBaseMoney();
+		int instableInterest = tradeRecordService.queryInstableInterest();
 		model.addAttribute("pageInfo",pageInfo);
 		model.addAttribute("baseMoney",baseMoney);
 		model.addAttribute("interest",interest);
@@ -133,28 +140,30 @@ public class TransferController {
 	
 	/**操作成功页面*/
 	@RequestMapping("transferSuccessed")
+	@CheckLogin
 	public String transferSuccessed(String id) {
 		return "personal/transferSuccessed";
 	}
 	
-	/***/
+	/**交易记录页面*/
 	@RequestMapping("receivableRecords")
+	@CheckLogin
 	public String receivableRecords(@RequestParam(required=true,defaultValue="1")Integer pageindex,Model model) {
 		//在查询调用方法前声明分页信息（当前页，页容量）
 	    //PageHelper.startPage(page, pageSize);这段代码表示，程序开始分页了，
 		//page默认值是1，pageSize默认是10，意思是从第1页开始，每页显示10条记录。
 		PageHelper.startPage(pageindex,6);
-		List<Profit>list = iTradeRecordService.queryProfitList();
+		List<Profit>list = tradeRecordService.queryProfitList();
 		PageInfo<Profit> pageInfo = new PageInfo<Profit>(list);
 		System.out.println("list="+list);
 		model.addAttribute("pageInfo",pageInfo);
 		return "personal/receivableRecords";
 	}
 	
-	/***/
-	/*@RequestMapping("recharge")
+	/**充值页面*/
+	@RequestMapping("recharge")
+	@CheckLogin
 	public String recharge(BigDecimal money,String cardId, Model model) {
-
 		List<String> bankCardList = bankCardInfoService.queryCardId();
 		model.addAttribute("bankCardList",bankCardList);
 		System.out.println("bankCardList"+bankCardList);
@@ -176,9 +185,9 @@ public class TransferController {
 			}
 		}
 		return "personal/recharge";
-	}*/
+	}
 	
-@RequestMapping("recharge")
+/*	@RequestMapping("recharge")
 	@ResponseBody
 	public AjaxJson recharge(BigDecimal money,String cardId, Model model) {
 		AjaxJson json = new AjaxJson();
@@ -205,8 +214,8 @@ public class TransferController {
 		}
 		return json;	
 	}
-	
-	/***/
+	*/
+	/**提现页面*/
 	@RequestMapping("cashOut")
 	public String cashOut(BigDecimal money,String cardId, Model model) {
 		
@@ -233,7 +242,8 @@ public class TransferController {
 		return "personal/cashOut";
 	}
 	
-	/*@RequestMapping("cashOut")
+ /*@RequestMapping("cashOut")
+	@CheckLogin
 	@ResponseBody
 	public AjaxJson cashOut(BigDecimal money,String cardId, Model model) {
 		AjaxJson json = new AjaxJson();
@@ -260,8 +270,9 @@ public class TransferController {
 		return json;
 	}*/
 
-	/***/
+	/**我的钱包页面*/
 	@RequestMapping("myMoney")
+	@CheckLogin
 	public String myMoney() {
 		return "personal/myMoney";
 	}
@@ -296,6 +307,7 @@ public class TransferController {
 
 	/**实名认证页面*/
 	@RequestMapping("realAuth")
+	@CheckLogin
 	public String realAuth() {
 		return "personal/realAuth";
 	}
@@ -338,6 +350,7 @@ public class TransferController {
 
 	/**产品详情页面*/
 	@RequestMapping("invest")
+	@CheckLogin
 	public String invest(@RequestParam(required = true, defaultValue = "1") Integer pageindex,
 			HttpServletRequest request, SelectCondition sc) {
 		System.out.println(sc.toString());
@@ -352,7 +365,7 @@ public class TransferController {
 	/**购买产品页面*/
 	@RequestMapping("buyProduct")
 	@CheckLogin
-	public String buyProduct(HttpServletRequest requset) {
+	public String buyProduct(HttpServletRequest requset,String productId) {
 		long bitState = consumerInfoService.queryBitState();
 		String name = consumerInfoService.queryRealName();
 		BigDecimal balance = consumerInfoService.queryBalance();
@@ -364,7 +377,7 @@ public class TransferController {
 			requset.setAttribute("unBindBank", "请先绑定银行卡");
 			return "personal/bindBank";
 		}
-		
+		requset.setAttribute("productId", productId);
 		requset.setAttribute("name", name);
 		requset.setAttribute("balance", balance);
 		return "personal/buyProduct";
@@ -372,12 +385,14 @@ public class TransferController {
 	
 	/**转出产品页面*/
 	@RequestMapping("turnOut")
+	@CheckLogin
 	public String turnOut(HttpServletRequest requset,String productId) {
 		String name = consumerInfoService.queryRealName();
-		BigDecimal balance = consumerInfoService.queryBalance();
+		BigDecimal sumMoney = tradeRecordService.querySumMoney(productId);
 		int productType = productService.queryProductType(productId);
+		requset.setAttribute("productId", productId);
 		requset.setAttribute("name", name);
-		requset.setAttribute("balance", balance);
+		requset.setAttribute("sumMoney", sumMoney);
 		requset.setAttribute("productType", productType);
 		return "personal/turnOut";
 	}

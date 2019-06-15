@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zl.mapper.TradeRecordMapper">
-
-	<!-- 查询个人的购买产品 -->
+	<!-- 查询日结方式可转出总金额 -->
+	<select id="querySumMoneyByDay" resultType="BigDecimal">
+		SELECT SUM(basemoney)+SUM(interest) sumMoney FROM traderecord 
+		WHERE consumerid = #{consumerId} and productId = #{productId} AND productProfitType = '0'
+	</select>
+	<!-- 查询期结方式可转出总金额 -->
+	<select id="querySumMoneyByTerm" resultType="BigDecimal">
+		SELECT SUM(basemoney) sumMoney FROM traderecord 
+		WHERE consumerid = #{consumerId} and productId = #{productId} AND productProfitType = '1'
+	</select>
+	<!-- 插入购买产品记录 -->
+	<insert id="insertTradeRecord" parameterType="TradeRecord">
+		insert into tradeRecord values(#{productId},#{productName},#{baseMoney},'0',#{rate},#{baseMoney}*#{rate},
+		#{ascription},#{states},#{effectDate},#{consumerId},#{productProfitType},'jzlc'||lpad(SEQ_TRADERECORD.NEXTVAL,7,'0'))
+	</insert>
+	<!-- 软删除转出的产品 -->
+	<update id="updateTradeRecord">
+		update tradeRecord set states=#{states} where productId = #{productId} and consumerId = #{consumerId}
+	</update>
+	<!--  查询所有用户购买的所有产品 -->
+	<select id="queryTradeRecords" resultType="TradeRecord">
+		SELECT T.consumerId,T.PRODUCTNAME,SUM(T.BASEMONEY) BASEMONEY,SUM(T.INTEREST) INTEREST
+			FROM TRADERECORD T WHERE T.EFFECTDATE > sysdate AND T.STATES = #{states}
+			GROUP BY T.consumerId, T.PRODUCTNAME, T.EFFECTDATE
+	</select>
+	<!-- 查询用户购买中产品的所有本金 -->
+	<select id="querySumPrincipal" resultType="BigDecimal">
+		select sum(BASEMONEY) from tradeRecord where consumerid = #{consumerId} and states = #{states}
+	</select>
+	<!-- 更新利息 -->
+	<update id="updateInterest">
+		update tradeRecord set interest=interest+(BASEMONEY+interest)*(rate/365) where tradeRecordId = #{tradeRecordId}
+	</update>
+	<!-- 查询所有购买中的活期产品订单 -->
+	<select id="queryTradeRecordId" resultType="String">
+		select tradeRecordId from tradeRecord where productProfitType = #{productProfitType} and states = #{states}
+	</select>
+	<!-- 查询所有购买中的活期产品订单 -->
+	<select id="queryTermTradeRecord" resultType="String">
+		select tradeRecordId from tradeRecord where productProfitType = #{productProfitType} and states = #{states} and effectDate = to_date(TO_CHAR(SYSDATE,'yyyymmdd'),'yyyymmdd') 
+	</select>
+	<!-- 查询所有购买中的活期产品订单 -->
 	<select id="queryTradeRecord" resultType="TradeRecord">
+		select baseMoney,interest,consumerId from tradeRecord where tradeRecordId =#{tradeRecordId}
+	</select>
+	<!-- 查询个人的购买产品 -->
+	<select id="queryPersonTradeRecord" resultType="TradeRecord">
 		select productId,productName,baseMoney,interest,effectDate,states,balance,productProfitType
 		from tradeRecord where consumerId=#{consumerId}
 	</select>
