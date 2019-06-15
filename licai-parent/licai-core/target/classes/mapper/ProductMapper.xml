@@ -62,7 +62,7 @@
 		select productType from product where productId = #{productId}
 	</select>
 	<!-- 查询产品收益类型 -->
-	<select id="queryProductProfitType" resultType="int">
+	<select id="queryProductProfitType" resultType="Integer">
 		SELECT productProfitType FROM product WHERE productId = #{productId}
 	</select>
 	<!-- 更新产品已售额度 -->

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.zl.exception.JZLCException;
 import com.zl.mapper.ProductMapper;
 import com.zl.mapper.TradeRecordMapper;
+import com.zl.pojo.Product;
 import com.zl.pojo.Profit;
 import com.zl.pojo.TradeRecord;
 import com.zl.service.ITradeRecordService;
@@ -27,10 +28,10 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
 	
 	@Override
 	public BigDecimal querySumMoney(String productId) throws JZLCException {
-		int productProfitType = productMapper.queryProductProfitType(productId);
+		Integer productProfitType = productMapper.queryProductProfitType(productId);
 		System.out.println(productProfitType);
 		String consumerId = UserContext.getLogininfo().getConsumerId();
-		if(productProfitType==0) {
+		if(productProfitType.equals(Product.DAY)) {
 			return tradeRecordMapper.querySumMoneyByDay(consumerId,productId);
 		}else {
 			return tradeRecordMapper.querySumMoneyByTerm(consumerId,productId);
@@ -45,30 +46,30 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
 	}
 
 	@Override
-	public int queryBaseMoney() throws JZLCException {
+	public BigDecimal queryBaseMoney() throws JZLCException {
 		String consumerId =  UserContext.getLogininfo().getConsumerId();
-		int baseMoney = tradeRecordMapper.queryBaseMoney(consumerId);
+		BigDecimal baseMoney = tradeRecordMapper.queryBaseMoney(consumerId);
 		return baseMoney;
 	}
 
 	@Override
-	public int queryInterest() throws JZLCException {
+	public BigDecimal queryInterest() throws JZLCException {
 		String consumerId =  UserContext.getLogininfo().getConsumerId();
-		int interest = tradeRecordMapper.queryInterest(consumerId);
+		BigDecimal interest = tradeRecordMapper.queryInterest(consumerId);
 		return interest;
 	}
 
 	@Override
-	public int queryInstableBaseMoney() throws JZLCException {
+	public BigDecimal queryInstableBaseMoney() throws JZLCException {
 		String consumerId =  UserContext.getLogininfo().getConsumerId();
-		int instableBaseMoney = tradeRecordMapper.queryInstableBaseMoney(consumerId);
+		BigDecimal instableBaseMoney = tradeRecordMapper.queryInstableBaseMoney(consumerId);
 		return instableBaseMoney;
 	}
 
 	@Override
-	public int queryInstableInterest() throws JZLCException {
+	public BigDecimal queryInstableInterest() throws JZLCException {
 		String consumerId =  UserContext.getLogininfo().getConsumerId();
-		int instableInterest = tradeRecordMapper.queryInstableInterest(consumerId);
+		BigDecimal instableInterest = tradeRecordMapper.queryInstableInterest(consumerId);
 		return instableInterest;
 	}
 

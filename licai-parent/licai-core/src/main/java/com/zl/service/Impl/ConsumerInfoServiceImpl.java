@@ -143,10 +143,11 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 
 	@Override
 	public void bindBankSubmit(String cardId, String password) throws JZLCException {
-		if(password != null) {
+		if(password == null) {
 			//首次绑定银行卡
 			long bitState = consumerInfoMapper.queryBitState(UserContext.getLogininfo().getConsumerId());
 			consumerInfoMapper.updateBankBind(BitStateUtil.addAuthentication(bitState, BitStateUtil.OPEN_BANKCARD),password,UserContext.getLogininfo().getConsumerId());
+			System.out.println(consumerInfoMapper.updateBankBind(BitStateUtil.addAuthentication(bitState, BitStateUtil.OPEN_BANKCARD),password,UserContext.getLogininfo().getConsumerId()));
 		}
 		//添加银行卡
 		BankcardInfo bankcardInfo = new BankcardInfo();
@@ -242,7 +243,7 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		TradeList tradeList = new TradeList();
 		tradeList.setConsumerId(consumerId);
 		tradeList.setProductId(SystemConstant.JUZILICAI_ID);
-		tradeList.setTradeType(TradeList.PURCHASE);
+		tradeList.setTradeType(TradeList.RECHARGE);
 		tradeList.setTradeMoney(money);
 		tradeListMapper.insertTradeList(tradeList);
 		return true;
@@ -260,6 +261,13 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		if(count <= 0) {
 			return false;
 		}
+		//插入tradeList表
+		TradeList tradeList = new TradeList();
+		tradeList.setConsumerId(consumerId);
+		tradeList.setProductId(SystemConstant.JUZILICAI_ID);
+		tradeList.setTradeType(TradeList.CASH_OUT);
+		tradeList.setTradeMoney(money);
+		tradeListMapper.insertTradeList(tradeList);
 		return true;
 	}
 

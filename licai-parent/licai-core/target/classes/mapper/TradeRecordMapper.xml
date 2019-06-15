@@ -52,19 +52,19 @@
 		from tradeRecord where consumerId=#{consumerId}
 	</select>
 	<!-- 查询个人购买的产品累计投资 -->
-	<select id="queryBaseMoney" resultType="int">
+	<select id="queryBaseMoney" resultType="BigDecimal">
 		select sum(baseMoney) from tradeRecord where consumerId=#{consumerId}
 	</select>
 	<!-- 查询个人购买的累计收益 -->
-	<select id="queryInterest" resultType="int">
+	<select id="queryInterest" resultType="BigDecimal">
 		select sum(interest) from tradeRecord where consumerId=#{consumerId}
 	</select>
 	<!-- 查询个人购买的待收本金 -->
-	<select id="queryInstableBaseMoney" resultType="int">
+	<select id="queryInstableBaseMoney" resultType="BigDecimal">
 		select sum(baseMoney) from tradeRecord where states='0' and consumerId=#{consumerId}
 	</select>
 	<!-- 查询个人购买的待收收益 -->
-	<select id="queryInstableInterest" resultType="int">
+	<select id="queryInstableInterest" resultType="BigDecimal">
 		select sum(interest) from tradeRecord where states='0' and consumerId=#{consumerId}
 	</select>
 	<!-- 查询个人回款记录 -->

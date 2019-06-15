@@ -42,6 +42,7 @@ public class tradeListController {
 		//再对查询结果进行包装成PageInfo对象,保存查询出的结果，PageInfo是pageHelper中的对象
 		PageInfo<TradeList> pageInfo = new PageInfo<TradeList>(tradeLists,3);
 		model.addAttribute("pageInfo",pageInfo);
+		
 		List <Integer> tradeTypes =  tradeListService.getTradeTypes();
 		model.addAttribute("tradeTypes",tradeTypes);
 		model.addAttribute("tradeLists",tradeLists);

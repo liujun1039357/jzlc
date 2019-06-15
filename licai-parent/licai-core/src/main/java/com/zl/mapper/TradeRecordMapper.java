@@ -91,22 +91,22 @@ public interface TradeRecordMapper {
 	/**
 	 * 查詢个人购买的产品累计投资
 	 * */
-	int queryBaseMoney(String consumerId) throws JZLCException;
+	BigDecimal queryBaseMoney(String consumerId) throws JZLCException;
 
 	/**
 	 * 查詢个人购买的累计收益
 	 * */
-	int queryInterest(String consumerId) throws JZLCException;
+	BigDecimal queryInterest(String consumerId) throws JZLCException;
 	
 	/**
 	 * 查詢个人购买的待收本金
 	 * */
-	int queryInstableBaseMoney(String consumerId) throws JZLCException;
+	BigDecimal queryInstableBaseMoney(String consumerId) throws JZLCException;
 	
 	/**
 	 * 查詢个人购买的待收收益
 	 * */
-	int queryInstableInterest(String consumerId) throws JZLCException;
+	BigDecimal queryInstableInterest(String consumerId) throws JZLCException;
 	
 	/**
 	 * 查詢个人的回款记录

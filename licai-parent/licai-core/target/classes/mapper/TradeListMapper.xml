@@ -6,10 +6,13 @@
 		id,consumerid,productid,tradetype,budget,trademoney,balance,orderstates,tradetime
 	</sql>
 	
-	<select id="getTradeLists" parameterType="com.zl.pojo.SelectTradeListCondition" resultType="com.zl.pojo.TradeList"> 
+	<select id="getTradeLists" resultType="com.zl.pojo.TradeList"> 
 		select <include refid="queryColumn"></include>
 		from tradelist
 		<where>
+		<if test="consumerId != null and consumerId != ''">
+                consumerId = #{consumerId}
+         </if>
 		<if test="tradeType != null and tradeType != 5">
                 and tradetype = #{tradeType}
          </if>

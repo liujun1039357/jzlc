@@ -10,7 +10,8 @@ import lombok.Data;
 
 @Data
 public class SelectTradeListCondition {
-	
+		
+		private String consumerId;
 		private int tradeType;
 		
 		@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")

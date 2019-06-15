@@ -32,22 +32,22 @@ public interface ITradeRecordService {
 	/**
 	 * 查詢个人购买的产品累计投资
 	 * */
-	int queryBaseMoney() throws JZLCException;
+	BigDecimal queryBaseMoney() throws JZLCException;
 
 	/**
 	 * 查詢个人购买的累计收益
 	 * */
-	int queryInterest() throws JZLCException;
+	BigDecimal queryInterest() throws JZLCException;
 	
 	/**
 	 * 查詢个人购买的待收本金
 	 * */
-	int queryInstableBaseMoney() throws JZLCException;
+	BigDecimal queryInstableBaseMoney() throws JZLCException;
 	
 	/**
 	 * 查詢个人购买的待收收益
 	 * */
-	int queryInstableInterest() throws JZLCException;
+	BigDecimal queryInstableInterest() throws JZLCException;
 
 	/**
 	 * 查詢个人购买的待收收益

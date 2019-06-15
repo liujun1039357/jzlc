@@ -204,11 +204,11 @@
                 <label id="form:blance" th:unless="${balance1} == null " th:text="${balance1}"> 0.00</label>
                 </i>元 </span> </li>
               <li> <span class="deposit-formleft">提现金额</span> <span class="deposit-formright">
-                <input id="form:actualMoney" type="text" name="money" class="deposite-txt" maxlength="10">元 </input></span>
+                <input id="form:actualMoney" type="text" name="money" class="deposite-txt" maxlength="10" style="width: 166px;">元 </input></span>
                  <span id="actualMoneyErrorDiv"><span id="actualMoney_message" style="display:none" class="error"></span></span> </li>
               <li style="margin-top: 10px;margin-bottom: 20px;"> 
               		<span class="deposit-formleft" >提现卡号</span> <span class="deposit-formright"></span>
-              		<select name="cardId" id="cardId" style="width: 172px;height: 37px;position:  relative;left: 27px;">
+              		<select name="cardId" id="cardId" style="width: 180px;height: 37px;position:  relative;left: 27px;">
               	 <th:block th:each="bankCard : ${bankCardList}">
 			         <option th:value="${bankCard}"  th:text="${bankCard}" ></option>
 			     </th:block>

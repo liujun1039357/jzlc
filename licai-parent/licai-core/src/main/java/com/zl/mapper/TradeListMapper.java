@@ -3,6 +3,7 @@ package com.zl.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.zl.exception.JZLCException;
 import com.zl.pojo.SelectTradeListCondition;
@@ -17,7 +18,7 @@ public interface TradeListMapper {
 	void insertTradeList(TradeList tradeList)throws JZLCException;
 	
 	/**
-	 * 获取交易类型
+	 * 获取交易记录
 	 * */
 	List<TradeList> getTradeLists(SelectTradeListCondition condition);
 	/**

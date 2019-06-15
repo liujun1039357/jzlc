@@ -1,7 +1,6 @@
 package com.zl.web;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,18 +18,13 @@ import com.zl.pojo.ProductCheckList;
 import com.zl.pojo.Profit;
 import com.zl.pojo.RealAuthShow;
 import com.zl.pojo.SelectCondition;
-import com.zl.pojo.TradeList;
 import com.zl.pojo.TradeRecord;
 import com.zl.service.IBankCardInfoService;
 import com.zl.service.IConsumerInfoService;
 import com.zl.service.IProductService;
 import com.zl.service.ITradeRecordService;
-import com.zl.util.AjaxJson;
 import com.zl.util.BitStateUtil;
 import com.zl.util.CheckLogin;
-import com.zl.util.DateUtil;
-import com.zl.util.SystemConstant;
-import com.zl.util.UserContext;
 /**
  * 所有页面的跳转
  * @author ivy
@@ -112,10 +105,10 @@ public class TransferController {
 		List<TradeRecord>list = tradeRecordService.queryTradeRecord();
 		//再对查询结果进行包装成PageInfo对象,保存查询出的结果，PageInfo是pageHelper中的对象
 		PageInfo<TradeRecord> pageInfo = new PageInfo<TradeRecord>(list,3);
-		int baseMoney = tradeRecordService.queryBaseMoney();
-		int interest = tradeRecordService.queryInterest();
-		int instableBaseMoney = tradeRecordService.queryInstableBaseMoney();
-		int instableInterest = tradeRecordService.queryInstableInterest();
+		BigDecimal baseMoney = tradeRecordService.queryBaseMoney();
+		BigDecimal interest = tradeRecordService.queryInterest();
+		BigDecimal instableBaseMoney = tradeRecordService.queryInstableBaseMoney();
+		BigDecimal instableInterest = tradeRecordService.queryInstableInterest();
 		model.addAttribute("pageInfo",pageInfo);
 		model.addAttribute("baseMoney",baseMoney);
 		model.addAttribute("interest",interest);
@@ -325,12 +318,13 @@ public class TransferController {
 	public String bindBank(HttpServletRequest requset) {
 		long bitState = consumerInfoService.queryBitState();
 		String name = consumerInfoService.queryRealName();
+		List<String> bankCardList = bankCardInfoService.queryCardId();
 		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_REAL_AUTH)) {
 			requset.setAttribute("unRealAuth", "请先实名认证!");
 			return "personal/realAuth";
 		}
-		if(!BitStateUtil.hasState(bitState, BitStateUtil.OPEN_BANKCARD)) {
-			requset.setAttribute("isBindBank", "还未绑定银行卡");
+		if(bankCardList.size()<=0) {
+			requset.setAttribute("unBindBank", "还未绑定银行卡");
 		}
 		requset.setAttribute("name", name);
 		return "personal/bindBank";

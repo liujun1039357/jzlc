@@ -96,7 +96,7 @@ public interface ConsumerInfoMapper {
 	 * @param cardId
 	 * @param password
 	 */
-	void updateBankBind(@Param("bitState")long bitState, @Param("password")String password,@Param("consumerId")String consumerId) throws JZLCException;
+	int updateBankBind(@Param("bitState")long bitState, @Param("password")String password,@Param("consumerId")String consumerId) throws JZLCException;
 
 	/**查询金额
 	 * @param consumerId

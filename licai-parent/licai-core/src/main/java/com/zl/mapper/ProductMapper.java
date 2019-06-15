@@ -40,7 +40,7 @@ public interface ProductMapper {
 	 * @param productId
 	 * @return
 	 */
-	int queryProductProfitType(String productId) throws JZLCException;
+	Integer queryProductProfitType(String productId) throws JZLCException;
 
 	/**更新产品已售额度
 	 * @param productId

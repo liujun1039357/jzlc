@@ -261,8 +261,9 @@ a[href^="http://go.gotourl.xyz/"], a[href^="http://www.upupoo.com/?"], a[href^="
 									</span>
 									<span class="investnote-hbw4"  th:text="${tradeRecordList.baseMoney}" style=" width: 100px;">12000.00</span> 
 									<span class="investnote-hbw5" th:text="${tradeRecordList.interest}" style=" width: 100px;">12000.00</span> 
-									<span class="investnote-hbw6" style="margin-left: 70px;padding-right: 0px;width: 30px;"><a href="#">追加</a></span> 
-									<span class="investnote-hbw6"><a href="#">转出</a></span>
+									<span class="investnote-hbw6" style="margin-left: 70px;padding-right: 0px;width: 30px;">
+									<a id="buyProduct" th:href="'buyProduct?productId='+${tradeRecordList.productId}">追加</a></span> 
+									<span class="investnote-hbw6"><a id="buyProduct" th:href="'turnOut?productId='+${tradeRecordList.productId}">转出</a></span>
 									</li>
 									<!--<div style=" width:760px;height:200px;padding-top:100px; text-align:center;color:#d4d4d4; font-size:16px;">
 								 <img src="images/nondata.png" width="60" height="60"><br><br>
