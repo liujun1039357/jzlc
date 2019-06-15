@@ -124,7 +124,10 @@
 					$("#actualMoneyErrorDiv").html("");
 				}
 				return true;
-			}
+			};
+			
+			
+			
 			function validateAgree()
 			{
 				var $checkname=$("#bank-check").children("b").hasClass("selected");
@@ -136,7 +139,9 @@
 				{
 					return true;		
 				}
-			}
+			};
+			
+			
 			function getShowPayVal(){
 				var rechargeFlag=checkRecharge();
 				var agreeFlag=validateAgree();
@@ -149,7 +154,7 @@
 					 return false;
 				}
 				return flag;
-			}
+			};
 			
 			
 			function amount(th){
@@ -166,7 +171,7 @@
 			    if(th.value>9999999.99){
 			    	th.value = th.value.substr(0,th.value.length-1);
 			    }
-			}
+			};
 
 			//验证输入银行卡号的合法性
 			function checkBankCardNo() {
@@ -294,7 +299,7 @@
 					}
 				})
 				return payflag;
-			}
+			};
 
 			function checkRecharge2() {
 				var moneyRegex="^(([1-9]+[0-9]*)|((([1-9]+[0-9]*)|0)\\.[0-9]{1,2}))$";
@@ -346,7 +351,7 @@
 					$("#quick-error2").html("");
 				}
 				return true;
-			}
+			};
 
 			function getShowPayVal2(){
 				var rechargeFlag=checkRecharge2();
@@ -360,7 +365,7 @@
 					 return false;
 				}*/
 				return payflag;
-			}
+			};
 
 			/* function showSpan(op){
 				$("body").append("<div id='maskCommon'></div>");
@@ -467,7 +472,7 @@
                 </table>
               </div>
               <div class="bank-check" id="bank-check"> <b class="selected" id="bankProtocol"></b><span class="bank-agree">我同意并接受<a href="/node/Candyprivacypolicy/candyprivacypolicy_tzzxyglfwdzxy" target="_blank">《橘子理财金融投资咨询与管理服务电子协议》</a></span> <span class="error" id="bankProtocol_message" style="display:none;margin-top:-3px;">请同意协议内容！</span> </div>
-              <input type="submit" name="recharge:j_idt96" value="充值" class="btn-paycz" onclick="return getShowPayVal()"/>
+              <input type="submit" name="recharge:j_idt96" value="充值" class="btn-paycz" onclick="getShowPayVal()"/>
               <input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState"/>
             </form>
           </div>

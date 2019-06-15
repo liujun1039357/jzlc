@@ -71,7 +71,7 @@
 	<!-- 提现 -->
 	<update id="cashOut" >
 		update consumerInfo
-		set balance = #{balance} - (1.01*#{money})
+		set balance = #{balance} - #{money}
 		where consumerId=#{consumerId}
 	</update>
 </mapper>
