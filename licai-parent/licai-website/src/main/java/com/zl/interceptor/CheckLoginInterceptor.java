@@ -29,7 +29,7 @@ public class CheckLoginInterceptor extends HandlerInterceptorAdapter {
 			// 如果有该注解,且用户信息为空,则拦截请求,重定向到登录页面
 			if (cl != null && UserContext.getLogininfo() == null) {
 				request.setAttribute("msg", "请先登录！");
-				request.getRequestDispatcher("/login.html").forward(request, response);
+				request.getRequestDispatcher("/login").forward(request, response);
 				return false;
 			}
 		}

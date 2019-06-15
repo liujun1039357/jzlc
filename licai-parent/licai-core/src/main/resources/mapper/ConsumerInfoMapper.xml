@@ -64,7 +64,7 @@
 	</select>
 	<!-- 购买产品修改总金额,余额及已用金额 -->
 	<update id="updateMoneyOfBuyProduct">
-		update consumerInfo set sumMoney = sumMoney+#{sumMoney},balance = balance-#{buyMoney},usedMoney = balance+#{buyMoney},updateTime = sysdate where consumerId = #{consumerId}
+		update consumerInfo set sumMoney = sumMoney+#{buyMoney},balance = balance-#{buyMoney},usedMoney = balance+#{buyMoney},updateTime = sysdate where consumerId = #{consumerId}
 	</update>
 	<!-- 转出产品修改总金额,余额及已用金额 -->
 	<update id="updateMoneyOfTurnOut">

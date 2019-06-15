@@ -80,7 +80,6 @@ public class TransferController {
 
 	/**跳转添加产品页面*/
 	@RequestMapping("addProduct")
-	@CheckLogin
 	public String addProduct(Product product) {
 		return "enterprise/addProduct";
 	}
@@ -93,7 +92,6 @@ public class TransferController {
 	
 	/**个人产品审核列表页面*/
 	@RequestMapping("personalProductList")
-	@CheckLogin
 	public String personalProductList(Product product) {
 		return "personal/personalProductList";
 	}
@@ -327,7 +325,6 @@ public class TransferController {
 
 	/**产品详情页面*/
 	@RequestMapping("invest")
-	@CheckLogin
 	public String invest(@RequestParam(required = true, defaultValue = "1") Integer pageindex,
 			HttpServletRequest request, SelectCondition sc) {
 		System.out.println(sc.toString());

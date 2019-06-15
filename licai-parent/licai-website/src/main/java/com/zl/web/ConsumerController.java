@@ -1,7 +1,8 @@
 package com.zl.web;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -90,18 +91,47 @@ public class ConsumerController {
 	}
 	
 	@RequestMapping("exitLogin")
-	public String exitLogin(HttpSession session) {
-		session.removeAttribute("consumer");
-		session.removeAttribute("loginBusiness");
+	public String exitLogin(HttpServletRequest request, HttpServletResponse response) {
+		// 清除历史记录,即清除相应cookie;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null && cookies.length > 0) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("JSESSIONID")) {
+					// 删除cookie
+					cookie.setMaxAge(0);
+					// 将cookie值置空
+					cookie.setValue("");
+					// 将cookie保存到服务器
+					response.addCookie(cookie);
+				}
+			}
+		}
+		request.getSession().removeAttribute("consumer");
+		request.getSession().removeAttribute("loginBusiness");
 		return "redirect:index";
 	}
 	
 	@RequestMapping("cancellation")
-	public String cancellation(HttpSession session) {
-		if(session.getAttribute("consumer") != null) {
+	public String cancellation(HttpServletRequest request, HttpServletResponse response) {
+		if (request.getSession().getAttribute("consumer") != null) {
 			consumerService.cancellation(UserContext.getLogininfo().getConsumerId());
 		}
-		session.removeAttribute("consumer");
+		// 清除历史记录,即清除相应cookie;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null && cookies.length > 0) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("JSESSIONID")) {
+					// 删除cookie
+					cookie.setMaxAge(0);
+					// 将cookie值置空
+					cookie.setValue("");
+					// 将cookie保存到服务器
+					response.addCookie(cookie);
+				}
+			}
+		}
+		request.getSession().removeAttribute("consumer");
+		request.getSession().removeAttribute("loginBusiness");
 		return "redirect:index";
 	}
 	

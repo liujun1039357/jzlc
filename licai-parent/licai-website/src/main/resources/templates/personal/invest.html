@@ -30,25 +30,6 @@
 			$("#productListform").submit(); //selectInfo是表单id,提交表单;
 		});
 		
-		$("#buyProduct").click(function() {
-			$.ajax({
-				url : "buyProductSubmit",
-				type : "post",
-				dataType : "json",
-				data : {
-					productId : $("#productId").val()
-				},
-				success : function(data) {
-					if (data.success) {
-						$.messager.popup("购买成功!");
-						location.href = "personalCenter";
-					} else { //失败
-						$.messager.popup(data.msg);
-					}
-				}
-			})
-		});
-
 	})
 </script>
 </head>
@@ -166,7 +147,7 @@
 							</p>
 						</span> <span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
 							<p>
-								<a style="font-size: 18px; color: #fff;" id="buyProduct" href="#">立即投标</a>
+								<a style="font-size: 18px; color: #fff;" id="buyProduct" th:href="'buyProduct?productId='+${p.productId}">立即投标</a>
 							</p>
 						</span>
 					</div>

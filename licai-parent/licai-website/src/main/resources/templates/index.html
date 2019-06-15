@@ -7,29 +7,7 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.js}"></script>
 <script type="text/javascript"  th:src="@{/script/jquery.min.js}"></script>
 <script type="text/javascript"  th:src="@{/js/all.js}"></script>
-<script>
-	$(function() {
-		$("#buyProduct").click(function() {
-			$.ajax({
-				url : "buyProductSubmit",
-				type : "post",
-				dataType : "json",
-				data : {
-					productId : $("#productId").val()
-				},
-				success : function(data) {
-					if (data.success) {
-						$.messager.popup("购买成功!");
-						location.href = "personalCenter";
-					} else { //失败
-						$.messager.popup(data.msg);
-					}
-				}
-			})
-		});
 
-	})
-</script>
 </head>
 
 <body onload="init()">
@@ -94,16 +72,6 @@
 				<li style="background:url(/images/banner3.jpg) 50% 0 no-repeat;"></li>
 			</ul>
 		</div> -->
-
-	
-	<script type="text/javascript">
-		$(document).ready(function(){
-		$('.flexslider').flexslider({
-			directionNav: true,
-			pauseOnAction: false
-		});
-	});
-	</script>
 
 
 	<div id="gy_bargain_sum">
@@ -202,7 +170,7 @@
 							</p>
 						</span> <span class="fl gy_guide_index_xzkbi5" id="gy_guide_index_xzkbi5">
 							<p style="margin-left: 50px;">
-								<a style="font-size: 18px; color: #fff;" href="" id="buyProduct">立即投标</a>
+								<a style="font-size: 18px; color: #fff;" th:href="'buyProduct?productId='+${p.productId}" id="buyProduct">立即投标</a>
 							</p>
 						</span>
 					</div>
@@ -302,29 +270,6 @@
 
 	<div th:replace="common/footpart :: foot"></div>
 
-
-<script type="text/javascript">
-	function guideone(){
-		document.getElementById("gy_guide_staten_xkds2").style.display="block";
-		document.getElementById("gy_guide_staten_xkds5").style.display="none";
-		document.getElementById("gy_guide_sarter1").style.background="url(images/gy_guide_sarter1.png) no-repeat";
-		document.getElementById("gy_guide_sarter2").style.background="url(images/gy_guide_sarter2.png) no-repeat";
-		document.getElementById("gy_guide_sarter1").style.color="#089ADC";
-		document.getElementById("gy_guide_sarter2").style.color="#A2A2A2";
-		document.getElementById("gy_guide_sarter1").style.padding="12px 35px 2px 35px";
-		document.getElementById("gy_guide_sarter2").style.padding="12px 35px 1px 35px";
-	}
-	function guidetwo(){
-		document.getElementById("gy_guide_staten_xkds2").style.display="none";
-		document.getElementById("gy_guide_staten_xkds5").style.display="block";
-		document.getElementById("gy_guide_sarter1").style.background="url(images/gy_guide_sarter2.png) no-repeat";
-		document.getElementById("gy_guide_sarter2").style.background="url(images/gy_guide_sarter1.png) no-repeat";
-		document.getElementById("gy_guide_sarter2").style.color="#089ADC";
-		document.getElementById("gy_guide_sarter1").style.color="#A2A2A2";
-		document.getElementById("gy_guide_sarter2").style.padding="12px 35px 2px 35px";
-		document.getElementById("gy_guide_sarter1").style.padding="12px 35px 1px 35px";
-	}
-</script>
 </div>
 </body>
 </html>
