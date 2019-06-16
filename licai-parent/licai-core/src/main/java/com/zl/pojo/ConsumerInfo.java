@@ -44,7 +44,7 @@ public class ConsumerInfo implements Serializable{
 	
 	
 	/**MD5加密的六位支付密码*/
-	private Integer password;
+	private String password;
 	/**账户总资产*/
 	private BigDecimal sumMoney = SystemConstant.ZARO;
 	/**余额*/

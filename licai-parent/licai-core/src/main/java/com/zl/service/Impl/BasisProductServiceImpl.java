@@ -17,4 +17,8 @@ public class BasisProductServiceImpl implements IBasisProductService {
 	public List<BasisProduct> findBasisProducts() {
 		return basisProductMapper.queryBasisProducts();
 	}
+	@Override
+	public List<BasisProduct> findByCondition(BasisProduct basisProduct) {
+		return basisProductMapper.queryByCondition(basisProduct);
+	}
 }

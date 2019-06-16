@@ -1,9 +1,6 @@
 package com.zl.util;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,20 +30,22 @@ public class VerifyCodeUtil {
         CloseableHttpResponse response = null;
         String resultString = "";
 		try {
-			/*HttpPost post = new HttpPost("http://v.juhe.cn/sms/send");
+			HttpPost post = new HttpPost("http://v.juhe.cn/sms/send");
 			List<NameValuePair> paramList = new ArrayList<>();
 			paramList.add(new BasicNameValuePair("mobile", phoneNum));
-			paramList.add(new BasicNameValuePair("tpl_id", "158039"));
+			paramList.add(new BasicNameValuePair("tpl_id", "158301"));
+			//paramList.add(new BasicNameValuePair("tpl_id", "158039"));
 			String code = getRandomCode(6);
 			paramList.add(new BasicNameValuePair("tpl_value", "#code#=" + code));
-			paramList.add(new BasicNameValuePair("key", "0b2dfc0529705e13af4616d6c889076f"));
+			//paramList.add(new BasicNameValuePair("key", "0b2dfc0529705e13af4616d6c889076f"));
+			paramList.add(new BasicNameValuePair("key", "fe5a24288a2c175bbb121958c02aea54"));
 			// 模拟form表单
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
 			post.setEntity(entity);
 			response = httpClient.execute(post);
-			resultString = EntityUtils.toString(response.getEntity(), "utf-8");*/
-			String code = "1234";
-			resultString = "{\"reason\":\"操作成功\",\"result\":{\"sid\":\"201906101711319363788juhehy\",\"fee\":1,\"count\":1},\"error_code\":0}";
+			resultString = EntityUtils.toString(response.getEntity(), "utf-8");
+			/*String code = "1234";
+			resultString = "{\"reason\":\"操作成功\",\"result\":{\"sid\":\"201906101711319363788juhehy\",\"fee\":1,\"count\":1},\"error_code\":0}";*/
 			VerifyCodeInfo verifyCodeInfo = JSONObject.parseObject(resultString, VerifyCodeInfo.class);
 			if(verifyCodeInfo.getError_code() == 0){
 				System.out.println(phoneNum);

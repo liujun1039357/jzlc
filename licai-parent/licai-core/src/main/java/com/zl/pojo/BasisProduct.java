@@ -34,5 +34,12 @@ public class BasisProduct implements Serializable {
 	private String businessId;
 	/**企业名称*/
 	private String businessName;
-
+	/**风险等级1（保本保收）
+	 2（保本不保收）
+	 3（不保本不保收）*/
+	private Integer productRiskGrade;
+	/**可否赎回 0可1不可*/
+	private Integer productBack;
+	/**收益方式 0日结1期结算*/
+	private Integer productProfitType;
 }

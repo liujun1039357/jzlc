@@ -11,6 +11,7 @@ import com.zl.exception.JZLCException;
 import com.zl.mapper.ProductMapper;
 import com.zl.pojo.BigDecimalParam;
 import com.zl.pojo.Product;
+import com.zl.pojo.ProductRecordCondition;
 import com.zl.pojo.SelectCondition;
 import com.zl.pojo.ProductShowInfo;
 import com.zl.service.IProductService;
@@ -55,5 +56,23 @@ public class ProductServiceImpl implements IProductService {
 			return false;
 		}
 		return true;
+	}
+
+
+	@Override
+	public boolean addProduct(Product product) {
+		return productMapper.addProduct(product) > 0;
+	}
+
+	@Override
+	public List<Product> findProductRecord(ProductRecordCondition preCondition) {
+		List<Product> lp  = null; 
+//		System.err.println(lp);
+		try {
+		 lp =	productMapper.queryProductRecord(preCondition);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lp;
 	}
 }

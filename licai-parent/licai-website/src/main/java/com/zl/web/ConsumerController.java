@@ -38,7 +38,7 @@ public class ConsumerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			json.setSuccess(false);
-			json.setMsg("系统忙!稍后重试...");
+			json.setMsg(e.getMessage());
 		}
 		request.getSession().setAttribute("consumer", UserContext.getLogininfo());
 		return json;

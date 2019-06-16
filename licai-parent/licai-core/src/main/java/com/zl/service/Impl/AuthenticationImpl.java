@@ -38,7 +38,7 @@ public class AuthenticationImpl implements IAuthentication {
 	@Override
 	public void sendVertifyCode(String tel) throws JZLCException {
 		VerifyCodeInfo verifyCodeInfo = UserContext.getVerifyCodeInSession();
-		if (verifyCodeInfo == null || DateUtil.secondBetween(verifyCodeInfo.getLastTime(), new Date()) > 60) {
+		if (verifyCodeInfo == null || DateUtil.secondBetween(verifyCodeInfo.getLastTime(), new Date()) > 20) {
 			try {
 				VerifyCodeUtil.sendMessage(tel);
 			} catch (RuntimeException e) {

@@ -228,6 +228,9 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		if(count <= 0) {
 			return false;
 		}
+		if(money.compareTo(new BigDecimal("0"))==-1) {
+			return false;
+		}
 		//插入tradeRecord表
 		TradeRecord tradeRecord = new TradeRecord();
 		tradeRecord.setProductId(SystemConstant.JUZILICAI_ID);
@@ -255,6 +258,9 @@ public class ConsumerInfoServiceImpl implements IConsumerInfoService{
 		String consumerId =  UserContext.getLogininfo().getConsumerId();
 		BigDecimal balance = consumerInfoMapper.queryBalance(consumerId);
 		if(money.compareTo(balance)==1) {
+			return false;
+		}
+		if(money.compareTo(new BigDecimal("0"))==-1) {
 			return false;
 		}
 		int count = consumerInfoMapper.cashOut(balance, money,consumerId);

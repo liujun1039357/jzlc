@@ -65,25 +65,8 @@
     <div class="personal-main">
       <div class="personal-back" style="padding-top: 30px">
         <h3 style="width:800px;"><i>回款记录</i></h3>
-        <form id="form" name="form" method="post" action="">
+        <form id="selectTradeList" name="selectTradeList" method="post" action="">
           <input type="hidden" name="pageindex" th:value="${1}" id="getpage" />
-           <script>
-				 $(function() {
-				  //设置时间格式
-				  $("#start,#end").datetimepicker({
-				   format : 'yyyy-mm-dd',
-				   language : 'zh-CN',
-				   minView : 2,
-				   endDate : new Date()
-				  }); 
-				 /*  //给分页添加点击事件,使每次点击页码都提交高级查询表单
-				  $(".pages").click(function() {
-				   $("#getpage").val($(this).attr("thispage"));//设置隐藏域中的value,this为点击的页码;
-				   $("#selectInfo").submit(); //selectInfo是表单id,提交表单;
-				  });
-				 */
-				 })
-			</script>
            <span id="form:dataTable">
           <div class="personal-backlist">
             <div class="pmain-contitle" style="margin-top: 10px;"> 

@@ -9,5 +9,6 @@ import com.zl.pojo.BasisProduct;
 public interface BasisProductMapper {
 	/** 用户查询产品简单信息（联合企业表）    */
 	List<BasisProduct>  queryBasisProducts(); 
-
+	/** 根据条件查询 */
+	List<BasisProduct> queryByCondition(BasisProduct basisProduct);
 }

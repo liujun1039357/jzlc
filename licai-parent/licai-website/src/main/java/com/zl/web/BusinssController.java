@@ -98,10 +98,10 @@ public class BusinssController {
 		return "enterprise/productManger";
 	}
 
-	@RequestMapping("productRecord")
+/*	@RequestMapping("productRecord")
 	public String productRecord(HttpSession hs) {
 		return "enterprise/productRecord";
-	}
+	}*/
 
 
 	@RequestMapping("loginBusiness")

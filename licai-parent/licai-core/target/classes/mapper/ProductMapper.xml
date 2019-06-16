@@ -77,4 +77,27 @@
 	<select id="queryProductLowQuata" parameterType="BigDecimalParam" resultType="int">
 		select count(0) from PRODUCT where productId = #{str} and productLowQuota &gt; #{num1,jdbcType=NUMERIC}
 	</select>
+	<!-- 添加产品 -->
+	<insert id="addProduct" parameterType="com.zl.pojo.Product">
+		INSERT INTO product VALUES ('JZLCPRODUECT' || LPAD(SEQ_PRODUECT.NEXTVAL, 7, '0'),#{productName},#{productQuota},#{productType},#{productProfit},0.00,#{productSaledTime},
+      	 #{productManager},'0',#{productLowQuota},#{productProfitType},#{productBack},#{productLowProfitDate},#{productRiskGrade},#{productEffectDate},
+       	 0,sysdate,sysdate,sysdate+365,#{businessid},#{acountCycle})
+	</insert>
+	<!-- 产品审核 -->
+	 <select id="queryProductRecord" resultType="com.zl.pojo.Product" parameterType="com.zl.pojo.ProductRecordCondition">
+		SELECT productid,productname,ProductManager,addtime,checkFlag FROM Product <include refid="condi"/>
+	 </select>
+	 <sql id="condi" >
+	 	<where>
+	 		<if test="checkFlag != null and checkFlag != -1 ">
+	 			and checkFlag = #{checkFlag}
+	 		</if>
+	 		<if test="start != null">
+	 			and addTime &gt;= #{start}
+	 		</if>
+	 		<if test="end != null">
+	 			and addTime &lt;= #{end}
+	 		</if>
+	 	</where>
+	 </sql>
 </mapper>

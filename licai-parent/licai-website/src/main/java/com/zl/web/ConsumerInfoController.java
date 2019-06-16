@@ -142,6 +142,7 @@ public class ConsumerInfoController {
 			if(!check) {
 				json.setSuccess(false);
 				json.setMsg("验证码错误!");
+				return json;
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -237,7 +238,6 @@ public class ConsumerInfoController {
 			json.setSuccess(false);
 			json.setMsg("系统忙!稍后重试...");
 		}
-		json.setMsg(bank);
 		return json;
 	}
 	
@@ -301,6 +301,7 @@ public class ConsumerInfoController {
 	
 	@RequestMapping("checkProductLowQuata")
 	@ResponseBody
+	@CheckLogin
 	public boolean checkProductLowQuata(String productId,BigDecimal buyMoney)throws JZLCException{
 		return productService.checkProductLowQuata(productId,buyMoney);
 	}
